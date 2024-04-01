@@ -50,7 +50,7 @@ ___
 
 ⠀
          
-ㅤㅤㅤㅤ4. 운영 시뮬레이션 방치형 게임
+  - 운영 시뮬레이션 방치형 게임
 
 ㅤㅤㅤㅤㅤ![image](https://github.com/froggorf/2024_SGP_Project/assets/113008438/97c638c6-7a5b-4f22-afb4-ca7e51abf410)
 ㅤㅤㅤㅤㅤTREEPLLA, [고양이 스낵바]
