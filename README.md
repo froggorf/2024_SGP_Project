@@ -12,13 +12,18 @@ ___
   - 미니게임을 통해 재료를 수급하는 캐주얼 아케이드 장르 2D 게임
   - 수집한 재료를 이용해 가게를 운영하는 방치형 2D 게임
     
+
+
+
+
 ⠀
 - 핵심 메카닉
   - 세 종의 미니게임
     
 ㅤㅤㅤㅤ1. 쓰리 매치(Three Match) 게임
 
-ㅤㅤㅤㅤㅤ<이미지>
+ㅤㅤㅤㅤㅤ![image](https://github.com/froggorf/2024_SGP_Project/assets/113008438/afe8a182-92bb-4cc6-abc0-5c0714ba06e3)
+ㅤㅤㅤㅤㅤ위메이드 플레이, [애니팡]
 
 ㅤㅤㅤㅤㅤ정해진 칸에 있는 블럭들 중 하나를 다른 블럭과 바꾸어 
 
@@ -28,15 +33,17 @@ ___
      
 ㅤㅤㅤㅤ2. 액션 캐쥬얼(후르츠 닌자) 게임
 
-ㅤㅤㅤㅤㅤ<이미지>
+ㅤㅤㅤㅤㅤ![image](https://github.com/froggorf/2024_SGP_Project/assets/113008438/fa0ceaf7-b3b5-41ce-9f7e-4d66df122aed)
+ㅤㅤㅤㅤㅤHalfbrick Studios, [Fruit Ninja]
 
 ㅤㅤㅤㅤㅤ날아오는 오브젝트를 그어 자르는 게임
-ㅤㅤㅤㅤㅤ
+
 ⠀
      
 ㅤㅤㅤㅤ3. 니편내편(청기백기) 게임
 
-ㅤㅤㅤㅤㅤ<이미지>
+ㅤㅤㅤㅤㅤ![image](https://github.com/froggorf/2024_SGP_Project/assets/113008438/4d7993b3-9f27-4fef-86dd-65e989fb3e89)
+ㅤㅤㅤㅤㅤ컴투스, [아쿠의 퍼즐 패밀리]
 
 ㅤㅤㅤㅤㅤ현재 캐릭터에 적절한 버튼을 누르는 게임
 
@@ -44,7 +51,8 @@ ___
          
 ㅤㅤㅤㅤ4. 운영 시뮬레이션 방치형 게임
 
-ㅤㅤㅤㅤㅤ<이미지>
+ㅤㅤㅤㅤㅤ![image](https://github.com/froggorf/2024_SGP_Project/assets/113008438/97c638c6-7a5b-4f22-afb4-ca7e51abf410)
+ㅤㅤㅤㅤㅤTREEPLLA, [고양이 스낵바]
 
 ㅤㅤㅤㅤㅤ요리사와 서빙 알바생이 일하는 가게를 지켜보고,
 
@@ -56,7 +64,8 @@ ___
 ### II. 개발 범위
 - 마을 맵
   
-  <이미지>
+  ![image](https://github.com/froggorf/2024_SGP_Project/assets/113008438/60dbb6c3-918b-4ffa-9119-03046d9e283f)
+  넷마블, [야채부락리]
   
 ㅤ전체적인 맵 배경에서,
 
@@ -68,7 +77,8 @@ ___
 
 - 농장
   
-  <이미지>
+  ![image](https://github.com/froggorf/2024_SGP_Project/assets/113008438/0e5793ab-ff38-47c6-b255-e84a3516ffbe)
+  위메이드플레이, [니모의 아쿠아 팝]
   
 ㅤ10x10의 보드에서 랜덤하게 채소(샐러리, 당근, 양파 등) 종류의 블럭이 랜덤하게 배치
 
@@ -82,7 +92,8 @@ ___
 
 - 목장
   
-  <이미지>
+  ![image](https://github.com/froggorf/2024_SGP_Project/assets/113008438/a0d397e2-5a4e-4d5e-a3cc-b864ea446a5c)
+  컴투스, [아쿠의 퍼즐 패밀리]
 
   소, 돼지, 닭 등의 동물에 맞는 사료를 먹이는 게임
   
@@ -98,7 +109,8 @@ ___
 
 - 재료 준비소
   
-  <이미지>
+  ![image](https://github.com/froggorf/2024_SGP_Project/assets/113008438/6cfb5e13-f67f-4328-a0c0-08037573d51a)
+  Halfbrick Studios, [Fruit Ninja]
   
   농장과 목장에서 얻은 채소, 육류 등의 재료를 이용해 재료 준비
   
@@ -112,7 +124,8 @@ ___
 
 - 가게
   
-  <이미지>
+  ![image](https://github.com/froggorf/2024_SGP_Project/assets/113008438/a5edf858-1ea3-4d3e-8813-b42a6de278aa)
+  TREEPLLA, [고양이 스낵바]
   
   요리사와 서빙 알바생이 손님에게 음식을 대접
 
@@ -136,15 +149,24 @@ ___
 ### III. 예상 게임 실행 흐름
 ㅤㅤ1. 플레이어는 **농장** 혹은 **목장**에서의 미니게임을 통해 1차 재료(채소 및 육류)를 수급
 
-ㅤㅤㅤ<이미지>
+ㅤ     ![image](https://github.com/froggorf/2024_SGP_Project/assets/113008438/0e5793ab-ff38-47c6-b255-e84a3516ffbe)
+       위메이드플레이, [니모의 아쿠아 팝]
+ㅤㅤ   ![image](https://github.com/froggorf/2024_SGP_Project/assets/113008438/4d7993b3-9f27-4fef-86dd-65e989fb3e89)
+ㅤㅤㅤ  컴투스, [아쿠의 퍼즐 패밀리]
+
+
+      
 
 ⠀
 
 ㅤㅤ2. 플레이어는 수급한 1차 재료가 충분하다면 진행 가능한, 
 
 ㅤㅤㅤ **재료 준비소**에서의 미니게임을 통해 2차 재료(손질된 채소 및 육류)를 수급
+       ![image](https://github.com/froggorf/2024_SGP_Project/assets/113008438/21a79ce1-364b-4f9d-8ca0-433ba329a4c0)
+ㅤㅤㅤ Halfbrick Studios, [Fruit Ninja]
 
-ㅤㅤㅤ<이미지>
+
+      
 
 ⠀
 
@@ -162,8 +184,8 @@ ___
 
 ㅤ3-4. 플레이어는 수급된 재화를 토대로 가구(식탁, 테이블, 조리대) 등을 증축
 
-ㅤㅤㅤ<이미지>
-
+ㅤㅤㅤ![image](https://github.com/froggorf/2024_SGP_Project/assets/113008438/0f400e07-fc0f-4fcd-802b-f39c14480958)
+      TREEPLLA, [고양이 스낵바]
 ⠀
 
 ㅤㅤ4. 게임이 종료 후 다시 접속할 경우,
@@ -172,7 +194,8 @@ ___
 
 ㅤㅤㅤ 보유한 2차 재료의 수에 맞게 **오프라인 보상**을 획득 가능
 
-ㅤㅤㅤ<이미지>
+ㅤㅤㅤ![image](https://github.com/froggorf/2024_SGP_Project/assets/113008438/34a15ab9-8eff-4da7-bc74-222b750192f0)
+      투게디게임즈, [버스킹 냥밴드 키우기]
 
 
 ⠀
