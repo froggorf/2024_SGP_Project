@@ -1,8 +1,10 @@
 package kr.ac.tukorea.spgp2024.minigametycoon.app;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +14,7 @@ import kr.ac.tukorea.spgp2024.databinding.ActivityMainBinding;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.GameView;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.Metrics;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.LogoScene;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -23,13 +26,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 //        binding = ActivityMainBinding.inflate(getLayoutInflater());
 //        setContentView(binding.getRoot());
-
-        Log.d(TAG,"START");
-
-        Log.d("START","시작함!!");
         gameView = new GameView(this);
         gameView.setFullScreen();
         setContentView(gameView);
+
+
+        UserDisplay.createUserDisplay(getWindowManager().getDefaultDisplay());
+
+        Metrics.setGameSize(UserDisplay.getUserWidth(1.0f), UserDisplay.getUserHeight(1.0f));
+
+        Log.w(TAG, String.format("값: %f %f", UserDisplay.getUserWidth(1.0f), UserDisplay.getUserHeight(1.0f)));
 
         new LogoScene(this, null).pushScene();
     }

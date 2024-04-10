@@ -12,6 +12,7 @@ import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.res.Sound;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.Metrics;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 
 public class LogoScene extends BaseScene {
     private final String TAG = LogoScene.class.getSimpleName();
@@ -22,14 +23,18 @@ public class LogoScene extends BaseScene {
     }
     public LogoScene(Context context, Bundle extras) {
         // 게임 비율 설정
-        Metrics.setGameSize(9.0f, 16.0f);
 
         OwnerContext=context;
         // 레이어 초기화
         initLayers(Layer.COUNT);
 
-        LogoSprite = new Sprite(R.mipmap.tukorea_logo,4.5f,8.0f,8.0f,2.0f);
-        Log.d(TAG,"111");
+        //LogoSprite = new Sprite(R.mipmap.tukorea_logo,4.5f,8.0f,8.0f,2.0f);
+
+        LogoSprite = new Sprite(R.mipmap.tukorea_logo,
+                UserDisplay.getUserWidth(0.5f),
+                UserDisplay.getUserHeight(0.5f),
+                UserDisplay.getUserWidth(0.9f),
+                UserDisplay.getUserHeight(0.2f));
         add(Layer.LOGO,LogoSprite);
 
     }

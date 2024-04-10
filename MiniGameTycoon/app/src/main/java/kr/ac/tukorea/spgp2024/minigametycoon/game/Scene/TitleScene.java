@@ -10,10 +10,11 @@ import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.res.Sound;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.Metrics;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 
 public class TitleScene extends BaseScene {
     private final String TAG = LogoScene.class.getSimpleName();
-    Sprite LogoSprite;
+    Sprite TitleSprite;
     public enum Layer{
         TITLE,  COUNT
     }
@@ -21,8 +22,13 @@ public class TitleScene extends BaseScene {
         // 레이어 초기화
         initLayers(Layer.COUNT);
 
-        LogoSprite = new Sprite(R.mipmap.title,4.5f,8.0f,9.0f,16.0f);
-        add(Layer.TITLE,LogoSprite);
+        //TitleSprite = new Sprite(R.mipmap.title,4.5f,8.0f,9.0f,16.0f);
+        TitleSprite = new Sprite(R.mipmap.title,
+                UserDisplay.getUserWidth(0.5f),
+                UserDisplay.getUserHeight(0.5f),
+                UserDisplay.getUserWidth(1.0f),
+                UserDisplay.getUserHeight(1.0f));
+        add(Layer.TITLE,TitleSprite);
 
     }
 
