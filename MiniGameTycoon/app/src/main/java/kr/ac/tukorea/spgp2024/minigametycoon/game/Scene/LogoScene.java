@@ -31,10 +31,10 @@ public class LogoScene extends BaseScene {
         //LogoSprite = new Sprite(R.mipmap.tukorea_logo,4.5f,8.0f,8.0f,2.0f);
 
         LogoSprite = new Sprite(R.mipmap.tukorea_logo,
-                UserDisplay.getUserWidth(0.5f),
-                UserDisplay.getUserHeight(0.5f),
-                UserDisplay.getUserWidth(0.9f),
-                UserDisplay.getUserHeight(0.2f));
+                UserDisplay.getWidth(0.5f),
+                UserDisplay.getHeight(0.5f),
+                UserDisplay.getDesiredWidth(0.8f),
+                UserDisplay.getDesiredHeight(0.2f));
         add(Layer.LOGO,LogoSprite);
 
     }

@@ -33,9 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
         UserDisplay.createUserDisplay(getWindowManager().getDefaultDisplay());
 
-        Metrics.setGameSize(UserDisplay.getUserWidth(1.0f), UserDisplay.getUserHeight(1.0f));
-
-        Log.w(TAG, String.format("값: %f %f", UserDisplay.getUserWidth(1.0f), UserDisplay.getUserHeight(1.0f)));
+        //Metrics.setGameSize(UserDisplay.getWidth(0.0f), UserDisplay.getHeight(0.0f));
+        Metrics.setGameSize(UserDisplay.getWidth(1.0f), UserDisplay.getHeight(1.0f));
 
         new LogoScene(this, null).pushScene();
     }

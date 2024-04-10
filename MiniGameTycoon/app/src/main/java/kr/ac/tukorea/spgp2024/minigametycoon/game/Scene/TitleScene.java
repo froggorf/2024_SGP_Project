@@ -24,10 +24,10 @@ public class TitleScene extends BaseScene {
 
         //TitleSprite = new Sprite(R.mipmap.title,4.5f,8.0f,9.0f,16.0f);
         TitleSprite = new Sprite(R.mipmap.title,
-                UserDisplay.getUserWidth(0.5f),
-                UserDisplay.getUserHeight(0.5f),
-                UserDisplay.getUserWidth(1.0f),
-                UserDisplay.getUserHeight(1.0f));
+                UserDisplay.getWidth(0.5f),
+                UserDisplay.getHeight(0.5f),
+                UserDisplay.getDesiredWidth(1.0f),
+                UserDisplay.getDesiredHeight(1.0f));
         add(Layer.TITLE,TitleSprite);
 
     }
