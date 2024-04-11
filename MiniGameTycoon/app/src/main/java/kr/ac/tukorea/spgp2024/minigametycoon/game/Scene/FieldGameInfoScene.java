@@ -11,55 +11,27 @@ import kr.ac.tukorea.spgp2024.minigametycoon.framework.res.Sound;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 
-public class TownScene extends BaseScene {
+public class FieldGameInfoScene extends BaseScene {
     private final String TAG = TownScene.class.getSimpleName();
+    Sprite infoSprite;
     long startTime;
-    Sprite fieldSprite;
-    Sprite backgroundSprite;
 
     public enum Layer{
-        BACKGROUND, TOUCH ,COUNT
+        INFO, COUNT
     }
-    public TownScene() {
+    public FieldGameInfoScene() {
         startTime = System.currentTimeMillis();
 
         // 레이어 초기화
         initLayers(TitleScene.Layer.COUNT);
 
-        // 배경사진 추가
-        backgroundSprite = new Sprite(R.mipmap.temp_town_backgroundpng,
+        infoSprite = new Sprite(R.mipmap.temp_fieldgameinfo_infoimage,
                 UserDisplay.getWidth(0.5f),
                 UserDisplay.getHeight(0.5f),
                 UserDisplay.getDesiredWidth(1.0f),
                 UserDisplay.getDesiredHeight(1.0f));
-        add(Layer.BACKGROUND, backgroundSprite);
+        add(TownScene.Layer.BACKGROUND, infoSprite);
 
-        // 밭 사진 추가
-        //fieldSprite = new Sprite(R.mipmap.temp_town_field,
-        //UserDisplay.getWidth(0.3f),
-        //UserDisplay.getHeight(0.7f),
-        //UserDisplay.getDesiredWidth(0.5f),
-        //UserDisplay.getDesiredHeight(0.5f));
-        //add(Layer.HOUSE, fieldSprite);
-
-        // 밭 버튼 Press 버튼 추가
-        add(Layer.TOUCH, new Button(R.mipmap.temp_town_field,
-                UserDisplay.getWidth(0.3f),
-                UserDisplay.getHeight(0.7f),
-                UserDisplay.getDesiredWidth(0.5f),
-                UserDisplay.getDesiredHeight(0.5f),
-                new Button.Callback() {
-                    @Override
-                    public boolean onTouch(Button.Action action) {
-                        if(System.currentTimeMillis() - startTime < 1000) return false;
-                        if (action == Button.Action.pressed) {
-                            Log.w(TAG, "onTouch: 밭 눌림");
-                            new FieldGameInfoScene().pushScene();
-
-                        }
-                        return true;
-                    }
-                }));
 
     }
 
@@ -73,7 +45,7 @@ public class TownScene extends BaseScene {
         // 500ms 뒤 노래 틀기
         new Handler().postDelayed(new Runnable(){
             public void run(){
-                Sound.playMusic(R.raw.temp_town_sound);
+                Sound.playMusic(R.raw.temp_fieldgameinfo_sound);
 
             }
         }, 500);
@@ -92,8 +64,7 @@ public class TownScene extends BaseScene {
 
     @Override
     protected void onResume() {
-        Sound.playMusic(R.raw.temp_town_sound);
-        //Sound.resumeMusic();
+        Sound.resumeMusic();
     }
 
     public boolean handleBackKey(){
@@ -103,13 +74,13 @@ public class TownScene extends BaseScene {
 
     @Override
     protected int getTouchLayerIndex() {
-        return Layer.TOUCH.ordinal();
+        return TownScene.Layer.TOUCH.ordinal();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if(event.getAction() == MotionEvent.ACTION_DOWN){
-
+            popScene();
         }
         return super.onTouchEvent(event);
     }

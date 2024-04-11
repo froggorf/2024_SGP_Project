@@ -28,6 +28,7 @@ public class Sound {
     public static void pauseMusic() {
         if (mediaPlayer == null) return;
         mediaPlayer.pause();
+
     }
     public static void resumeMusic() {
         if (mediaPlayer == null) return;
