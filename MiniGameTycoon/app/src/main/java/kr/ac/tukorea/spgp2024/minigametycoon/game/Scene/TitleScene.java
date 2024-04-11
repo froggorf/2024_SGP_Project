@@ -63,4 +63,9 @@ public class TitleScene extends BaseScene {
     protected void onResume() {
         Sound.resumeMusic();
     }
+
+    public boolean handleBackKey(){
+
+        return true;
+    }
 }

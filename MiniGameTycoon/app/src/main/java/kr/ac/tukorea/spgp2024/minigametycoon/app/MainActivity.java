@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.databinding.ActivityMainBinding;
+import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.GameView;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.Metrics;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.LogoScene;
@@ -37,5 +38,32 @@ public class MainActivity extends AppCompatActivity {
         Metrics.setGameSize(UserDisplay.getWidth(1.0f), UserDisplay.getHeight(1.0f));
 
         new LogoScene(this, null).pushScene();
+    }
+
+    @Override
+    protected void onPause(){
+        gameView.pauseGame();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gameView.resumeGame();
+    }
+
+    @Override
+    protected void onDestroy() {
+        BaseScene.popAll();
+        GameView.clear();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (gameView.handleBackKey()) {
+            return;
+        }
+        super.onBackPressed();
     }
 }

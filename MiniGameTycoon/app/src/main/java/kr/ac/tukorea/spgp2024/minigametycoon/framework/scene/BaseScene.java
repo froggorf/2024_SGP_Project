@@ -19,6 +19,7 @@ import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.ITouchable;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.GameView;
 
 public class BaseScene {
+    private static final String TAG = BaseScene.class.getSimpleName();
     private static ArrayList<BaseScene> stack = new ArrayList<>();
     public static float frameTime;
     protected static Handler handler = new Handler();
