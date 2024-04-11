@@ -58,6 +58,8 @@ public class UserDisplay {
         return instance;
     }
 
+
+
     // 실제 디바이스 크기에 대응되는 크기 반환 -> UI등에서 사용
     public static float getWidth(float getValue){
         // 매개변수의 모든 값은 0.0f ~ 1.0f의 값

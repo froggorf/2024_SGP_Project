@@ -5,8 +5,10 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
+import android.view.MotionEvent;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.LogWriter;
 
 
 import kr.ac.tukorea.spgp2024.R;
@@ -65,5 +67,11 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         super.onBackPressed();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        gameView.onTouchEvent(event);
+        return super.onTouchEvent(event);
     }
 }
