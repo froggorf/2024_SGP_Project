@@ -16,6 +16,7 @@ import kr.ac.tukorea.spgp2024.databinding.ActivityMainBinding;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.GameView;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.Metrics;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FieldGameScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FoodPrepHouseGameScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.LogoScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         Metrics.setGameSize(UserDisplay.getWidth(1.0f), UserDisplay.getHeight(1.0f));
 
         //new LogoScene(this, null).pushScene();
-        new FoodPrepHouseGameScene().pushScene();
+        new FieldGameScene().pushScene();
     }
 
     @Override
