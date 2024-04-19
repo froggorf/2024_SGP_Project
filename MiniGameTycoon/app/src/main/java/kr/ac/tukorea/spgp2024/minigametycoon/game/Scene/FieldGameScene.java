@@ -1,5 +1,6 @@
 package kr.ac.tukorea.spgp2024.minigametycoon.game.Scene;
 
+import android.graphics.Point;
 import android.graphics.RectF;
 import android.os.Handler;
 import android.util.Log;
@@ -9,18 +10,16 @@ import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.res.Sound;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.FieldGame.FieldBoard;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 
 public class FieldGameScene extends BaseScene {
     private final String TAG = FieldGameScene.class.getSimpleName();
+    private RectF boardRect;
     Sprite infoSprite;
     Sprite[] boxSprite = new Sprite[5];
     long startTime;
 
-    int boardCount = 8;
-    int[][]  board =new int[boardCount][boardCount];
-
-    RectF boardRect;
 
 
     public enum Layer{
@@ -29,13 +28,7 @@ public class FieldGameScene extends BaseScene {
     public FieldGameScene() {
         startTime = System.currentTimeMillis();
 
-        // 게임 보드판 크기
-        boardRect = new RectF(
-               UserDisplay.getWidth(0.05f),
-                UserDisplay.getHeight(0.15f),
-                UserDisplay.getWidth(0.95f),
-                UserDisplay.getHeight(0.75f)
-        );
+
 
 
         // 레이어 초기화
@@ -56,42 +49,32 @@ public class FieldGameScene extends BaseScene {
                     UserDisplay.getWidth(0.2f * i + 0.1f),
                     UserDisplay.getHeight(0.9f),
                     UserDisplay.getWidth(0.2f),
-                    UserDisplay.getHeight(0.2f)
+                    UserDisplay.getHeight(0.1f)
             );
 
             add(Layer.BOX, boxSprite[i] );
         }
 
-        // 게임 보드판 추가
-        add(Layer.BOARD,new Sprite(R.mipmap.temp_fieldgame_box1,
-                boardRect.centerX(),
-                boardRect.centerY(),
-                boardRect.width(),
-                boardRect.height()
-        ));
+        // 게임 보드판 크기
+        int boardCountX = 7, boardCountY = 9;
+        float boardX = UserDisplay.getWidth(0.95f);
+        float boardY = boardX/boardCountX*boardCountY;
+        //UserDisplay.getWidth(0.05f),
+        boardRect = new RectF(
+                UserDisplay.getWidth(0.5f) - boardX/2,
+                UserDisplay.getHeight(0.45f) -boardY/2,
+                UserDisplay.getWidth(0.5f) + boardX/2,
+                UserDisplay.getHeight(0.45f) +boardY/2
 
-        for(int i = 0; i<boardCount; ++i){
-            for(int j=0; j<boardCount; ++j){
-                float[] data = new float[4];
-                GetBoardPositions(i,j,data);
-                add(Layer.BOARD, new Sprite(R.mipmap.temp_fieldgame_box2,
-                        data[0],data[1],data[2],data[3]
-                        //boardRect.width() / boardCount * i + boardRect.width()/boardCount/2 + boardRect.left,
-                        //boardRect.height()/boardCount*j + boardRect.height()/boardCount/2 + boardRect.top,
-                        //boardRect.width()/boardCount,
-                        //boardRect.height()/boardCount
-                        ));
-            }
-        }
+        );
+
+        //게임 보드판 추가
+        add(Layer.BOARD,new FieldBoard(new Point(boardCountX,boardCountY),boardRect));
+
 
     }
 
-    void GetBoardPositions(int boardXCount,int boardYCount, float[] data){
-        data[0] = boardRect.width() / boardCount*boardXCount + boardRect.width()/boardCount/2 + boardRect.left;
-        data[1] = boardRect.height() / boardCount*boardYCount + boardRect.height()/boardCount/2 + boardRect.top;
-        data[2] = boardRect.width()/boardCount;
-        data[3] = boardRect.height()/boardCount;
-    }
+
 
     @Override
     public void update(long elapsedNanos) {
