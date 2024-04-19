@@ -28,9 +28,6 @@ public class FieldGameScene extends BaseScene {
     public FieldGameScene() {
         startTime = System.currentTimeMillis();
 
-
-
-
         // 레이어 초기화
         initLayers(Layer.COUNT);
 

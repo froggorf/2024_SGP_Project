@@ -11,29 +11,46 @@ import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.IGameObject;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FieldGameScene;
 
+
+
 public class FieldBoard implements IGameObject {
     Point boardCount = new Point();
 
-    int[][]  board;
+    FoodBlock[][]  foodBlocks;
     RectF boardRect;
     Paint fillPaint;
     Paint borderPaint;
     Paint strokePaint;
 
+
+
     public FieldBoard(Point getBoardCount, RectF getBoardRect) {
+        // 보드판 크기 설정
         boardCount = getBoardCount;
-        board = new int[boardCount.x][boardCount.y];
+
+        // 보드판 만들기
+        foodBlocks = new FoodBlock[boardCount.x][boardCount.y];
+        for(int i = 0; i<boardCount.x; ++i){
+
+            for(int j = 0; j<boardCount.y;++j){
+                foodBlocks[i][j].Initialize( GetBoardPositions(new Point(i,j)));
+            }
+        }
+
 
         boardRect = getBoardRect;
 
-        fillPaint = new Paint();
-        fillPaint.setStyle(Paint.Style.FILL);
-        fillPaint.setColor(Color.rgb(155,155,155));
+        { // Paint 생성
+            fillPaint = new Paint();
+            fillPaint.setStyle(Paint.Style.FILL);
+            fillPaint.setColor(Color.rgb(155,155,155));
 
-        strokePaint = new Paint();
-        strokePaint.setStyle(Paint.Style.STROKE);
-        strokePaint.setColor(Color.BLACK);
-        strokePaint.setStrokeWidth(5.0f);
+            strokePaint = new Paint();
+            strokePaint.setStyle(Paint.Style.STROKE);
+            strokePaint.setColor(Color.BLACK);
+            strokePaint.setStrokeWidth(5.0f);
+        }
+
 
     }
 
@@ -61,9 +78,12 @@ public class FieldBoard implements IGameObject {
 
         for(int i = 0; i<boardCount.x; ++i){
             for(int j=0; j<boardCount.y; ++j){
+                // 보드판 틀 그리기
                 RectF rect = GetBoardPositions(new Point(i,j));
                 canvas.drawRect(rect.left,rect.top,rect.right,rect.bottom,strokePaint);
 
+                // Food Block 그리기
+                foodBlocks[i][j].Draw(canvas);
                 }
             }
     }
