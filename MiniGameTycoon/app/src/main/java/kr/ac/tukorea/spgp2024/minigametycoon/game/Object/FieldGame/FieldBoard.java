@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
+import android.util.Log;
 
 import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.IGameObject;
@@ -26,19 +27,21 @@ public class FieldBoard implements IGameObject {
 
     public FieldBoard(Point getBoardCount, RectF getBoardRect) {
         // 보드판 크기 설정
-        boardCount = getBoardCount;
+        boardCount.set(getBoardCount.x,getBoardCount.y);
+
+        // 보드판 영역 설정
+        boardRect = getBoardRect;
 
         // 보드판 만들기
         foodBlocks = new FoodBlock[boardCount.x][boardCount.y];
-        for(int i = 0; i<boardCount.x; ++i){
 
+        for(int i = 0; i<boardCount.x; ++i){
             for(int j = 0; j<boardCount.y;++j){
-                foodBlocks[i][j].Initialize( GetBoardPositions(new Point(i,j)));
+                foodBlocks[i][j] = new FoodBlock(GetBoardPositions(new Point(i,j)));
+                Log.d("ㅁㅁㅁ", "FieldBoard: 만들어짐");
             }
         }
 
-
-        boardRect = getBoardRect;
 
         { // Paint 생성
             fillPaint = new Paint();
@@ -57,6 +60,7 @@ public class FieldBoard implements IGameObject {
     RectF GetBoardPositions(Point currentBoardCount) {
         // data - left / top / right / bottom
         RectF rect = new RectF();
+        if(boardRect == null) Log.d("aaa", "GetBoardPositions: ???");
         rect.left= boardRect.width() / boardCount.x * currentBoardCount.x + boardRect.left;
         rect.top= boardRect.height() / boardCount.y * currentBoardCount.y + boardRect.top;
         rect.right = boardRect.width() / boardCount.x * (currentBoardCount.x+1) + boardRect.left;
