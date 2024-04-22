@@ -16,7 +16,7 @@ public class FoodBlock {
     private static final String TAG = FoodBlock.class.getSimpleName();
 
     int[] FoodBitmap = {
-      R.mipmap.ic_launcher,
+      R.mipmap.temp_fieldgameinfo_infoimage,
       R.mipmap.temp_fieldgame_box1,
             R.mipmap.temp_fieldgame_box2,
             R.mipmap.temp_fieldgame_box3,
@@ -45,6 +45,7 @@ public class FoodBlock {
                         SpriteRect.width(),
                         SpriteRect.height()
         );
+
 
 
     }
