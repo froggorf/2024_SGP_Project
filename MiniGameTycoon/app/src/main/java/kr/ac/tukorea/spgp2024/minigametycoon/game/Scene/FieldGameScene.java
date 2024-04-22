@@ -20,6 +20,8 @@ public class FieldGameScene extends BaseScene {
     Sprite[] boxSprite = new Sprite[5];
     long startTime;
 
+    FieldBoard fieldGameBoard;
+
 
 
     public enum Layer{
@@ -62,11 +64,12 @@ public class FieldGameScene extends BaseScene {
                 UserDisplay.getHeight(0.45f) -boardY/2,
                 UserDisplay.getWidth(0.5f) + boardX/2,
                 UserDisplay.getHeight(0.45f) +boardY/2
-
         );
 
+
         //게임 보드판 추가
-        add(Layer.BOARD,new FieldBoard(new Point(boardCountX,boardCountY),boardRect));
+        fieldGameBoard =new FieldBoard(new Point(boardCountX,boardCountY),boardRect);
+        add(Layer.BOARD,fieldGameBoard);
 
 
     }
@@ -117,6 +120,11 @@ public class FieldGameScene extends BaseScene {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                fieldGameBoard.onClickEvent(event);
+                break;
+        }
         return super.onTouchEvent(event);
     }
 }

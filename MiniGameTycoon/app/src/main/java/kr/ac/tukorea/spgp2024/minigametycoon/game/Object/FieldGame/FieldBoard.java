@@ -6,6 +6,9 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.util.Log;
+import android.view.MotionEvent;
+
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.IGameObject;
@@ -15,6 +18,7 @@ import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FieldGameScene;
 
 
 public class FieldBoard implements IGameObject {
+    private static final String TAG = FieldBoard.class.getSimpleName();
     Point boardCount = new Point();
 
     FoodBlock[][]  foodBlocks;
@@ -38,7 +42,6 @@ public class FieldBoard implements IGameObject {
         for(int i = 0; i<boardCount.x; ++i){
             for(int j = 0; j<boardCount.y;++j){
                 foodBlocks[i][j] = new FoodBlock(GetBoardPositions(new Point(i,j)));
-                Log.d("ㅁㅁㅁ", "FieldBoard: 만들어짐");
             }
         }
 
@@ -90,5 +93,9 @@ public class FieldBoard implements IGameObject {
                 foodBlocks[i][j].Draw(canvas);
                 }
             }
+    }
+
+    public void onClickEvent(MotionEvent event){
+        Log.d(TAG, "onClickEvent: ");
     }
 }

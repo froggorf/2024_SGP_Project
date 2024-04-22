@@ -48,8 +48,12 @@ public class FoodBlock {
 
 
 
+
+
     }
+
     public void Draw(Canvas canvas){
         FoodSprite.draw(canvas);
     }
+
 }
