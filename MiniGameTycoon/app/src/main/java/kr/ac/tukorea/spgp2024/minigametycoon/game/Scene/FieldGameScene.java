@@ -120,8 +120,11 @@ public class FieldGameScene extends BaseScene {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        Log.d(TAG, "onTouchEvent: " + String.format("%d",event.getAction()));
         switch (event.getAction()){
+
             case MotionEvent.ACTION_DOWN:
+                // 보드판 범위 안에 있을 때에만 건네주기
                 if(boardRect.contains(event.getX(),event.getY())){
                     fieldGameBoard.onClickEvent(event);
                 }

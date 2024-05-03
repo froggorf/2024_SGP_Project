@@ -125,8 +125,26 @@ public class FieldBoard implements IGameObject {
             SetPickBlock(index);
             return;
         }
+        
+        
+        // 근접 보드를 클릭하면 두 블럭 서로 교체
+        if(IsNearBoardWithPick(index)){
+            foodBlocks[CurrentPickBlock.x][CurrentPickBlock.y].SetPickBitmap(false);
+            CurrentPickBlock.set(-1,-1);
 
+        }
+        
+        
+    }
 
+    private boolean IsNearBoardWithPick(Point index) {
+        int xAxis = Math.abs(CurrentPickBlock.x- index.x);
+        int yAxis = Math.abs(CurrentPickBlock.y- index.y);
+
+        if(xAxis == 1 && yAxis == 0) return true;
+        if(xAxis == 0 && yAxis == 1) return true;
+
+        return false;
     }
 
     // 블록 선택하기

@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        gameView.onTouchEvent(event);
+        //gameView.onTouchEvent(event);
         return super.onTouchEvent(event);
     }
 }
