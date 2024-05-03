@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
+import android.transition.Scene;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -13,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.IGameObject;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
+import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FieldGameScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 
@@ -71,7 +73,6 @@ public class FieldBoard implements IGameObject {
     RectF GetBoardPositions(Point currentBoardCount) {
         // data - left / top / right / bottom
         RectF rect = new RectF();
-        if(boardRect == null) Log.d("aaa", "GetBoardPositions: ???");
         rect.left= boardRect.width() / boardCount.x * currentBoardCount.x + boardRect.left;
         rect.top= boardRect.height() / boardCount.y * currentBoardCount.y + boardRect.top;
         rect.right = boardRect.width() / boardCount.x * (currentBoardCount.x+1) + boardRect.left;
@@ -86,7 +87,6 @@ public class FieldBoard implements IGameObject {
         int y = (int) ((mousePoint[Y]- boardRect.top) / (boardRect.height()/ boardCount.y));
         point.set(x,y);
 
-        Log.d(TAG, "GetIndexByPosition: " + String.format("%d %d",x,y));
         return point;
     }
 
@@ -117,8 +117,11 @@ public class FieldBoard implements IGameObject {
         float[] mousePoint = new float[2];
         mousePoint[X] = event.getX();
         mousePoint[Y] = event.getY();
-        //Log.d(TAG, "onClickEvent: " + String.format("%f %f",mousePoint[X],mousePoint[Y]));
+
         Point index = GetIndexByPosition(mousePoint);
+
+        // 선택된 블럭이 움직이고 있는 중인 보드면 예외처리한다.
+        if (foodBlocks[index.x][index.y].bIsMovingBlock) return;
 
         // 현재 선택된 것이 없으면 픽된 블럭으로 바꾸고 종료
         if(CurrentPickBlock.x == -1){
@@ -128,13 +131,38 @@ public class FieldBoard implements IGameObject {
         
         
         // 근접 보드를 클릭하면 두 블럭 서로 교체
-        if(IsNearBoardWithPick(index)){
-            foodBlocks[CurrentPickBlock.x][CurrentPickBlock.y].SetPickBitmap(false);
-            CurrentPickBlock.set(-1,-1);
+        if(IsNearBoardWithPick(index)) {
+            Point firstBlockIndex = new Point(CurrentPickBlock);
+            Point secondBlockIndex = new Point(index);
+            CurrentPickBlock.set(-1, -1);
 
+            foodBlocks[firstBlockIndex.x][firstBlockIndex.y].SetPickBitmap(false);
+
+            SwapFoodBlock(firstBlockIndex,secondBlockIndex);
         }
         
         
+    }
+
+    // 두 지정된 블럭의 위치를 서로 옮기는 함수
+    private void SwapFoodBlock(Point firstBlockIndex, Point secondBlockIndex) {
+        Point tempPoint = new Point(firstBlockIndex);
+        firstBlockIndex.set(secondBlockIndex.x,secondBlockIndex.y);
+        secondBlockIndex.set(tempPoint.x,tempPoint.y);
+
+        FoodBlock tempBlock = foodBlocks[firstBlockIndex.x][firstBlockIndex.y];
+        foodBlocks[firstBlockIndex.x][firstBlockIndex.y] = foodBlocks[secondBlockIndex.x][secondBlockIndex.y];
+        foodBlocks[secondBlockIndex.x][secondBlockIndex.y] =tempBlock;
+
+        RectF rect = GetBoardPositions(firstBlockIndex);
+        foodBlocks[firstBlockIndex.x][firstBlockIndex.y].SetSpriteDrawPosition(
+                rect.centerX(),rect.centerY()
+        );
+
+        rect = GetBoardPositions(secondBlockIndex);
+        foodBlocks[secondBlockIndex.x][secondBlockIndex.y].SetSpriteDrawPosition(
+                rect.centerX(),rect.centerY()
+        );
     }
 
     private boolean IsNearBoardWithPick(Point index) {

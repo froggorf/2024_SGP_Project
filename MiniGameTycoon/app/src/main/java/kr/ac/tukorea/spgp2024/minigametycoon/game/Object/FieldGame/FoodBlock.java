@@ -15,6 +15,8 @@ enum FoodTypeEnum{
 public class FoodBlock {
     private static final String TAG = FoodBlock.class.getSimpleName();
 
+    public boolean bIsMovingBlock = false;
+
     int[] FoodBitmap = {
       0,
       R.mipmap.temp_fieldgame_box1,
@@ -74,4 +76,7 @@ public class FoodBlock {
         }
     }
 
+    public void SetSpriteDrawPosition(float newX, float newY){
+        FoodSprite.moveTo(newX,newY);
+    }
 }

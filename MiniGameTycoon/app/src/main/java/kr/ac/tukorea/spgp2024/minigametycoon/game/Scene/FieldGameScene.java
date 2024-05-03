@@ -120,7 +120,6 @@ public class FieldGameScene extends BaseScene {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.d(TAG, "onTouchEvent: " + String.format("%d",event.getAction()));
         switch (event.getAction()){
 
             case MotionEvent.ACTION_DOWN:
