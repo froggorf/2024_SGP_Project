@@ -122,7 +122,9 @@ public class FieldGameScene extends BaseScene {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                fieldGameBoard.onClickEvent(event);
+                if(boardRect.contains(event.getX(),event.getY())){
+                    fieldGameBoard.onClickEvent(event);
+                }
                 break;
         }
         return super.onTouchEvent(event);

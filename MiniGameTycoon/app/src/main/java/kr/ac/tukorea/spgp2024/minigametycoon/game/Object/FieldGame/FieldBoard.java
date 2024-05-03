@@ -14,7 +14,7 @@ import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.IGameObject;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FieldGameScene;
-
+import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 
 
 public class FieldBoard implements IGameObject {
@@ -28,6 +28,8 @@ public class FieldBoard implements IGameObject {
     Paint strokePaint;
 
 
+    private final int X = 0;
+    private final int Y = 1;
 
     public FieldBoard(Point getBoardCount, RectF getBoardRect) {
         // 보드판 크기 설정
@@ -60,6 +62,7 @@ public class FieldBoard implements IGameObject {
 
     }
 
+    // 배열 인덱스로부터 좌표 얻는 함수
     RectF GetBoardPositions(Point currentBoardCount) {
         // data - left / top / right / bottom
         RectF rect = new RectF();
@@ -71,7 +74,16 @@ public class FieldBoard implements IGameObject {
         return rect;
     }
 
+    // 좌표로부터 배열 인덱스를 얻는 함수
+    Point GetIndexByPosition(float mousePoint[]){
+        Point point = new Point();
+        int x = (int) ((mousePoint[X]- boardRect.left) / (boardRect.width()/ boardCount.x));
+        int y = (int) ((mousePoint[Y]- boardRect.top) / (boardRect.height()/ boardCount.y));
+        point.set(x,y);
 
+        Log.d(TAG, "GetIndexByPosition: " + String.format("%d %d",x,y));
+        return point;
+    }
 
 
     @Override
@@ -95,7 +107,14 @@ public class FieldBoard implements IGameObject {
             }
     }
 
+
     public void onClickEvent(MotionEvent event){
-        Log.d(TAG, "onClickEvent: ");
+        float[] mousePoint = new float[2];
+        mousePoint[X] = event.getX();
+        mousePoint[Y] = event.getY();
+        //Log.d(TAG, "onClickEvent: " + String.format("%f %f",mousePoint[X],mousePoint[Y]));
+        GetIndexByPosition(mousePoint);
+
+
     }
 }
