@@ -30,8 +30,8 @@ public class FoodBlock {
     private float targetMoveFrameTime;
 
     int[] FoodBitmap = {
-      0,
-      R.mipmap.temp_fieldgame_box1,
+            R.mipmap.fieldgame_board_blank,
+            R.mipmap.temp_fieldgame_box1,
             R.mipmap.temp_fieldgame_box2,
             R.mipmap.temp_fieldgame_box3,
             R.mipmap.temp_fieldgame_box4,
@@ -81,6 +81,7 @@ public class FoodBlock {
 
             if(Math.abs(targetMoveFrameTime - currentMoveFrameTime) < 0.0001){
                 bIsMovingBlock = false;
+                FoodSprite.moveTo(targetCenterPos[X],targetCenterPos[Y]);
                 lastCenterPos[X] = -1; lastCenterPos[Y] = -1;
                 targetCenterPos[X] =-1; targetCenterPos[Y] =-1;
                 currentMoveFrameTime = targetMoveFrameTime = -1;
@@ -132,4 +133,8 @@ public class FoodBlock {
         return returnValue;
     }
 
+    void ChangeFoodType(FoodTypeEnum newFoodTypeEnum){
+        FoodType = newFoodTypeEnum;
+        FoodSprite.setBitmapResource(FoodBitmap[FoodType.ordinal()]);
+    }
 }
