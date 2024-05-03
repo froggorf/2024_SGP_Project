@@ -16,6 +16,12 @@ public class FoodBlock {
     private static final String TAG = FoodBlock.class.getSimpleName();
 
     public boolean bIsMovingBlock = false;
+    private float lastX;
+    private float lastY;
+    private float targetX;
+    private float targetY;
+    private float currentMoveFrameTime;
+    private float targetMoveFrameTime;
 
     int[] FoodBitmap = {
       0,
@@ -62,6 +68,9 @@ public class FoodBlock {
 
     }
 
+    public void Update(float frameTime){
+
+    }
     public void Draw(Canvas canvas){
         FoodSprite.draw(canvas);
     }
@@ -78,5 +87,11 @@ public class FoodBlock {
 
     public void SetSpriteDrawPosition(float newX, float newY){
         FoodSprite.moveTo(newX,newY);
+    }
+    public void SetSpriteDrawPositionWithTime(float newX, float newY, float time){
+        bIsMovingBlock= true;
+        targetX= newX;
+        targetY = newY;
+        targetMoveFrameTime = time;
     }
 }
