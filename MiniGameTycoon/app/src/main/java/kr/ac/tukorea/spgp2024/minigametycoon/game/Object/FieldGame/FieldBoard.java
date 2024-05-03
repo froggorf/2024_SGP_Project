@@ -18,18 +18,19 @@ import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 
 
 public class FieldBoard implements IGameObject {
+    // DEFINE
+    private final int X = 0;
+    private final int Y = 1;
     private static final String TAG = FieldBoard.class.getSimpleName();
-    Point boardCount = new Point();
+    Point boardCount = new Point();     // 가로 세로 배열 크기
 
-    FoodBlock[][]  foodBlocks;
-    RectF boardRect;
+    FoodBlock[][]  foodBlocks;          // 보드판 내 배열
+    RectF boardRect;                    // 보드판 크기
     Paint fillPaint;
     Paint borderPaint;
     Paint strokePaint;
 
-
-    private final int X = 0;
-    private final int Y = 1;
+    Point CurrentPickBlock = new Point();   // 현재 픽된 블럭의 인덱스에 대한 변수
 
     public FieldBoard(Point getBoardCount, RectF getBoardRect) {
         // 보드판 크기 설정
@@ -59,7 +60,11 @@ public class FieldBoard implements IGameObject {
             strokePaint.setStrokeWidth(5.0f);
         }
 
+        GameInitialize();
+    }
 
+    private void GameInitialize() {
+        CurrentPickBlock.set(-1,-1);
     }
 
     // 배열 인덱스로부터 좌표 얻는 함수
@@ -113,8 +118,20 @@ public class FieldBoard implements IGameObject {
         mousePoint[X] = event.getX();
         mousePoint[Y] = event.getY();
         //Log.d(TAG, "onClickEvent: " + String.format("%f %f",mousePoint[X],mousePoint[Y]));
-        GetIndexByPosition(mousePoint);
+        Point index = GetIndexByPosition(mousePoint);
+
+        // 현재 선택된 것이 없으면 픽된 블럭으로 바꾸고 종료
+        if(CurrentPickBlock.x == -1){
+            SetPickBlock(index);
+            return;
+        }
 
 
+    }
+
+    // 블록 선택하기
+    private void SetPickBlock(Point index) {
+        CurrentPickBlock.set(index.x,index.y);
+        foodBlocks[index.x][index.y].SetPickBitmap(true);
     }
 }

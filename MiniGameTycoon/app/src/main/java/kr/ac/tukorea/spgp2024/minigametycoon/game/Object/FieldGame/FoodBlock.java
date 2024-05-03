@@ -16,12 +16,20 @@ public class FoodBlock {
     private static final String TAG = FoodBlock.class.getSimpleName();
 
     int[] FoodBitmap = {
-      R.mipmap.temp_fieldgameinfo_infoimage,
+      0,
       R.mipmap.temp_fieldgame_box1,
             R.mipmap.temp_fieldgame_box2,
             R.mipmap.temp_fieldgame_box3,
             R.mipmap.temp_fieldgame_box4,
             R.mipmap.temp_fieldgame_box5,
+    };
+    int[] FoodPickBitmap = {
+            0,
+            R.mipmap.temp_fieldgame_box1_pick,
+            R.mipmap.temp_fieldgame_box2_pick,
+            R.mipmap.temp_fieldgame_box3_pick,
+            R.mipmap.temp_fieldgame_box4_pick,
+            R.mipmap.temp_fieldgame_box5_pick
     };
 
     public FoodTypeEnum FoodType;
@@ -54,6 +62,16 @@ public class FoodBlock {
 
     public void Draw(Canvas canvas){
         FoodSprite.draw(canvas);
+    }
+
+    // 픽된 블럭 비트맵으로 이미지 변경 / 픽안된 비트맵으로 변경
+    public void SetPickBitmap(boolean newSetPick){
+        if(newSetPick){
+            FoodSprite.setBitmapResource(FoodPickBitmap[FoodType.ordinal()]);
+        }
+        else{
+            FoodSprite.setBitmapResource(FoodBitmap[FoodType.ordinal()]);
+        }
     }
 
 }
