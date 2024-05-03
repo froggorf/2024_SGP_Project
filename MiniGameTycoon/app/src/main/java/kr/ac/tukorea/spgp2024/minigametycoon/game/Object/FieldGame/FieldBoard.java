@@ -11,6 +11,8 @@ import android.view.MotionEvent;
 
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import java.util.Vector;
+
 import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.IGameObject;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
@@ -33,6 +35,8 @@ public class FieldBoard implements IGameObject {
     Paint strokePaint;
 
     Point CurrentPickBlock = new Point();   // 현재 픽된 블럭의 인덱스에 대한 변수
+
+    Vector<int[]> UpdateBlocks = new Vector<int[]>(0);
 
     public FieldBoard(Point getBoardCount, RectF getBoardRect) {
         // 보드판 크기 설정
@@ -93,7 +97,19 @@ public class FieldBoard implements IGameObject {
 
     @Override
     public void update() {
+        // 먼저 불필요한 데이터 지우고
+        for(int i = 0; i<UpdateBlocks.size(); ++i){
+            int[] data = UpdateBlocks.get(i);
+            if(data[X] == -1 && data[Y] == -1){
+                UpdateBlocks.remove(i);
+                --i;
+            }
 
+        }
+
+        for(int[] block : UpdateBlocks){
+            foodBlocks[block[X]][block[Y]].Update(FieldGameScene.frameTime);
+        }
     }
 
     @Override
@@ -146,23 +162,30 @@ public class FieldBoard implements IGameObject {
 
     // 두 지정된 블럭의 위치를 서로 옮기는 함수
     private void SwapFoodBlock(Point firstBlockIndex, Point secondBlockIndex) {
-        Point tempPoint = new Point(firstBlockIndex);
-        firstBlockIndex.set(secondBlockIndex.x,secondBlockIndex.y);
-        secondBlockIndex.set(tempPoint.x,tempPoint.y);
-
+        // 보드 블럭 변경하기
         FoodBlock tempBlock = foodBlocks[firstBlockIndex.x][firstBlockIndex.y];
         foodBlocks[firstBlockIndex.x][firstBlockIndex.y] = foodBlocks[secondBlockIndex.x][secondBlockIndex.y];
         foodBlocks[secondBlockIndex.x][secondBlockIndex.y] =tempBlock;
 
+        // 아래 내용 함수화 시키기
+        // 첫번째 인덱스 블럭 두번쨰 인덱스 위치로 옮기기
         RectF rect = GetBoardPositions(firstBlockIndex);
-        foodBlocks[firstBlockIndex.x][firstBlockIndex.y].SetSpriteDrawPosition(
-                rect.centerX(),rect.centerY()
+        foodBlocks[firstBlockIndex.x][firstBlockIndex.y].SetSpriteDrawPositionWithTime(
+                rect.centerX(),rect.centerY(), 0.3f
         );
+        int[] firstData =  new int[2];
+        firstData[X] = firstBlockIndex.x; firstData[Y] = firstBlockIndex.y;
+        UpdateBlocks.add(firstData);
 
+
+        // 두번째 인덱스 블럭 첫번쨰 인덱스 위치로 옮기기
         rect = GetBoardPositions(secondBlockIndex);
-        foodBlocks[secondBlockIndex.x][secondBlockIndex.y].SetSpriteDrawPosition(
-                rect.centerX(),rect.centerY()
+        foodBlocks[secondBlockIndex.x][secondBlockIndex.y].SetSpriteDrawPositionWithTime(
+                rect.centerX(),rect.centerY(),0.3f
         );
+        int[] SecondData =  new int[2];
+        SecondData[X] = secondBlockIndex.x; SecondData[Y] = secondBlockIndex.y;
+        UpdateBlocks.add(SecondData);
     }
 
     private boolean IsNearBoardWithPick(Point index) {

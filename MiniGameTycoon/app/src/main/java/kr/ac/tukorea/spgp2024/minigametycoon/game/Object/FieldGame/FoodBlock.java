@@ -1,25 +1,31 @@
 package kr.ac.tukorea.spgp2024.minigametycoon.game.Object.FieldGame;
 
+import static android.util.Half.EPSILON;
+
 import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.Log;
+
 
 import java.util.Random;
 
 import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
 
+
+
 enum FoodTypeEnum{
     BLANK, FOOD_1,FOOD_2,FOOD_3,FOOD_4,FOOD_5, SIZE
 }
 public class FoodBlock {
+    // DEFINE
+    private int X = 0;
+    private int Y = 1;
     private static final String TAG = FoodBlock.class.getSimpleName();
 
-    public boolean bIsMovingBlock = false;
-    private float lastX;
-    private float lastY;
-    private float targetX;
-    private float targetY;
+    public boolean bIsMovingBlock = false;      // 움직이고 있는 중인지에 대한 변수
+    private float[] lastCenterPos = new float[2];
+    private float[] targetCenterPos = new float[2];
     private float currentMoveFrameTime;
     private float targetMoveFrameTime;
 
@@ -68,9 +74,26 @@ public class FoodBlock {
 
     }
 
-    public void Update(float frameTime){
+    public boolean Update(float frameTime){
+        // 움직임 중일 때에만 update 처리
+        if(bIsMovingBlock){
+            currentMoveFrameTime = Math.min(currentMoveFrameTime+frameTime, targetMoveFrameTime);
 
+            if(Math.abs(targetMoveFrameTime - currentMoveFrameTime) < 0.0001){
+                bIsMovingBlock = false;
+                lastCenterPos[X] = -1; lastCenterPos[Y] = -1;
+                targetCenterPos[X] =-1; targetCenterPos[Y] =-1;
+                currentMoveFrameTime = targetMoveFrameTime = -1;
+                return false;
+            }
+
+            float[] newPos = Lerp(lastCenterPos,targetCenterPos,currentMoveFrameTime/targetMoveFrameTime);
+            FoodSprite.moveTo(newPos[X], newPos[Y]);
+        }
+
+        return bIsMovingBlock;
     }
+
     public void Draw(Canvas canvas){
         FoodSprite.draw(canvas);
     }
@@ -88,10 +111,25 @@ public class FoodBlock {
     public void SetSpriteDrawPosition(float newX, float newY){
         FoodSprite.moveTo(newX,newY);
     }
+
     public void SetSpriteDrawPositionWithTime(float newX, float newY, float time){
+        Log.d(TAG, "SetSpriteDrawPositionWithTime: Start???");
         bIsMovingBlock= true;
-        targetX= newX;
-        targetY = newY;
+        lastCenterPos = FoodSprite.GetCenterPosition();
+        targetCenterPos[X] = newX;
+        targetCenterPos[Y] = newY;
+        currentMoveFrameTime = 0.0f;
         targetMoveFrameTime = time;
     }
+
+
+    // 좌표 보간 계산 을 위해 사용되는 lerp 함수
+    float[] Lerp(float[] A, float B[], float Alpha)
+    {
+        float[] returnValue = new float[2];
+        returnValue[0] = A[0]*(1-Alpha) + B[0]*Alpha;
+        returnValue[1] = A[1]*(1-Alpha) + B[1]*Alpha;
+        return returnValue;
+    }
+
 }

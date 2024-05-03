@@ -80,4 +80,11 @@ public class Sprite implements IGameObject {
         this.y = y;
         fixDstRect();
     }
+
+    public float[] GetCenterPosition(){
+        float[] returnValue = new float[2];
+        returnValue[0] = x;
+        returnValue[1] = y;
+        return returnValue;
+    }
 }
