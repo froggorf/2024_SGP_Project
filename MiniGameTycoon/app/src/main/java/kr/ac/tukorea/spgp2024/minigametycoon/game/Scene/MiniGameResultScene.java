@@ -1,8 +1,14 @@
 package kr.ac.tukorea.spgp2024.minigametycoon.game.Scene;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import kr.ac.tukorea.spgp2024.R;
@@ -14,9 +20,20 @@ import kr.ac.tukorea.spgp2024.minigametycoon.game.enums.EDataName;
 
 public class MiniGameResultScene extends BaseScene {
     private final String TAG = MiniGameResultScene.class.getSimpleName();
+    private final Paint textPaint;
 
     Sprite resultSprite;
 
+    Map<Sprite, Integer> resultSpriteValueMap = new HashMap<>();
+    int[] spritesResId = new int[]{
+            0,
+            R.mipmap.temp_fieldgame_box1,
+            R.mipmap.temp_fieldgame_box2,
+            R.mipmap.temp_fieldgame_box3,
+            R.mipmap.temp_fieldgame_box4,
+            R.mipmap.temp_fieldgame_box5,
+            0
+    };
 
     public enum Layer{
         INFO, COUNT
@@ -33,6 +50,24 @@ public class MiniGameResultScene extends BaseScene {
         add(TownScene.Layer.BACKGROUND, resultSprite);
 
 
+        textPaint = new Paint();
+        textPaint.setStyle(Paint.Style.STROKE);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.setStrokeWidth(10.0f);
+        textPaint.setColor(Color.BLACK);
+        textPaint.setTextSize(100.0f);
+
+        int i = 0;
+        for(Map.Entry<EDataName,Integer> entry : resultDataMap.entrySet()){
+            
+            resultSpriteValueMap.put(new Sprite(spritesResId[entry.getKey().ordinal()], 
+                            UserDisplay.getWidth(0.2f),
+                            UserDisplay.getHeight(0.1f + 0.2f*i),
+                            UserDisplay.getWidth(0.2f),
+                            UserDisplay.getWidth(0.2f)),
+                    entry.getValue());
+            i += 1;
+        }
     }
 
     @Override
@@ -40,6 +75,22 @@ public class MiniGameResultScene extends BaseScene {
         super.update(elapsedNanos);
     }
 
+    @Override
+    public void draw(Canvas canvas){
+        super.draw(canvas);
+
+        for(Map.Entry<Sprite,Integer> entry : resultSpriteValueMap.entrySet()){
+            entry.getKey().draw(canvas);
+            float[] position = new float[2];
+            position = entry.getKey().GetCenterPosition();
+            canvas.drawText(String.format("+ %d",entry.getValue()),
+                    position[0] + UserDisplay.getWidth(0.5f),
+                    position[1], textPaint);
+           
+        }
+
+        Log.d(TAG, "draw: ");
+    }
     @Override
     protected void onStart() {
         // 500ms 뒤 노래 틀기

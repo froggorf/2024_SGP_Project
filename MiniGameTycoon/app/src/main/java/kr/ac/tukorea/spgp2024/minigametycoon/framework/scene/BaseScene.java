@@ -18,7 +18,7 @@ import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.IRecyclable;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.ITouchable;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.GameView;
 
-public class BaseScene {
+public abstract class BaseScene {
     private static final String TAG = BaseScene.class.getSimpleName();
     private static ArrayList<BaseScene> stack = new ArrayList<>();
     public static float frameTime;
@@ -218,6 +218,8 @@ public class BaseScene {
 
     protected void onStart() {
     }
+
+
     protected void onEnd() {
     }
 
