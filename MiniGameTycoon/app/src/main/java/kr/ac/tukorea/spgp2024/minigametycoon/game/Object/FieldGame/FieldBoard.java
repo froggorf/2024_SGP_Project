@@ -17,6 +17,7 @@ import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.IGameObject;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FieldGameScene;
 
 
+
 public class FieldBoard implements IGameObject {
     // DEFINE
     private final int X = 0;
@@ -39,9 +40,11 @@ public class FieldBoard implements IGameObject {
 
     boolean bHasEmptyBlock = false;         // EMPTY food Block 처리에 대한 flag
 
-    int[] score = new int[FoodTypeEnum.SIZE.ordinal()];
+    public int[] score = new int[FoodTypeEnum.SIZE.ordinal()];
 
+    public boolean bTickEnabled = true;
     public FieldBoard(Point getBoardCount, RectF getBoardRect) {
+        bTickEnabled =true;
         // 보드판 크기 설정
         boardCount.set(getBoardCount.x,getBoardCount.y);
 
@@ -114,6 +117,7 @@ public class FieldBoard implements IGameObject {
 
     @Override
     public void update() {
+        if(!bTickEnabled) return;
         // 먼저 불필요한 데이터 지우고
         for(int i = 0; i<UpdateBlocks.size(); ++i){
             int[] data = UpdateBlocks.get(i);

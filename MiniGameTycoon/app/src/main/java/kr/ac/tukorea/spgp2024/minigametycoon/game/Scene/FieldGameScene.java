@@ -6,18 +6,29 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.google.android.material.color.utilities.Score;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.res.Sound;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.util.Gauge;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.FieldGame.FieldBoard;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.FieldGame.FoodTypeEnum;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.TimerSystem;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.enums.EDataName;
+
 
 public class FieldGameScene extends BaseScene {
     private final String TAG = FieldGameScene.class.getSimpleName();
     private RectF boardRect;
+    int[] resArray = new int[]{
+            R.mipmap.temp_fieldgame_box1,R.mipmap.temp_fieldgame_box2,R.mipmap.temp_fieldgame_box3,R.mipmap.temp_fieldgame_box4,R.mipmap.temp_fieldgame_box5
+    };
     Sprite infoSprite;
     Sprite[] boxSprite = new Sprite[5];
     long startTime;
@@ -26,10 +37,11 @@ public class FieldGameScene extends BaseScene {
 
     TimerSystem timerSystem;
 
+    boolean bFinishGame = false;
 
 
     public enum Layer{
-        BACKGROUND, BOX, BOARD , TIMER_GAUGE,INPUT, COUNT
+        BACKGROUND, BOX, BOARD , TIMER_GAUGE,RESULT,INPUT, COUNT
     }
     public FieldGameScene() {
         startTime = System.currentTimeMillis();
@@ -48,7 +60,7 @@ public class FieldGameScene extends BaseScene {
         // 재료함 추가
         for( int i = 0;i<5; ++i)
         {
-            boxSprite[i] = new Sprite(R.mipmap.temp_fieldgame_box1 + i,
+            boxSprite[i] = new Sprite(resArray[i],
                     UserDisplay.getWidth(0.2f * i + 0.1f),
                     UserDisplay.getHeight(0.9f),
                     UserDisplay.getWidth(0.2f),
@@ -80,10 +92,12 @@ public class FieldGameScene extends BaseScene {
         timerSystem = new TimerSystem(
                 new RectF(UserDisplay.getWidth(0.1f), UserDisplay.getHeight(0.05f),
                         UserDisplay.getWidth(0.9f), UserDisplay.getHeight(0.05f)),
-                60.0f,
+                10.0f,
                 75.0f
         );
         add(Layer.TIMER_GAUGE,timerSystem);
+
+        bFinishGame = false;
     }
 
 
@@ -132,6 +146,8 @@ public class FieldGameScene extends BaseScene {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if(bFinishGame) return super.onTouchEvent(event);
+
         switch (event.getAction()){
 
             case MotionEvent.ACTION_DOWN:
@@ -144,7 +160,35 @@ public class FieldGameScene extends BaseScene {
         return super.onTouchEvent(event);
     }
 
-    static public void FinishGame(){
-        
+    @Override
+    public void FinishGame(){
+        super.FinishGame();
+
+        bFinishGame = true;
+
+        fieldGameBoard.bTickEnabled = false;
+
+        Map<EDataName, Integer> ScoreDataMap = new HashMap<>();
+        ScoreDataMap.put(EDataName.EDN_First_Ingredients_A, fieldGameBoard.score[FoodTypeEnum.FOOD_1.ordinal()]);
+        ScoreDataMap.put(EDataName.EDN_First_Ingredients_B, fieldGameBoard.score[FoodTypeEnum.FOOD_2.ordinal()]);
+        ScoreDataMap.put(EDataName.EDN_First_Ingredients_C, fieldGameBoard.score[FoodTypeEnum.FOOD_3.ordinal()]);
+        ScoreDataMap.put(EDataName.EDN_First_Ingredients_D, fieldGameBoard.score[FoodTypeEnum.FOOD_4.ordinal()]);
+        ScoreDataMap.put(EDataName.EDN_First_Ingredients_E, fieldGameBoard.score[FoodTypeEnum.FOOD_5.ordinal()]);
+
+        // 게임 끝에 대한 이미지 추가
+        add(Layer.RESULT, new Sprite(R.mipmap.temp_finishgame,
+                UserDisplay.getWidth(0.5f),
+                UserDisplay.getHeight(0.5f),
+                UserDisplay.getDesiredWidth(0.75f),
+                UserDisplay.getDesiredWidth(0.75f)
+                ));
+
+        new Handler().postDelayed(new Runnable(){
+            public void run(){
+                MiniGameResultScene scene = new MiniGameResultScene(ScoreDataMap);
+                scene.changeScene();
+
+            }
+        }, 2000);
     }
 }

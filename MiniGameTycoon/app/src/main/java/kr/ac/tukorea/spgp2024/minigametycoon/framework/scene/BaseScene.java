@@ -230,4 +230,10 @@ public class BaseScene {
         popScene();
         return true;
     }
+
+    // 게임이 종료될 시에 대한 처리를 위한 함수
+    // TimerSystem 에서 시간이 다 되면 해당 함수를 호출하여 실행..
+    public void FinishGame(){
+
+    }
 }

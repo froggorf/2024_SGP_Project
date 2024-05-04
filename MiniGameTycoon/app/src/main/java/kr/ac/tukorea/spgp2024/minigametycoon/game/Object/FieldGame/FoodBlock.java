@@ -13,10 +13,6 @@ import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
 
 
-
-enum FoodTypeEnum{
-    BLANK, FOOD_1,FOOD_2,FOOD_3,FOOD_4,FOOD_5, SIZE
-}
 public class FoodBlock {
     // DEFINE
     private int X = 0;
