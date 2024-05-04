@@ -32,7 +32,7 @@ public class FieldBoard implements IGameObject {
     private final int X = 0;
     private final int Y = 1;
     private static final String TAG = FieldBoard.class.getSimpleName(); //TAG
-    private static final float BLOCK_MOVE_TIME = 0.3f;  // 보드 내 블럭 이동 시 시간
+    private static final float BLOCK_MOVE_TIME = 0.5f;  // 보드 내 블럭 이동 시 시간
     private static final int MATCH_COUNT = 3;   //블럭 몇개 이상 맞춰야 꺠지는지 (가로/세로 방향)
     Point boardCount = new Point();     // 가로 세로 배열 크기
 
@@ -45,6 +45,8 @@ public class FieldBoard implements IGameObject {
     Point CurrentPickBlock = new Point();   // 현재 픽된 블럭의 인덱스에 대한 변수
 
     Vector<int[]> UpdateBlocks = new Vector<int[]>(0);
+
+    boolean bHasEmptyBlock = false;         // EMPTY food Block 처리에 대한 flag
 
     public FieldBoard(Point getBoardCount, RectF getBoardRect) {
         // 보드판 크기 설정
@@ -75,6 +77,13 @@ public class FieldBoard implements IGameObject {
         }
 
         GameInitialize();
+
+        // 시작 후 부술 수 있는 애들은 부수기
+        new Handler().postDelayed(new Runnable(){
+            public void run(){
+                CheckAllBlocksCanBreak();
+            }
+        }, 2000);
     }
 
     private void GameInitialize() {
@@ -120,7 +129,38 @@ public class FieldBoard implements IGameObject {
             foodBlocks[block[X]][block[Y]].Update(FieldGameScene.frameTime);
         }
 
+        // 빈 칸에 대한 플래그 처리
+        if(bHasEmptyBlock){
+            Log.d(TAG, "update: 공백 처리");
+            Set<Point> emptyFoodBlockSet = new HashSet<>();
+            // x축 왼쪽부터
+            for(int i =0; i< boardCount.x; ++i){
+                // y 축 아래에서부터 위로 쭉 관찰하면서
+                for(int j = boardCount.y -1; j >= 0; --j){
+                    // EMPTY 칸이라면,
+                    if(foodBlocks[i][j].FoodType == FoodTypeEnum.BLANK){
+                        boolean find = false;
+                        for(int currentY = j - 1; currentY>= 0; --currentY){
+                            // EMPTY 아닌 블럭이랑 교체하고,
+                            if(foodBlocks[i][currentY].FoodType != FoodTypeEnum.BLANK){
+                                FoodBlockIndexChange(new Point(i,j), new Point(i,currentY));
+                                MoveFoodBlockToIndex(new Point(i,j), new Point(i,j));
 
+                                find = true;
+                                break;
+                            }
+
+                            // 위가 전부다 빈 칸 이라면 공백 음식 블럭 셋에 추가해준다.
+                            if(!find){
+                                emptyFoodBlockSet.add(new Point(i,j));
+                            }
+                        }
+                    }
+                }
+            }
+
+            bHasEmptyBlock = false;
+        }
     }
 
     @Override
@@ -179,6 +219,11 @@ public class FieldBoard implements IGameObject {
         
         
     }
+    private void FoodBlockIndexChange(Point firstBlockIndex, Point secondBlockIndex){
+        FoodBlock tempBlock = foodBlocks[firstBlockIndex.x][firstBlockIndex.y];
+        foodBlocks[firstBlockIndex.x][firstBlockIndex.y] = foodBlocks[secondBlockIndex.x][secondBlockIndex.y];
+        foodBlocks[secondBlockIndex.x][secondBlockIndex.y] =tempBlock;
+    }
 
     // 두 지정된 블럭의 위치를 서로 옮기는 함수
     private void SwapFoodBlock(Point firstBlockIndex, Point secondBlockIndex) {
@@ -188,9 +233,7 @@ public class FieldBoard implements IGameObject {
         MoveFoodBlockToIndex(secondBlockIndex,firstBlockIndex);
 
         // 보드 블럭 변경하고서
-        FoodBlock tempBlock = foodBlocks[firstBlockIndex.x][firstBlockIndex.y];
-        foodBlocks[firstBlockIndex.x][firstBlockIndex.y] = foodBlocks[secondBlockIndex.x][secondBlockIndex.y];
-        foodBlocks[secondBlockIndex.x][secondBlockIndex.y] =tempBlock;
+        FoodBlockIndexChange(firstBlockIndex,secondBlockIndex);
 
         // 부술 수 있는지 체크하고,
         Set<Point> BreakBlocksVector = new HashSet<>();
@@ -203,6 +246,8 @@ public class FieldBoard implements IGameObject {
         {
             new Handler().postDelayed(new Runnable(){
                 public void run(){
+
+                    bHasEmptyBlock = true;
                     for(Point breakIndex : BreakBlocksVector){
                         foodBlocks[breakIndex.x][breakIndex.y].ChangeFoodType(FoodTypeEnum.BLANK);
                     }
@@ -213,7 +258,6 @@ public class FieldBoard implements IGameObject {
         {
             new Handler().postDelayed(new Runnable(){
                 public void run(){
-                    Log.d(TAG, "SwapFoodBlock: 실행됨!!");
                     // 첫번째 인덱스 블럭 두번쨰 인덱스 위치로 옮기기
                     MoveFoodBlockToIndex(firstBlockIndex,secondBlockIndex);
                     // 두번째 인덱스 블럭 첫번쨰 인덱스 위치로 옮기기
@@ -245,11 +289,9 @@ public class FieldBoard implements IGameObject {
 
         // BreakBlocksVector에 저장하기
         if(HorizontalVector.size() >= MATCH_COUNT){
-            Log.d(TAG, "FindBreakBlocks: 가로가 맞았음"+ String.format("%d %d",blockIndex.x,blockIndex.y) + " "+ HorizontalVector.size());
             BreakBlocksVector.addAll(HorizontalVector);
         }
         if(VerticalVector.size() >= MATCH_COUNT){
-            Log.d(TAG, "FindBreakBlocks: 세로가 맞았음" + String.format("%d %d",blockIndex.x,blockIndex.y) + " " + VerticalVector.size());
             BreakBlocksVector.addAll(VerticalVector);
         }
     }
@@ -262,11 +304,9 @@ public class FieldBoard implements IGameObject {
 
         // 현재 블럭이 동일한 블럭이 아니라면 반환
         if(foodBlocks[blockIndex.x][blockIndex.y].FoodType != foodType) return;
-        Log.d(TAG, "FindSameFoodTypeBlocks: "+ blockIndex.x + " "+blockIndex.y);
         // 해당 블럭 추가
         SameFoodBlockVector.add(blockIndex);
 
-        Log.d(TAG, "FindSameFoodTypeBlocks: " + SameFoodBlockVector.size());
         // 해당 방향으로 계속 탐색
         FindSameFoodTypeBlocks(new Point(blockIndex.x + offset.x, blockIndex.y + offset.y),foodType,offset,SameFoodBlockVector);
     }
@@ -296,5 +336,21 @@ public class FieldBoard implements IGameObject {
     private void SetPickBlock(Point index) {
         CurrentPickBlock.set(index.x,index.y);
         foodBlocks[index.x][index.y].SetPickBitmap(true);
+    }
+
+    private void CheckAllBlocksCanBreak(){
+        for(int i =0; i< boardCount.x; ++i){
+            for(int j=0; j< boardCount.y; ++j){
+                Set<Point> BreakBlocksVector = new HashSet<>();
+                FindBreakBlocks(new Point(i,j), foodBlocks[i][j].FoodType, BreakBlocksVector);
+
+                if(!BreakBlocksVector.isEmpty()) bHasEmptyBlock = true;
+
+                for(Point breakIndex : BreakBlocksVector){
+                    foodBlocks[breakIndex.x][breakIndex.y].ChangeFoodType(FoodTypeEnum.BLANK);
+                }
+
+            }
+        }
     }
 }
