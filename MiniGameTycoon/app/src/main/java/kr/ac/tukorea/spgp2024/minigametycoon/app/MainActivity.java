@@ -1,25 +1,20 @@
 package kr.ac.tukorea.spgp2024.minigametycoon.app;
 
-import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.util.LogWriter;
 
 
-import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.databinding.ActivityMainBinding;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.GameView;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.Metrics;
-import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FieldGameScene;
-import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FoodPrepHouseGameScene;
-import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.LogoScene;
+
+import kr.ac.tukorea.spgp2024.minigametycoon.game.MyData;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.enums.EDataName;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -35,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
         gameView.setFullScreen();
         setContentView(gameView);
 
+        MyData.SetContext(this);
+        MyData.CreateDummyDataFile();
+        MyData.ReadData();
+
+
 
         UserDisplay.createUserDisplay(getWindowManager().getDefaultDisplay());
 
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         Metrics.setGameSize(UserDisplay.getWidth(1.0f), UserDisplay.getHeight(1.0f));
 
         //new LogoScene(this, null).pushScene();
-        new FieldGameScene().pushScene();
+        //new FieldGameScene().pushScene();
     }
 
     @Override
