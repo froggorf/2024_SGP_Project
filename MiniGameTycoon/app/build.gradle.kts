@@ -8,10 +8,8 @@ android {
 
 
 
-
     buildFeatures {
         viewBinding = true
-
     }
 
     defaultConfig {
@@ -45,10 +43,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation(libs.jxl)
-    
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
 }
