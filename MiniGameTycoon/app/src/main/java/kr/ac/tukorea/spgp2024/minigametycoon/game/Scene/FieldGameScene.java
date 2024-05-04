@@ -24,6 +24,8 @@ public class FieldGameScene extends BaseScene {
 
 
 
+
+
     public enum Layer{
         BACKGROUND, BOX, BOARD ,INPUT, COUNT
     }

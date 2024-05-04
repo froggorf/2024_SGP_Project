@@ -6,25 +6,15 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.os.Handler;
-import android.transition.Scene;
 import android.util.Log;
 import android.view.MotionEvent;
-
-import androidx.constraintlayout.widget.ConstraintSet;
-
-import com.google.android.material.shape.OffsetEdgeTreatment;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
-import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.IGameObject;
-import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
-import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FieldGameScene;
-import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.TitleScene;
-import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 
 
 public class FieldBoard implements IGameObject {
@@ -41,12 +31,15 @@ public class FieldBoard implements IGameObject {
     Paint fillPaint;
     Paint borderPaint;
     Paint strokePaint;
+    Paint textPaint;
 
     Point CurrentPickBlock = new Point();   // 현재 픽된 블럭의 인덱스에 대한 변수
 
     Vector<int[]> UpdateBlocks = new Vector<int[]>(0);
 
     boolean bHasEmptyBlock = false;         // EMPTY food Block 처리에 대한 flag
+
+    int[] score = new int[FoodTypeEnum.SIZE.ordinal()];
 
     public FieldBoard(Point getBoardCount, RectF getBoardRect) {
         // 보드판 크기 설정
@@ -74,6 +67,13 @@ public class FieldBoard implements IGameObject {
             strokePaint.setStyle(Paint.Style.STROKE);
             strokePaint.setColor(Color.BLACK);
             strokePaint.setStrokeWidth(5.0f);
+
+            textPaint = new Paint();
+            textPaint.setStyle(Paint.Style.STROKE);
+            textPaint.setTextAlign(Paint.Align.CENTER);
+            textPaint.setStrokeWidth(10.0f);
+            textPaint.setColor(Color.BLACK);
+            textPaint.setTextSize(100.0f);
         }
 
         GameInitialize();
@@ -202,6 +202,10 @@ public class FieldBoard implements IGameObject {
                 foodBlocks[i][j].Draw(canvas);
             }
         }
+
+        for(int i=1; i<FoodTypeEnum.SIZE.ordinal(); ++i){
+            canvas.drawText(String.format("%d",score[i]),boardRect.left+200*(i-1)+85,boardRect.bottom + 100,textPaint);
+        }
     }
 
 
@@ -274,6 +278,7 @@ public class FieldBoard implements IGameObject {
 
                     bHasEmptyBlock = true;
                     for(Point breakIndex : BreakBlocksVector){
+                        score[foodBlocks[breakIndex.x][breakIndex.y].FoodType.ordinal()] += 1;
                         foodBlocks[breakIndex.x][breakIndex.y].ChangeFoodType(FoodTypeEnum.BLANK);
                     }
                 }
@@ -374,6 +379,7 @@ public class FieldBoard implements IGameObject {
                 if(!BreakBlocksVector.isEmpty()) bHasEmptyBlock = true;
 
                 for(Point breakIndex : BreakBlocksVector){
+                    score[foodBlocks[breakIndex.x][breakIndex.y].FoodType.ordinal()] += 1;
                     foodBlocks[breakIndex.x][breakIndex.y].ChangeFoodType(FoodTypeEnum.BLANK);
                 }
 
