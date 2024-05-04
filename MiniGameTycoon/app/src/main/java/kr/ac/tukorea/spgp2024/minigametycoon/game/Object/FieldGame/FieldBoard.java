@@ -132,6 +132,7 @@ public class FieldBoard implements IGameObject {
         // 빈 칸에 대한 플래그 처리
         if(bHasEmptyBlock){
             Log.d(TAG, "update: 공백 처리");
+            boolean IsDownAtLeastOne = false;
             Set<Point> emptyFoodBlockSet = new HashSet<>();
             // x축 왼쪽부터
             for(int i =0; i< boardCount.x; ++i){
@@ -139,13 +140,17 @@ public class FieldBoard implements IGameObject {
                 for(int j = boardCount.y -1; j >= 0; --j){
                     // EMPTY 칸이라면,
                     if(foodBlocks[i][j].FoodType == FoodTypeEnum.BLANK){
+                        if(j==0){   // 맨 윗칸 이라면
+                            emptyFoodBlockSet.add(new Point(i,j));
+                            continue;
+                        }
                         boolean find = false;
                         for(int currentY = j - 1; currentY>= 0; --currentY){
                             // EMPTY 아닌 블럭이랑 교체하고,
                             if(foodBlocks[i][currentY].FoodType != FoodTypeEnum.BLANK){
                                 FoodBlockIndexChange(new Point(i,j), new Point(i,currentY));
                                 MoveFoodBlockToIndex(new Point(i,j), new Point(i,j));
-
+                                IsDownAtLeastOne = true;
                                 find = true;
                                 break;
                             }
@@ -156,10 +161,30 @@ public class FieldBoard implements IGameObject {
                             }
                         }
                     }
+
+                }
+            }
+            bHasEmptyBlock = false;
+
+            // 새로운 블럭 생성
+            {
+                // emptyFoodBlockSet 안에는 y가
+                for(Point index : emptyFoodBlockSet){
+                    RectF newBlockPosition = GetBoardPositions(index);
+                    newBlockPosition.offset(0, -boardRect.top);
+                    foodBlocks[index.x][index.y].Initialize(newBlockPosition);
+                    MoveFoodBlockToIndex(new Point(index),new Point(index));
                 }
             }
 
-            bHasEmptyBlock = false;
+            // 연쇄폭발을 위한 함수
+            if(IsDownAtLeastOne){
+                new Handler().postDelayed(new Runnable(){
+                    public void run(){
+                        CheckAllBlocksCanBreak();
+                    }
+                }, (int)(BLOCK_MOVE_TIME*1000*2));
+            }
         }
     }
 
@@ -341,6 +366,8 @@ public class FieldBoard implements IGameObject {
     private void CheckAllBlocksCanBreak(){
         for(int i =0; i< boardCount.x; ++i){
             for(int j=0; j< boardCount.y; ++j){
+                if(foodBlocks[i][j].FoodType == FoodTypeEnum.BLANK) continue;
+
                 Set<Point> BreakBlocksVector = new HashSet<>();
                 FindBreakBlocks(new Point(i,j), foodBlocks[i][j].FoodType, BreakBlocksVector);
 

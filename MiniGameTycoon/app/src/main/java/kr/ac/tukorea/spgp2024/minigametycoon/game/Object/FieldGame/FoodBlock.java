@@ -59,14 +59,22 @@ public class FoodBlock {
         //FoodType = Type;
 
         FoodType = FoodTypeEnum.values()[(int) (Math.random()*5+1)];
-        Log.d(TAG, "Initialize: "+SpriteRect.width() +"//"+SpriteRect.height());
 
-        FoodSprite = new Sprite(FoodBitmap[FoodType.ordinal()],
-                        SpriteRect.centerX(),
-                        SpriteRect.centerY(),
-                        SpriteRect.width(),
-                        SpriteRect.height()
-        );
+        // 초기 생성이라면
+        if(FoodSprite == null){
+            FoodSprite = new Sprite(FoodBitmap[FoodType.ordinal()],
+                    SpriteRect.centerX(),
+                    SpriteRect.centerY(),
+                    SpriteRect.width(),
+                    SpriteRect.height()
+            );
+        }
+        else
+        {
+            FoodSprite.setBitmapResource(FoodBitmap[FoodType.ordinal()]);
+            FoodSprite.moveTo(SpriteRect.centerX(),SpriteRect.centerY());
+        }
+
 
 
 
