@@ -10,7 +10,9 @@ import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.res.Sound;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
+import kr.ac.tukorea.spgp2024.minigametycoon.framework.util.Gauge;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.FieldGame.FieldBoard;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.TimerSystem;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 
 public class FieldGameScene extends BaseScene {
@@ -22,12 +24,12 @@ public class FieldGameScene extends BaseScene {
 
     FieldBoard fieldGameBoard;
 
-
+    TimerSystem timerSystem;
 
 
 
     public enum Layer{
-        BACKGROUND, BOX, BOARD ,INPUT, COUNT
+        BACKGROUND, BOX, BOARD , TIMER_GAUGE,INPUT, COUNT
     }
     public FieldGameScene() {
         startTime = System.currentTimeMillis();
@@ -73,7 +75,15 @@ public class FieldGameScene extends BaseScene {
         fieldGameBoard =new FieldBoard(new Point(boardCountX,boardCountY),boardRect);
         add(Layer.BOARD,fieldGameBoard);
 
+        // 타이머 시스템 생성
 
+        timerSystem = new TimerSystem(
+                new RectF(UserDisplay.getWidth(0.1f), UserDisplay.getHeight(0.05f),
+                        UserDisplay.getWidth(0.9f), UserDisplay.getHeight(0.05f)),
+                60.0f,
+                75.0f
+        );
+        add(Layer.TIMER_GAUGE,timerSystem);
     }
 
 
@@ -132,5 +142,9 @@ public class FieldGameScene extends BaseScene {
                 break;
         }
         return super.onTouchEvent(event);
+    }
+
+    static public void FinishGame(){
+        
     }
 }
