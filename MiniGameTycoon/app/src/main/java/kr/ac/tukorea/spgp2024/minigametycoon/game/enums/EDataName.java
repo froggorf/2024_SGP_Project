@@ -7,5 +7,8 @@ public enum EDataName {
     EDN_First_Ingredients_C,
     EDN_First_Ingredients_D,
     EDN_First_Ingredients_E,
+    EDN_First_Ingredients_Beef,
+    EDN_First_Ingredients_Pork,
+    EDN_First_Ingredients_Chicken,
     EDN_SIZE
 }

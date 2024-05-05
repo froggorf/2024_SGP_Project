@@ -33,6 +33,9 @@ public class MiniGameResultScene extends BaseScene {
             R.mipmap.temp_fieldgame_box3,
             R.mipmap.temp_fieldgame_box4,
             R.mipmap.temp_fieldgame_box5,
+            R.mipmap.temp_first_ingredients_beef,
+            R.mipmap.temp_first_ingredients_pork,
+            R.mipmap.temp_first_ingredients_chicken,
             0
     };
 
