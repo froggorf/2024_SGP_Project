@@ -3,9 +3,7 @@ package kr.ac.tukorea.spgp2024.minigametycoon.game.Scene;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.RectF;
-import android.graphics.drawable.AnimatedStateListDrawable;
 import android.os.Handler;
 import android.text.TextPaint;
 import android.util.Log;
@@ -21,24 +19,24 @@ import kr.ac.tukorea.spgp2024.minigametycoon.framework.res.BitmapPool;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.res.Sound;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.CountDownClass;
-import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.FieldGame.FieldBoard;
-import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.FieldGame.FoodTypeEnum;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.FarmGame.EatingAnimal;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.TimerSystem;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
-import kr.ac.tukorea.spgp2024.minigametycoon.game.enums.EDataName;
-
-enum EFarmAnimalType{
-    COW, PIG,CHICKEN, SIZE
-}
+import kr.ac.tukorea.spgp2024.minigametycoon.game.enums.EFarmAnimalType;
 
 public class FarmGameScene extends BaseScene {
     private final String TAG = FarmGameScene.class.getSimpleName();
     private final int MAX_ANIMAL_COUNT = 10;
 
-    int[] AnimalResourceArray = new int[]{
+    static public int[] AnimalResourceArray = new int[]{
             R.mipmap.temp_farmgame_cow,
             R.mipmap.temp_farmgame_pig,
             R.mipmap.temp_farmgame_chicken,
+    };
+    static public int[] FoodBowlResourceArray = new int[]{
+            R.mipmap.temp_farmgame_cow_foodbowl,
+            R.mipmap.temp_farmgame_pig_foodbowl,
+            R.mipmap.temp_farmgame_chicken_foodbowl,
     };
     Bitmap[] AnimalBitmaps = new Bitmap[EFarmAnimalType.SIZE.ordinal()];
     Sprite Background;
@@ -56,7 +54,7 @@ public class FarmGameScene extends BaseScene {
     boolean bFinishGame = true;
 
     public enum Layer{
-        BACKGROUND,FENCE,  TIMER_GAUGE,RESULT,INPUT, COUNT
+        BACKGROUND,FENCE,EATING_ANIMAL, FOOD_BOWL,  TIMER_GAUGE,RESULT,INPUT, COUNT
     }
 
 
@@ -72,12 +70,14 @@ public class FarmGameScene extends BaseScene {
                 UserDisplay.getDesiredHeight(1.0f));
 
 
+        // 울타리 배치
         add(Layer.FENCE, new Sprite(R.mipmap.temp_farmgame_fence,
                 UserDisplay.getWidth(0.5f),
                 UserDisplay.getHeight(0.55f),
                 UserDisplay.getDesiredWidth(1.0f),
                 UserDisplay.getDesiredHeight(0.2f)));
 
+        // 버튼 배치
         add(Layer.INPUT, new Button(R.mipmap.temp_farmgame_button_cow,
                 UserDisplay.getWidth(0.1625f),UserDisplay.getHeight(0.9f),UserDisplay.getWidth(0.3f),UserDisplay.getHeight(0.1f),
                 CowFeedButton));
@@ -88,6 +88,16 @@ public class FarmGameScene extends BaseScene {
                 UserDisplay.getWidth(0.8375f),UserDisplay.getHeight(0.9f),UserDisplay.getWidth(0.3f),UserDisplay.getHeight(0.1f),
                 ChickenFeedButton));
 
+        // 사료통 배치
+
+        for(int i =0; i<EFarmAnimalType.SIZE.ordinal(); ++i){
+            RectF BowlRect = GetBowlRect(i);
+            add(Layer.FOOD_BOWL, new Sprite(FoodBowlResourceArray[i],
+                    BowlRect.left,BowlRect.top,BowlRect.right,BowlRect.bottom
+            ));
+        }
+
+        // 게임 초기화
         InitializeGame();
 
         CountDownClass CountDownObject = new CountDownClass(
@@ -113,8 +123,16 @@ public class FarmGameScene extends BaseScene {
                 bFinishGame = false;
             }
         }, 3500);
+    }
 
+    static public RectF GetBowlRect(int i) {
+        RectF ReturnRectF = new RectF();
+        ReturnRectF.left = UserDisplay.getWidth(0.2f) + UserDisplay.getWidth(0.3f) * i;
+        ReturnRectF.top =  UserDisplay.getHeight(0.8f);
+        ReturnRectF.right = UserDisplay.getWidth(0.25f);
+        ReturnRectF.bottom = UserDisplay.getHeight(0.08f);
 
+        return ReturnRectF;
     }
 
     private void InitializeGame() {
@@ -141,19 +159,21 @@ public class FarmGameScene extends BaseScene {
     private void FeedAnimal(EFarmAnimalType FeedAnimalType){
         Log.d(TAG, "FeedAnimal: " + FeedAnimalType.name());
         EFarmAnimalType CurrentAnimalType = Animals[CurFrontAnimalIndex];
+        boolean bCorrect = false;
         if(FeedAnimalType == CurrentAnimalType){
             AddScore(CurrentAnimalType, CORRECT_SCORE);
+            bCorrect = true;
         }
         else{
             AddScore(CurrentAnimalType, WRONG_SCORE);
-            Log.d(TAG, "FeedAnimal:  틀렸음");
+            bCorrect= false;
         }
 
         Animals[CurFrontAnimalIndex] = EFarmAnimalType.values()[(int) (Math.random()*EFarmAnimalType.SIZE.ordinal())];
 
         // 사료장에 음식 먹는 동물 만들기
         {
-
+            add(Layer.EATING_ANIMAL, new EatingAnimal(CurrentAnimalType,bCorrect));
         }
 
         CurFrontAnimalIndex = (CurFrontAnimalIndex+1)%MAX_ANIMAL_COUNT;
