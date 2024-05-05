@@ -98,8 +98,6 @@ public class MiniGameResultScene extends BaseScene {
                     position[1], textPaint);
            
         }
-
-        Log.d(TAG, "draw: ");
     }
     @Override
     protected void onStart() {

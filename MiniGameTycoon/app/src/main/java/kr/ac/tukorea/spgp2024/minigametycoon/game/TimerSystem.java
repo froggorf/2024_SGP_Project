@@ -42,7 +42,7 @@ public class TimerSystem implements IGameObject {
         bgPaint.setColor(ResourcesCompat.getColor(GameView.res, bgColorResId, null));
         bgPaint.setStrokeCap(Paint.Cap.ROUND);
         fgPaint.setStyle(Paint.Style.STROKE);
-        fgPaint.setStrokeWidth(width / 2);
+        fgPaint.setStrokeWidth((float) (width / 1.25));
         fgPaint.setColor(ResourcesCompat.getColor(GameView.res, fgColorResId, null));
         fgPaint.setStrokeCap(Paint.Cap.ROUND);
     }
