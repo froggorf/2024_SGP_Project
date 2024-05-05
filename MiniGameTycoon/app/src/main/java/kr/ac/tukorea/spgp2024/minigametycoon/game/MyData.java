@@ -5,6 +5,8 @@ import android.content.res.AssetManager;
 import android.util.JsonReader;
 import android.util.Log;
 
+import com.google.android.material.transition.MaterialSharedAxis;
+
 import kr.ac.tukorea.spgp2024.minigametycoon.game.enums.EDataName;
 
 import java.io.*;
@@ -87,6 +89,13 @@ public class MyData {
     // 데이터를 작성하는 Set함수
     static public void SetData(EDataName DataType, String NewValue) {
         DataMap.replace(DataType,NewValue);
+    }
+
+    static public void AddResultData_IntType(EDataName DataType, int ResultValue){
+        int CurrentValue = Integer.parseInt(DataMap.get(DataType));
+        CurrentValue = Math.max(CurrentValue+ResultValue, 0);
+
+        DataMap.replace(DataType, String.valueOf(CurrentValue));
     }
 }
 

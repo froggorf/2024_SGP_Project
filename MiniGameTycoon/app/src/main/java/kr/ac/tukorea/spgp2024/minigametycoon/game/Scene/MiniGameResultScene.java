@@ -15,6 +15,7 @@ import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.res.Sound;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.MyData;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.enums.EDataName;
 
@@ -68,6 +69,15 @@ public class MiniGameResultScene extends BaseScene {
                     entry.getValue());
             i += 1;
         }
+
+        SetResultDataAndSaveData(resultDataMap);
+    }
+
+    private void SetResultDataAndSaveData(Map<EDataName, Integer> resultDataMap) {
+        for(Map.Entry<EDataName,Integer> entry : resultDataMap.entrySet()){
+            MyData.AddResultData_IntType(entry.getKey(), entry.getValue());
+        }
+        MyData.SaveData();
     }
 
     @Override
