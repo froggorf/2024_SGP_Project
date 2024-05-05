@@ -1,27 +1,20 @@
 package kr.ac.tukorea.spgp2024.minigametycoon.game.Scene;
 
-import android.graphics.Point;
 import android.graphics.RectF;
 import android.os.Handler;
 import android.view.MotionEvent;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.res.Sound;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.CountDownClass;
-import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.FieldGame.FieldBoard;
-import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.FieldGame.FoodTypeEnum;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.TimerSystem;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
-import kr.ac.tukorea.spgp2024.minigametycoon.game.enums.EDataName;
 
 
-public class FarmGameScene extends BaseScene {
-    private final String TAG = FarmGameScene.class.getSimpleName();
+public class BaseMiniGameFrame extends BaseScene {
+    private final String TAG = BaseMiniGameFrame.class.getSimpleName();
     int[] resArray = new int[]{
             R.mipmap.temp_fieldgame_box1,R.mipmap.temp_fieldgame_box2,R.mipmap.temp_fieldgame_box3,R.mipmap.temp_fieldgame_box4,R.mipmap.temp_fieldgame_box5
     };
@@ -33,7 +26,7 @@ public class FarmGameScene extends BaseScene {
     public enum Layer{
         BACKGROUND, TIMER_GAUGE,RESULT,INPUT, COUNT
     }
-    public FarmGameScene() {
+    public BaseMiniGameFrame() {
         // 레이어 초기화
         initLayers(Layer.COUNT);
 
