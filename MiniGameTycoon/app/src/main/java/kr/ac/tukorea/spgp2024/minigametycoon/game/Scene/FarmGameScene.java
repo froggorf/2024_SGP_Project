@@ -221,7 +221,7 @@ public class FarmGameScene extends BaseScene {
         for(int i =0; i<EFarmAnimalType.SIZE.ordinal(); ++i){
             canvas.drawText(String.valueOf(Score.get(EFarmAnimalType.values()[i])),
                     UserDisplay.getWidth(0.2f) + UserDisplay.getWidth(0.33f) * i,
-                    UserDisplay.getHeight(0.1f), TextPaint);
+                    UserDisplay.getHeight(0.8f), TextPaint);
         }
     }
 
