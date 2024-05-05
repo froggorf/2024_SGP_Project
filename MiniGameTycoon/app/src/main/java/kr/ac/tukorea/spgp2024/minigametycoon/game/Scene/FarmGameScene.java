@@ -22,6 +22,7 @@ import kr.ac.tukorea.spgp2024.minigametycoon.game.CountDownClass;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.FarmGame.EatingAnimal;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.TimerSystem;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.enums.EDataName;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.enums.EFarmAnimalType;
 
 public class FarmGameScene extends BaseScene {
@@ -106,6 +107,8 @@ public class FarmGameScene extends BaseScene {
                 3.0f
         );
 
+        bFinishGame = true;
+
         add(Layer.RESULT,CountDownObject);
         new Handler().postDelayed(new Runnable(){
             public void run(){
@@ -118,7 +121,7 @@ public class FarmGameScene extends BaseScene {
                         10.0f,
                         75.0f
                 );
-                //add(Layer.TIMER_GAUGE,timerSystem);
+                add(Layer.TIMER_GAUGE,timerSystem);
 
                 bFinishGame = false;
             }
@@ -249,6 +252,7 @@ public class FarmGameScene extends BaseScene {
 
     @Override
     public void update(long elapsedNanos) {
+        if(bFinishGame) return;
         super.update(elapsedNanos);
     }
 
@@ -290,7 +294,7 @@ public class FarmGameScene extends BaseScene {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if(bFinishGame) return super.onTouchEvent(event);
+        if(bFinishGame) return false;
         switch (event.getAction()){
 
             case MotionEvent.ACTION_DOWN:
@@ -305,6 +309,14 @@ public class FarmGameScene extends BaseScene {
         super.FinishGame();
         bFinishGame = true;
 
+
+        Map<EDataName, Integer> ScoreDataMap = new HashMap<>();
+        for(int i =0; i<EFarmAnimalType.SIZE.ordinal(); ++i){
+            EDataName DataName = EDataName.values()[EDataName.EDN_First_Ingredients_Beef.ordinal() + i];
+            Integer GetTypeScore = Score.get(EFarmAnimalType.values()[i]);
+            ScoreDataMap.put(DataName,GetTypeScore);
+        }
+
         // 게임 끝에 대한 이미지 추가
         add(Layer.RESULT, new Sprite(R.mipmap.temp_finishgame,
                 UserDisplay.getWidth(0.5f),
@@ -315,8 +327,8 @@ public class FarmGameScene extends BaseScene {
 
         new Handler().postDelayed(new Runnable(){
             public void run(){
-                //MiniGameResultScene scene = new MiniGameResultScene(ScoreDataMap);
-                //scene.changeScene();
+                MiniGameResultScene scene = new MiniGameResultScene(ScoreDataMap);
+                scene.changeScene();
 
             }
         }, 2000);
