@@ -63,7 +63,11 @@ public class TimerSystem implements IGameObject {
     @Override
     public void draw(Canvas canvas) {
         canvas.drawLine(DrawRect.left,DrawRect.centerY(),DrawRect.right,DrawRect.centerY(),bgPaint);
-        float value = currentTime/maxPlayTime;
-        canvas.drawLine(DrawRect.left, DrawRect.centerY(),DrawRect.left + DrawRect.width()*value, DrawRect.centerY(),fgPaint);
+        float value = 1 - currentTime/maxPlayTime;
+
+        if(value > 0.005){
+            canvas.drawLine(DrawRect.left, DrawRect.centerY(),DrawRect.left + DrawRect.width()*value, DrawRect.centerY(),fgPaint);
+        }
+
     }
 }
