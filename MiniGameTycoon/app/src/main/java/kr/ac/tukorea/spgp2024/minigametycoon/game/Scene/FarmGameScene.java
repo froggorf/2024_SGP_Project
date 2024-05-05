@@ -1,14 +1,17 @@
 package kr.ac.tukorea.spgp2024.minigametycoon.game.Scene;
 
+import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import kr.ac.tukorea.spgp2024.R;
+import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Button;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.res.Sound;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
@@ -19,31 +22,56 @@ import kr.ac.tukorea.spgp2024.minigametycoon.game.TimerSystem;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.enums.EDataName;
 
+enum EFarmAnimalType{
+    COW, PIG,CHICKEN, SIZE
+}
 
 public class FarmGameScene extends BaseScene {
     private final String TAG = FarmGameScene.class.getSimpleName();
-    int[] resArray = new int[]{
-            R.mipmap.temp_fieldgame_box1,R.mipmap.temp_fieldgame_box2,R.mipmap.temp_fieldgame_box3,R.mipmap.temp_fieldgame_box4,R.mipmap.temp_fieldgame_box5
+
+    int[] AnimalResourceArray = new int[]{
+            R.mipmap.temp_farmgame_cow,
+            R.mipmap.temp_farmgame_pig,
+            R.mipmap.temp_farmgame_chicken,
     };
+
+    //Sprite[] AnimalSprites = new Sprite[EFarmAnimalType.SIZE.ordinal()];
 
     TimerSystem timerSystem;
 
     boolean bFinishGame = true;
 
     public enum Layer{
-        BACKGROUND, TIMER_GAUGE,RESULT,INPUT, COUNT
+        BACKGROUND,FENCE,  TIMER_GAUGE,RESULT,INPUT, COUNT
     }
     public FarmGameScene() {
         // 레이어 초기화
         initLayers(Layer.COUNT);
 
         // 배경 리소스 추가
-        add(Layer.BACKGROUND, new Sprite(R.mipmap.temp_fieldgame_background,
+        add(Layer.BACKGROUND, new Sprite(R.mipmap.temp_farmgame_background,
                 UserDisplay.getWidth(0.5f),
                 UserDisplay.getHeight(0.5f),
                 UserDisplay.getDesiredWidth(1.0f),
                 UserDisplay.getDesiredHeight(1.0f)
         ));
+
+        add(Layer.FENCE, new Sprite(R.mipmap.temp_farmgame_fence,
+                UserDisplay.getWidth(0.5f),
+                UserDisplay.getHeight(0.5f),
+                UserDisplay.getDesiredWidth(1.0f),
+                UserDisplay.getDesiredHeight(0.2f)));
+
+        add(Layer.INPUT, new Button(R.mipmap.temp_farmgame_button_cow,
+                UserDisplay.getWidth(0.1625f),UserDisplay.getHeight(0.9f),UserDisplay.getWidth(0.3f),UserDisplay.getHeight(0.1f),
+                CowFeedButton));
+        add(Layer.INPUT, new Button(R.mipmap.temp_farmgame_button_pig,
+                UserDisplay.getWidth(0.5f),UserDisplay.getHeight(0.95f),UserDisplay.getWidth(0.3f),UserDisplay.getHeight(0.1f),
+                PigFeedButton));
+        add(Layer.INPUT, new Button(R.mipmap.temp_farmgame_button_chicken,
+                UserDisplay.getWidth(0.8375f),UserDisplay.getHeight(0.9f),UserDisplay.getWidth(0.3f),UserDisplay.getHeight(0.1f),
+                ChickenFeedButton));
+
 
         CountDownClass CountDownObject = new CountDownClass(
                 new RectF(UserDisplay.getWidth(0.4f), UserDisplay.getHeight(0.05f),
@@ -63,7 +91,7 @@ public class FarmGameScene extends BaseScene {
                         10.0f,
                         75.0f
                 );
-                add(Layer.TIMER_GAUGE,timerSystem);
+                //add(Layer.TIMER_GAUGE,timerSystem);
 
                 bFinishGame = false;
             }
@@ -72,7 +100,42 @@ public class FarmGameScene extends BaseScene {
 
     }
 
+    private void FeedAnimal(EFarmAnimalType FeedAnimalType){
+        Log.d(TAG, "FeedAnimal: " + FeedAnimalType.name());
+    }
 
+
+    private  Button.Callback CowFeedButton = new Button.Callback() {
+        @Override
+        public boolean onTouch(Button.Action action) {
+            if(action != Button.Action.pressed) return false;
+            FeedAnimal(EFarmAnimalType.COW);
+            return false;
+        }
+    };
+    private  Button.Callback PigFeedButton = new Button.Callback() {
+        @Override
+        public boolean onTouch(Button.Action action) {
+            if(action != Button.Action.pressed) return false;
+            FeedAnimal(EFarmAnimalType.PIG);
+            return false;
+        }
+    };
+    private  Button.Callback ChickenFeedButton = new Button.Callback() {
+        @Override
+        public boolean onTouch(Button.Action action) {
+            if(action != Button.Action.pressed) return false;
+            FeedAnimal(EFarmAnimalType.CHICKEN);
+            return false;
+        }
+    };
+
+    @Override
+    public void draw(Canvas canvas){
+        super.draw(canvas);
+
+
+    }
 
     @Override
     public void update(long elapsedNanos) {
@@ -112,13 +175,12 @@ public class FarmGameScene extends BaseScene {
 
     @Override
     protected int getTouchLayerIndex() {
-        return TownScene.Layer.TOUCH.ordinal();
+        return Layer.INPUT.ordinal();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if(bFinishGame) return super.onTouchEvent(event);
-
         switch (event.getAction()){
 
             case MotionEvent.ACTION_DOWN:
