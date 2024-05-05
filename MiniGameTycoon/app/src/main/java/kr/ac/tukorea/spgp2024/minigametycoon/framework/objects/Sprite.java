@@ -13,7 +13,7 @@ public class Sprite implements IGameObject {
     protected Bitmap bitmap;
     protected RectF dstRect = new RectF();
     protected float x, y, width, height;
-    protected Sprite() {} // 상속받은 class 에서 자유롭게 생성자를 만들 수 있도록 default 생성자를 추가한다
+    public Sprite() {} // 상속받은 class 에서 자유롭게 생성자를 만들 수 있도록 default 생성자를 추가한다
 
     // 2019180031 현재의 비트맵 리소스 아이디에 대해서 저장해둔다
     public int BitmapResId;

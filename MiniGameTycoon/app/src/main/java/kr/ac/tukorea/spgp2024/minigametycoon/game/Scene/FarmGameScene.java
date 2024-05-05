@@ -1,9 +1,13 @@
 package kr.ac.tukorea.spgp2024.minigametycoon.game.Scene;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
+import android.graphics.drawable.AnimatedStateListDrawable;
 import android.os.Handler;
+import android.text.TextPaint;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -13,6 +17,7 @@ import java.util.Map;
 import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Button;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
+import kr.ac.tukorea.spgp2024.minigametycoon.framework.res.BitmapPool;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.res.Sound;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.CountDownClass;
@@ -28,14 +33,23 @@ enum EFarmAnimalType{
 
 public class FarmGameScene extends BaseScene {
     private final String TAG = FarmGameScene.class.getSimpleName();
+    private final int MAX_ANIMAL_COUNT = 10;
 
     int[] AnimalResourceArray = new int[]{
             R.mipmap.temp_farmgame_cow,
             R.mipmap.temp_farmgame_pig,
             R.mipmap.temp_farmgame_chicken,
     };
+    Bitmap[] AnimalBitmaps = new Bitmap[EFarmAnimalType.SIZE.ordinal()];
+    Sprite Background;
+    EFarmAnimalType[] Animals = new EFarmAnimalType[MAX_ANIMAL_COUNT];
+    int CurFrontAnimalIndex = 0;
 
-    //Sprite[] AnimalSprites = new Sprite[EFarmAnimalType.SIZE.ordinal()];
+    Map<EFarmAnimalType, Integer> Score = new HashMap<>();
+    private final int CORRECT_SCORE = 5;
+    private final int WRONG_SCORE = -1;
+    Paint paint = new Paint();
+    TextPaint TextPaint = new TextPaint();
 
     TimerSystem timerSystem;
 
@@ -44,21 +58,23 @@ public class FarmGameScene extends BaseScene {
     public enum Layer{
         BACKGROUND,FENCE,  TIMER_GAUGE,RESULT,INPUT, COUNT
     }
+
+
+
     public FarmGameScene() {
         // 레이어 초기화
         initLayers(Layer.COUNT);
 
-        // 배경 리소스 추가
-        add(Layer.BACKGROUND, new Sprite(R.mipmap.temp_farmgame_background,
+        Background = new Sprite(R.mipmap.temp_farmgame_background,
                 UserDisplay.getWidth(0.5f),
                 UserDisplay.getHeight(0.5f),
                 UserDisplay.getDesiredWidth(1.0f),
-                UserDisplay.getDesiredHeight(1.0f)
-        ));
+                UserDisplay.getDesiredHeight(1.0f));
+
 
         add(Layer.FENCE, new Sprite(R.mipmap.temp_farmgame_fence,
                 UserDisplay.getWidth(0.5f),
-                UserDisplay.getHeight(0.5f),
+                UserDisplay.getHeight(0.55f),
                 UserDisplay.getDesiredWidth(1.0f),
                 UserDisplay.getDesiredHeight(0.2f)));
 
@@ -72,6 +88,7 @@ public class FarmGameScene extends BaseScene {
                 UserDisplay.getWidth(0.8375f),UserDisplay.getHeight(0.9f),UserDisplay.getWidth(0.3f),UserDisplay.getHeight(0.1f),
                 ChickenFeedButton));
 
+        InitializeGame();
 
         CountDownClass CountDownObject = new CountDownClass(
                 new RectF(UserDisplay.getWidth(0.4f), UserDisplay.getHeight(0.05f),
@@ -100,8 +117,52 @@ public class FarmGameScene extends BaseScene {
 
     }
 
+    private void InitializeGame() {
+        TextPaint.setTextAlign(Paint.Align.CENTER);
+        TextPaint.setTextSize(100.0f);
+
+        for(int i= 0; i<MAX_ANIMAL_COUNT; ++i){
+            Animals[i] = EFarmAnimalType.values()[(int) (Math.random()*EFarmAnimalType.SIZE.ordinal())];
+
+        }
+        CurFrontAnimalIndex = 0;
+
+        for(int i =0; i<EFarmAnimalType.SIZE.ordinal(); ++i){
+            AnimalBitmaps[EFarmAnimalType.values()[i].ordinal()] = BitmapPool.get(AnimalResourceArray[i]);
+        }
+
+        if(Score.isEmpty()){
+            for(int i =0; i<EFarmAnimalType.SIZE.ordinal(); ++i){
+                Score.put(EFarmAnimalType.values()[i],0);
+            }
+        }
+    }
+
     private void FeedAnimal(EFarmAnimalType FeedAnimalType){
         Log.d(TAG, "FeedAnimal: " + FeedAnimalType.name());
+        EFarmAnimalType CurrentAnimalType = Animals[CurFrontAnimalIndex];
+        if(FeedAnimalType == CurrentAnimalType){
+            AddScore(CurrentAnimalType, CORRECT_SCORE);
+        }
+        else{
+            AddScore(CurrentAnimalType, WRONG_SCORE);
+            Log.d(TAG, "FeedAnimal:  틀렸음");
+        }
+
+        Animals[CurFrontAnimalIndex] = EFarmAnimalType.values()[(int) (Math.random()*EFarmAnimalType.SIZE.ordinal())];
+
+        // 사료장에 음식 먹는 동물 만들기
+        {
+
+        }
+
+        CurFrontAnimalIndex = (CurFrontAnimalIndex+1)%MAX_ANIMAL_COUNT;
+    }
+
+    private void AddScore(EFarmAnimalType AnimalType, int AddValue) {
+        Integer CurrentScore = Score.get(AnimalType);
+        CurrentScore = Math.max( CurrentScore + AddValue, 0 );
+        Score.replace(AnimalType, CurrentScore);
     }
 
 
@@ -132,9 +193,38 @@ public class FarmGameScene extends BaseScene {
 
     @Override
     public void draw(Canvas canvas){
+        Background.draw(canvas);
+        DrawAnimals(canvas);
+
         super.draw(canvas);
 
+        for(int i =0; i<EFarmAnimalType.SIZE.ordinal(); ++i){
+            canvas.drawText(String.valueOf(Score.get(EFarmAnimalType.values()[i])),
+                    UserDisplay.getWidth(0.2f) + UserDisplay.getWidth(0.33f) * i,
+                    UserDisplay.getHeight(0.1f), TextPaint);
+        }
+    }
 
+    private void DrawAnimals(Canvas canvas) {
+        float AnimalSize = UserDisplay.getWidth(0.2f);
+        float AnimalOffsetY = UserDisplay.getHeight(0.1f);
+
+
+
+        for(int i = MAX_ANIMAL_COUNT-1; i>=0; --i){
+            // CurFrontAnimalIndex 가 0이 되게 하도록 조정
+            int index = (i + CurFrontAnimalIndex) % MAX_ANIMAL_COUNT;
+
+            RectF FirstAnimalRect = new RectF(
+                    UserDisplay.getWidth(0.5f) - AnimalSize,
+                    UserDisplay.getHeight(0.5f)- AnimalSize - i * AnimalOffsetY,
+                    UserDisplay.getWidth(0.5f) + AnimalSize,
+                    UserDisplay.getHeight(0.5f)+ AnimalSize - i * AnimalOffsetY
+            );
+
+            EFarmAnimalType AnimalType = Animals[index];
+            canvas.drawBitmap(AnimalBitmaps[AnimalType.ordinal()], null,FirstAnimalRect, paint);
+        }
     }
 
     @Override
