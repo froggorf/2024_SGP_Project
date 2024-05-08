@@ -87,4 +87,8 @@ public class Sprite implements IGameObject {
         returnValue[1] = y;
         return returnValue;
     }
+
+    public RectF GetDstRect(){
+        return dstRect;
+    }
 }

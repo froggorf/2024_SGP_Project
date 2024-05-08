@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import java.util.Random;
+import java.util.Vector;
 
 import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.IGameObject;
@@ -25,28 +26,34 @@ public class CuttingObject implements IGameObject {
     static private float[] StartVelocityPower = new float[]{
             UserDisplay.getWidth(0.5f), -UserDisplay.getHeight(0.5f)
     };
-
+    static public float KillY = UserDisplay.getHeight(2.0f);
     public enum IngredientType{
         Food_A,Food_B,Food_C,Food_D,Food_E,
         Beef, Pork, Chicken,
         SIZE
     }
-    IngredientType ObjectIngredientType;
-    Sprite ObjectSprite;
+    public IngredientType ObjectIngredientType;
+    public Sprite ObjectSprite;
     float[] Velocity = new float[2];
     static Random RandomObject = new Random();
-    public CuttingObject(){
+    float ObjectWeight;
+    int ObjectIndex;
+    public boolean bIsCut;
 
+    public CuttingObject(){
     }
 
-    static public CuttingObject CreateRandomCuttingObject(){
+    static public CuttingObject CreateRandomCuttingObject(int Index){
         CuttingObject Object = new CuttingObject();
         Object.Initialize();
+        // 초기 한번만 본인의 번호 적기
+        Object.ObjectIndex = Index;
 
         return Object;
     }
 
     public void Initialize(){
+        bIsCut = false;
         int TypeIndex = (int) (Math.random()*IngredientType.SIZE.ordinal());
         ObjectIngredientType = IngredientType.values()[TypeIndex];
         ObjectSize = UserDisplay.getWidth(0.3f);
@@ -59,14 +66,15 @@ public class CuttingObject implements IGameObject {
         {
             ObjectSprite.setBitmapResource(FoodPrepGameScene.resArray[ObjectIngredientType.ordinal()]);
         }
-
+        ObjectWeight = (float) (0.7 + Math.random()* 0.6);
         SetStartPositionAndVelocity();
+
     }
 
     public void SetStartPositionAndVelocity(){
         // 시작위치 구하기
         float newX, newY;
-        Velocity[X] = StartVelocityPower[X];
+        Velocity[X] = StartVelocityPower[X] * ObjectWeight;
         if(RandomObject.nextBoolean())
         {
             newX = 0 - ObjectSize;
@@ -86,21 +94,20 @@ public class CuttingObject implements IGameObject {
     @Override
     public void update() {
         //Velocity[Y] -= GravityScale * BaseScene.frameTime*2;
-        Velocity[Y] += GravityScale*BaseScene.frameTime;
-        Log.d(TAG, "update: "+ Velocity[Y]);
+        Velocity[Y] += GravityScale*BaseScene.frameTime * ObjectWeight;
         float[] CurPos = ObjectSprite.GetCenterPosition();
         CurPos[X] += BaseScene.frameTime * Velocity[X];
         CurPos[Y] += BaseScene.frameTime * Velocity[Y];
-        ObjectSprite.moveTo(CurPos[X],CurPos[Y]);
-
-        //DEBUG
-        CurPos = ObjectSprite.GetCenterPosition();
+        if(CurPos[Y] >= KillY) Initialize();
+        else ObjectSprite.moveTo(CurPos[X],CurPos[Y]);
 
     }
 
     @Override
     public void draw(Canvas canvas) {
-        ObjectSprite.draw(canvas);
+        if(!bIsCut)
+            ObjectSprite.draw(canvas);
+
     }
 
 
