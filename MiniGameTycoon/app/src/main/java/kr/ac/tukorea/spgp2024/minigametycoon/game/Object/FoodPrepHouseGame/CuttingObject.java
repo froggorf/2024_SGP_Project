@@ -28,7 +28,7 @@ public class CuttingObject implements IGameObject {
     };
     static public float KillY = UserDisplay.getHeight(2.0f);
     public enum IngredientType{
-        Food_A,Food_B,Food_C,Food_D,Food_E,
+        Beet,Carrot,Lettuce,Onion,Potato,
         Beef, Pork, Chicken,
         SIZE
     }

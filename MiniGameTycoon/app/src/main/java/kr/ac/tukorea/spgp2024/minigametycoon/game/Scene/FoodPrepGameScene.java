@@ -1,5 +1,8 @@
 package kr.ac.tukorea.spgp2024.minigametycoon.game.Scene;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Handler;
@@ -24,17 +27,24 @@ import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.FoodPrepHouseGame.Slice
 import kr.ac.tukorea.spgp2024.minigametycoon.game.TimerSystem;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.enums.EDataName;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.enums.EFarmAnimalType;
+
 
 
 public class FoodPrepGameScene extends BaseScene {
     private final String TAG = FoodPrepGameScene.class.getSimpleName();
+
     static public int[] resArray = new int[]{
             R.mipmap.temp_farmgame_beet,R.mipmap.temp_farmgame_carrot,R.mipmap.temp_farmgame_lettuce,R.mipmap.temp_farmgame_onion,R.mipmap.temp_farmgame_potato,
             R.mipmap.temp_farmgame_cow,R.mipmap.temp_farmgame_pig,R.mipmap.temp_farmgame_chicken
     };
+    private float UiSize;
+    private Paint textPaint;
     TimerSystem timerSystem;
 
     boolean bFinishGame = true;
+
+    Map<CuttingObject.IngredientType, Integer> ScoreMap = new HashMap<>();
 
     private CutLineObject cutLineObject;
 
@@ -49,6 +59,17 @@ public class FoodPrepGameScene extends BaseScene {
     public FoodPrepGameScene() {
         // 레이어 초기화
         initLayers(Layer.COUNT);
+
+        for(int i =0; i<CuttingObject.IngredientType.SIZE.ordinal(); ++i){
+            ScoreMap.put(CuttingObject.IngredientType.values()[i],0);
+        }
+
+        textPaint = new Paint();
+        textPaint.setStyle(Paint.Style.STROKE);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.setStrokeWidth(10.0f);
+        textPaint.setColor(Color.BLACK);
+        textPaint.setTextSize(100.0f);
 
         // 배경 리소스 추가
         add(Layer.BACKGROUND, new Sprite(R.mipmap.temp_fieldgame_background,
@@ -65,7 +86,7 @@ public class FoodPrepGameScene extends BaseScene {
             add(Layer.CUT_OBJECT,CuttingObjects[i]);
         }
 
-        float UiSize = UserDisplay.getWidth(0.25f);
+        UiSize = UserDisplay.getWidth(0.25f);
         for(int i = 0; i < CuttingObject.IngredientType.SIZE.ordinal(); ++i){
             add(Layer.SCORE_UI,new Sprite(resArray[i],
                     UiSize/2 + UiSize*(i%4),
@@ -104,7 +125,22 @@ public class FoodPrepGameScene extends BaseScene {
 
     }
 
+    @Override
+    public void draw(Canvas canvas){
+        super.draw(canvas);
 
+        for(int i = 0; i<CuttingObject.IngredientType.SIZE.ordinal(); ++i){
+            Integer Score = ScoreMap.get(CuttingObject.IngredientType.values()[i]);
+
+            canvas.drawText(String.format("%d",Score),
+                    UiSize/2 + UiSize*(i%4),
+                    UserDisplay.getHeight(0.95f) - UiSize* (1 - (int)((i)/4)),
+                    textPaint);
+
+
+
+        }
+    }
 
     @Override
     public void update(long elapsedNanos) {
@@ -181,6 +217,12 @@ public class FoodPrepGameScene extends BaseScene {
     private void SliceCuttingObject() {
         for(int i = 0; i<MAX_OBJECT_COUNT; ++i){
             if(cutLineObject.SliceObject(CuttingObjects[i])){
+                CuttingObject.IngredientType Type = CuttingObjects[i].ObjectIngredientType;
+                Integer CurrentScore = ScoreMap.get(Type);
+                CurrentScore += 10;
+                ScoreMap.replace(Type,CurrentScore);
+
+
                 CuttingObjects[i].bIsCut= true;
                 add(Layer.SLICED_OBJECT, new SlicedObject(CuttingObjects[i]));
             }
@@ -206,12 +248,18 @@ public class FoodPrepGameScene extends BaseScene {
 
 
         Map<EDataName, Integer> ScoreDataMap = new HashMap<>();
+        for(int i =0; i<CuttingObject.IngredientType.SIZE.ordinal(); ++i){
+            CuttingObject.IngredientType Type = CuttingObject.IngredientType.values()[i];
+            Integer Score = ScoreMap.get(Type);
 
+            ScoreDataMap.put(EDataName.values()[EDataName.EDN_First_Ingredients_Beet.ordinal() + i], -Score/10);
+            ScoreDataMap.put(EDataName.values()[EDataName.EDN_Sliced_Ingredient_Beet.ordinal() + i], Score);
+        }
 
         new Handler().postDelayed(new Runnable(){
             public void run(){
-                //MiniGameResultScene scene = new MiniGameResultScene(ScoreDataMap);
-                //scene.changeScene();
+                MiniGameResultScene scene = new MiniGameResultScene(ScoreDataMap);
+                scene.changeScene();
             }
         }, 2000);
     }

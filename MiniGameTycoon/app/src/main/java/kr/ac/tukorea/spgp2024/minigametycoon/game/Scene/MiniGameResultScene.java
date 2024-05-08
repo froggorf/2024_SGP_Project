@@ -108,11 +108,11 @@ public class MiniGameResultScene extends BaseScene {
             position = entry.getKey().GetCenterPosition();
 
             if (entry.getValue() < 0 ){
-                canvas.drawText(String.format("- %d",entry.getValue()),
+                canvas.drawText(String.format("%d",entry.getValue()),
                         position[0] + UserDisplay.getWidth(0.5f),
                         position[1], textPaint);
             }else{
-                canvas.drawText(String.format("+ %d",entry.getValue()),
+                canvas.drawText(String.format("+%d",entry.getValue()),
                         position[0] + UserDisplay.getWidth(0.5f),
                         position[1], textPaint);
             }
