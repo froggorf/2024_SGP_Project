@@ -10,12 +10,16 @@ import android.graphics.PathEffect;
 import android.graphics.Typeface;
 import android.graphics.drawable.shapes.Shape;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.IGameObject;
+import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.ITouchable;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.GameView;
 
 // 재료 준비소에서 1차 재료를 자를 때 사용할 선 오브젝트
-public class CutLineObject implements IGameObject {
+public class CutLineObject implements IGameObject, ITouchable {
+    private static final String TAG = CutLineObject.class.getSimpleName();
     private float startX;
     private float startY;
 
@@ -54,4 +58,9 @@ public class CutLineObject implements IGameObject {
         endY = y;
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        //Log.d(TAG, "onTouchEvent: "+e.getAction());
+        return false;
+    }
 }

@@ -15,6 +15,8 @@ import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.Metrics;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.MyData;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FarmGameScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FieldGameScene;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FoodPrepGameScene;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FoodPrepHouseGameScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.enums.EDataName;
 
@@ -36,15 +38,13 @@ public class MainActivity extends AppCompatActivity {
         MyData.CreateDummyDataFile();
         MyData.ReadData();
 
-
-
         UserDisplay.createUserDisplay(getWindowManager().getDefaultDisplay());
 
         //Metrics.setGameSize(UserDisplay.getWidth(0.0f), UserDisplay.getHeight(0.0f));
         Metrics.setGameSize(UserDisplay.getWidth(1.0f), UserDisplay.getHeight(1.0f));
 
         //new LogoScene(this, null).pushScene();
-        new FarmGameScene().pushScene();
+        new FoodPrepGameScene().pushScene();
     }
 
     @Override
@@ -76,7 +76,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        //gameView.onTouchEvent(event);
-        return super.onTouchEvent(event);
+        return gameView.onTouchEvent(event);
+        //return super.onTouchEvent(event);
+
+        //return false;
     }
 }

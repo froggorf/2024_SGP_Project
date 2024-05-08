@@ -46,7 +46,6 @@ public class CountDownClass implements IGameObject {
         float time = (now - StartTime) / 1000.0f;
 
         int DrawTime = (int)(CountdownTime - time);
-        Log.d(TAG, "draw: "+ now+" "+time+" "+DrawTime);
         if(DrawTime>=0)
             canvas.drawText (String.valueOf(DrawTime),DrawRect.centerX(),DrawRect.centerY(),TextPaint);
     }
