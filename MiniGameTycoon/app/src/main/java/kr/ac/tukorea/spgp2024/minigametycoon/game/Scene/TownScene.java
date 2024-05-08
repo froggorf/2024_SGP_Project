@@ -27,10 +27,10 @@ public class TownScene extends BaseScene {
         initLayers(TitleScene.Layer.COUNT);
 
         // 배경사진 추가
-        backgroundSprite = new Sprite(R.mipmap.temp_town_backgroundpng,
+        backgroundSprite = new Sprite(R.mipmap.town_background,
                 UserDisplay.getWidth(0.5f),
                 UserDisplay.getHeight(0.5f),
-                UserDisplay.getDesiredWidth(1.0f),
+                UserDisplay.getDesiredWidth(0.95f),
                 UserDisplay.getDesiredHeight(1.0f));
         add(Layer.BACKGROUND, backgroundSprite);
 
@@ -43,8 +43,8 @@ public class TownScene extends BaseScene {
         //add(Layer.HOUSE, fieldSprite);
 
         // 밭 버튼 Press 버튼 추가
-        add(Layer.TOUCH, new Button(R.mipmap.temp_town_field,
-                UserDisplay.getWidth(0.3f),
+        add(Layer.TOUCH, new Button(R.mipmap.fieldgame_board_blank,
+                UserDisplay.getWidth(0.15f),
                 UserDisplay.getHeight(0.7f),
                 UserDisplay.getDesiredWidth(0.5f),
                 UserDisplay.getDesiredHeight(0.5f),
@@ -61,6 +61,39 @@ public class TownScene extends BaseScene {
                     }
                 }));
 
+        add(Layer.TOUCH, new Button(R.mipmap.fieldgame_board_blank,
+                UserDisplay.getWidth(0.85f),
+                UserDisplay.getHeight(0.53f),
+                UserDisplay.getDesiredWidth(0.5f),
+                UserDisplay.getDesiredHeight(0.5f),
+                new Button.Callback() {
+                    @Override
+                    public boolean onTouch(Button.Action action) {
+                        if(System.currentTimeMillis() - startTime < 1000) return false;
+                        if (action == Button.Action.pressed) {
+                            new FarmGameInfoScene().pushScene();
+
+                        }
+                        return true;
+                    }
+                }));
+
+        add(Layer.TOUCH, new Button(R.mipmap.fieldgame_board_blank,
+                UserDisplay.getWidth(0.15f),
+                UserDisplay.getHeight(0.33f),
+                UserDisplay.getDesiredWidth(0.5f),
+                UserDisplay.getDesiredHeight(0.5f),
+                new Button.Callback() {
+                    @Override
+                    public boolean onTouch(Button.Action action) {
+                        if(System.currentTimeMillis() - startTime < 1000) return false;
+                        if (action == Button.Action.pressed) {
+                            new FoodPrepGameInfoScene().pushScene();
+
+                        }
+                        return true;
+                    }
+                }));
     }
 
     @Override

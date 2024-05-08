@@ -17,6 +17,7 @@ import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.IGameObject;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.IRecyclable;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.ITouchable;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.GameView;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.TownScene;
 
 public abstract class BaseScene {
     private static final String TAG = BaseScene.class.getSimpleName();
@@ -229,7 +230,7 @@ public abstract class BaseScene {
     }
 
     public boolean handleBackKey() {
-        popScene();
+        new TownScene().changeScene();
         return true;
     }
 

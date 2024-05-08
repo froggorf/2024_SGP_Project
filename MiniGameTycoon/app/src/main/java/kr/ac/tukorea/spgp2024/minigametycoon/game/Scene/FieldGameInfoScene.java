@@ -80,7 +80,7 @@ public class FieldGameInfoScene extends BaseScene {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if(event.getAction() == MotionEvent.ACTION_DOWN){
-            popScene();
+            new FieldGameScene().changeScene();
         }
         return super.onTouchEvent(event);
     }

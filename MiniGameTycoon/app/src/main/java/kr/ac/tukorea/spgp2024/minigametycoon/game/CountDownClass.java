@@ -24,7 +24,7 @@ public class CountDownClass implements IGameObject {
 
     public CountDownClass(RectF Rect, float CountDownTime){
         StartTime = System.currentTimeMillis();;
-        CountdownTime = CountDownTime;
+        CountdownTime = CountDownTime + 0.5f;
         DrawRect = Rect;
 
         FillPaint.setStyle(Paint.Style.FILL);

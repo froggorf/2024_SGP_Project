@@ -16,7 +16,7 @@ import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 public class BaseMiniGameFrame extends BaseScene {
     private final String TAG = BaseMiniGameFrame.class.getSimpleName();
     int[] resArray = new int[]{
-            R.mipmap.temp_fieldgame_box1,R.mipmap.temp_fieldgame_box2,R.mipmap.temp_fieldgame_box3,R.mipmap.temp_fieldgame_box4,R.mipmap.temp_fieldgame_box5
+            0
     };
 
     TimerSystem timerSystem;
