@@ -13,6 +13,7 @@ import kr.ac.tukorea.spgp2024.minigametycoon.framework.res.Sound;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.CountDownClass;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.FoodPrepHouseGame.CutLineObject;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.FoodPrepHouseGame.CuttingObject;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.TimerSystem;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 
@@ -30,9 +31,12 @@ public class FoodPrepGameScene extends BaseScene {
 
     private CutLineObject cutLineObject;
 
+    static public int MAX_OBJECT_COUNT = 1;
+    public CuttingObject[] CuttingObjects = new CuttingObject[MAX_OBJECT_COUNT];
+
 
     public enum Layer{
-        BACKGROUND, CUTLINE, TIMER_GAUGE,RESULT,TOUCH, COUNT
+        BACKGROUND, CUT_OBJECT,CUTLINE, TIMER_GAUGE,RESULT,TOUCH, COUNT
     }
 
 
@@ -49,6 +53,12 @@ public class FoodPrepGameScene extends BaseScene {
         ));
 
         cutLineObject = new CutLineObject();
+
+        for(int i =0; i<MAX_OBJECT_COUNT; ++i)
+        {
+            CuttingObjects[i] = CuttingObject.CreateRandomCuttingObject();
+            add(Layer.CUT_OBJECT,CuttingObjects[i]);
+        }
 
         add(Layer.CUTLINE,cutLineObject);
 
@@ -167,7 +177,6 @@ public class FoodPrepGameScene extends BaseScene {
             public void run(){
                 //MiniGameResultScene scene = new MiniGameResultScene(ScoreDataMap);
                 //scene.changeScene();
-
             }
         }, 2000);
     }
