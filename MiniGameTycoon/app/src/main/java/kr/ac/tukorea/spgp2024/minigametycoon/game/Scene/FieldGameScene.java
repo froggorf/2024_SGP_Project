@@ -28,7 +28,11 @@ public class FieldGameScene extends BaseScene {
     private final String TAG = FieldGameScene.class.getSimpleName();
     private RectF boardRect;
     int[] resArray = new int[]{
-            R.mipmap.temp_fieldgame_box1,R.mipmap.temp_fieldgame_box2,R.mipmap.temp_fieldgame_box3,R.mipmap.temp_fieldgame_box4,R.mipmap.temp_fieldgame_box5
+            R.mipmap.temp_farmgame_beet,
+            R.mipmap.temp_farmgame_carrot,
+            R.mipmap.temp_farmgame_lettuce,
+            R.mipmap.temp_farmgame_onion,
+            R.mipmap.temp_farmgame_potato
     };
     Sprite infoSprite;
     Sprite[] boxSprite = new Sprite[5];
@@ -168,13 +172,13 @@ public class FieldGameScene extends BaseScene {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if(bFinishGame) return super.onTouchEvent(event);
-
         switch (event.getAction()){
 
             case MotionEvent.ACTION_DOWN:
                 // 보드판 범위 안에 있을 때에만 건네주기
                 if(boardRect.contains(event.getX(),event.getY())){
                     fieldGameBoard.onClickEvent(event);
+                    return true;
                 }
                 break;
         }
@@ -190,11 +194,11 @@ public class FieldGameScene extends BaseScene {
         fieldGameBoard.bTickEnabled = false;
 
         Map<EDataName, Integer> ScoreDataMap = new HashMap<>();
-        ScoreDataMap.put(EDataName.EDN_First_Ingredients_A, fieldGameBoard.score[FoodTypeEnum.FOOD_1.ordinal()]);
-        ScoreDataMap.put(EDataName.EDN_First_Ingredients_B, fieldGameBoard.score[FoodTypeEnum.FOOD_2.ordinal()]);
-        ScoreDataMap.put(EDataName.EDN_First_Ingredients_C, fieldGameBoard.score[FoodTypeEnum.FOOD_3.ordinal()]);
-        ScoreDataMap.put(EDataName.EDN_First_Ingredients_D, fieldGameBoard.score[FoodTypeEnum.FOOD_4.ordinal()]);
-        ScoreDataMap.put(EDataName.EDN_First_Ingredients_E, fieldGameBoard.score[FoodTypeEnum.FOOD_5.ordinal()]);
+        ScoreDataMap.put(EDataName.EDN_First_Ingredients_Beet, fieldGameBoard.score[FoodTypeEnum.FOOD_1.ordinal()]);
+        ScoreDataMap.put(EDataName.EDN_First_Ingredients_Carrot, fieldGameBoard.score[FoodTypeEnum.FOOD_2.ordinal()]);
+        ScoreDataMap.put(EDataName.EDN_First_Ingredients_Lettuce, fieldGameBoard.score[FoodTypeEnum.FOOD_3.ordinal()]);
+        ScoreDataMap.put(EDataName.EDN_First_Ingredients_Onion, fieldGameBoard.score[FoodTypeEnum.FOOD_4.ordinal()]);
+        ScoreDataMap.put(EDataName.EDN_First_Ingredients_Potato, fieldGameBoard.score[FoodTypeEnum.FOOD_5.ordinal()]);
 
         // 게임 끝에 대한 이미지 추가
         add(Layer.RESULT, new Sprite(R.mipmap.temp_finishgame,

@@ -27,11 +27,11 @@ public class FoodBlock {
 
     int[] FoodBitmap = {
             R.mipmap.fieldgame_board_blank,
-            R.mipmap.temp_fieldgame_box1,
-            R.mipmap.temp_fieldgame_box2,
-            R.mipmap.temp_fieldgame_box3,
-            R.mipmap.temp_fieldgame_box4,
-            R.mipmap.temp_fieldgame_box5,
+            R.mipmap.temp_farmgame_beet,
+            R.mipmap.temp_farmgame_carrot,
+            R.mipmap.temp_farmgame_lettuce,
+            R.mipmap.temp_farmgame_onion,
+            R.mipmap.temp_farmgame_potato,
     };
     int[] FoodPickBitmap = {
             0,
@@ -118,7 +118,6 @@ public class FoodBlock {
     }
 
     public void SetSpriteDrawPositionWithTime(float newX, float newY, float time){
-        Log.d(TAG, "SetSpriteDrawPositionWithTime: Start???");
         bIsMovingBlock= true;
         lastCenterPos = FoodSprite.GetCenterPosition();
         targetCenterPos[X] = newX;

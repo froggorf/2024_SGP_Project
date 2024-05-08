@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.health.connect.datatypes.units.Velocity;
 
+import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.IGameObject;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.res.BitmapPool;
@@ -23,6 +24,16 @@ public class SlicedObject implements IGameObject {
     static private final int SECOND = 1;
     static private final int X = 0;
     static private final int Y = 1;
+    int[] ResArray = new int[]{
+            R.mipmap.temp_fieldgame_box1_pick,
+            R.mipmap.temp_fieldgame_box2_pick,
+            R.mipmap.temp_fieldgame_box3_pick,
+            R.mipmap.temp_fieldgame_box4_pick,
+            R.mipmap.temp_fieldgame_box5_pick,
+            R.mipmap.temp_first_ingredients_beef,
+            R.mipmap.temp_first_ingredients_pork    ,
+            R.mipmap.temp_first_ingredients_chicken,
+    };
 
     RectF[] SlicedObjectRect = new RectF[2];
     Bitmap SliceBitmap;
@@ -48,7 +59,7 @@ public class SlicedObject implements IGameObject {
         SlicedObjectRect[SECOND] = new RectF(ObjectRect.centerX(),ObjectRect.top,ObjectRect.right,ObjectRect.bottom);
 
         // 비트맵 로드
-        SliceBitmap = BitmapPool.get(FoodPrepGameScene.resArray[Object.ObjectIngredientType.ordinal()]);
+        SliceBitmap = BitmapPool.get(ResArray[Object.ObjectIngredientType.ordinal()]);
 
 
         for(int i=0; i<2; ++i){

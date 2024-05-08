@@ -15,7 +15,7 @@ import java.util.Vector;
 
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.IGameObject;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FieldGameScene;
-
+import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.TownScene;
 
 
 public class FieldBoard implements IGameObject {
@@ -219,7 +219,6 @@ public class FieldBoard implements IGameObject {
         mousePoint[Y] = event.getY();
 
         Point index = GetIndexByPosition(mousePoint);
-
         // 선택된 블럭이 공백칸이라면 예외처리한다.
         if(foodBlocks[index.x][index.y].FoodType == FoodTypeEnum.BLANK) return;
         // 선택된 블럭이 움직이고 있는 중인 보드면 예외처리한다.
@@ -231,7 +230,7 @@ public class FieldBoard implements IGameObject {
             CurrentPickBlock.set(-1,-1);
             return;
         }
-
+        
         // 현재 선택된 것이 없으면 픽된 블럭으로 바꾸고 종료
         if(CurrentPickBlock.x == -1){
             SetPickBlock(index);
@@ -249,7 +248,6 @@ public class FieldBoard implements IGameObject {
 
             SwapFoodBlock(firstBlockIndex,secondBlockIndex);
         }
-        
         
     }
     private void FoodBlockIndexChange(Point firstBlockIndex, Point secondBlockIndex){
@@ -390,4 +388,6 @@ public class FieldBoard implements IGameObject {
             }
         }
     }
+
+
 }

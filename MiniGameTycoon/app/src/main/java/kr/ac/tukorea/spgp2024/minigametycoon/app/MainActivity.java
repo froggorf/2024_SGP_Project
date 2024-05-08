@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         Metrics.setGameSize(UserDisplay.getWidth(1.0f), UserDisplay.getHeight(1.0f));
 
         //new LogoScene(this, null).pushScene();
-        new FoodPrepGameScene().pushScene();
+        new FieldGameScene().pushScene();
     }
 
     @Override
