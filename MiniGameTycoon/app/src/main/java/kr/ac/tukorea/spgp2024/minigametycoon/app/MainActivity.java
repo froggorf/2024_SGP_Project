@@ -1,7 +1,6 @@
 package kr.ac.tukorea.spgp2024.minigametycoon.app;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,12 +12,8 @@ import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.GameView;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.Metrics;
 
 import kr.ac.tukorea.spgp2024.minigametycoon.game.MyData;
-import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FarmGameScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FieldGameScene;
-import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FoodPrepGameScene;
-import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FoodPrepHouseGameScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
-import kr.ac.tukorea.spgp2024.minigametycoon.game.enums.EDataName;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();

@@ -24,6 +24,7 @@ public class MiniGameResultScene extends BaseScene {
     private final Paint textPaint;
 
     Sprite resultSprite;
+    float YOffset = 0.0f;
 
     Map<Sprite, Integer> resultSpriteValueMap = new HashMap<>();
     int[] spritesResId = new int[]{
@@ -36,6 +37,14 @@ public class MiniGameResultScene extends BaseScene {
             R.mipmap.temp_farmgame_cow,
             R.mipmap.temp_farmgame_pig,
             R.mipmap.temp_farmgame_chicken,
+            R.mipmap.temp_sliced_ingredient_beet,
+            R.mipmap.temp_sliced_ingredient_carrot,
+            R.mipmap.temp_sliced_ingredient_lettuce,
+            R.mipmap.temp_sliced_ingredient_onion,
+            R.mipmap.temp_sliced_ingredient_potato,
+            R.mipmap.temp_first_ingredients_beef,
+            R.mipmap.temp_first_ingredients_pork,
+            R.mipmap.temp_first_ingredients_chicken,
             0
     };
 
@@ -62,11 +71,12 @@ public class MiniGameResultScene extends BaseScene {
         textPaint.setTextSize(100.0f);
 
         int i = 0;
+        YOffset = UserDisplay.getHeight(0.8f) / resultDataMap.size();
         for(Map.Entry<EDataName,Integer> entry : resultDataMap.entrySet()){
             
             resultSpriteValueMap.put(new Sprite(spritesResId[entry.getKey().ordinal()], 
                             UserDisplay.getWidth(0.2f),
-                            UserDisplay.getHeight(0.1f + 0.2f*i),
+                            UserDisplay.getHeight(0.1f) + YOffset*i,
                             UserDisplay.getWidth(0.2f),
                             UserDisplay.getWidth(0.2f)),
                     entry.getValue());
@@ -96,9 +106,18 @@ public class MiniGameResultScene extends BaseScene {
             entry.getKey().draw(canvas);
             float[] position = new float[2];
             position = entry.getKey().GetCenterPosition();
-            canvas.drawText(String.format("+ %d",entry.getValue()),
-                    position[0] + UserDisplay.getWidth(0.5f),
-                    position[1], textPaint);
+
+            if (entry.getValue() < 0 ){
+                canvas.drawText(String.format("- %d",entry.getValue()),
+                        position[0] + UserDisplay.getWidth(0.5f),
+                        position[1], textPaint);
+            }else{
+                canvas.drawText(String.format("+ %d",entry.getValue()),
+                        position[0] + UserDisplay.getWidth(0.5f),
+                        position[1], textPaint);
+            }
+
+
            
         }
     }

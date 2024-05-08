@@ -312,7 +312,7 @@ public class FarmGameScene extends BaseScene {
 
         Map<EDataName, Integer> ScoreDataMap = new HashMap<>();
         for(int i =0; i<EFarmAnimalType.SIZE.ordinal(); ++i){
-            EDataName DataName = EDataName.values()[EDataName.EDN_First_Ingredients_Beef.ordinal() + i];
+            EDataName DataName = EDataName.values()[EDataName.EDN_First_Ingredients_Cow.ordinal() + i];
             Integer GetTypeScore = Score.get(EFarmAnimalType.values()[i]);
             ScoreDataMap.put(DataName,GetTypeScore);
         }

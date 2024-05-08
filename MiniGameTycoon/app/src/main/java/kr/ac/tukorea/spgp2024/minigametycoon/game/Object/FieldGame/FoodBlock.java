@@ -35,11 +35,11 @@ public class FoodBlock {
     };
     int[] FoodPickBitmap = {
             0,
-            R.mipmap.temp_fieldgame_box1_pick,
-            R.mipmap.temp_fieldgame_box2_pick,
-            R.mipmap.temp_fieldgame_box3_pick,
-            R.mipmap.temp_fieldgame_box4_pick,
-            R.mipmap.temp_fieldgame_box5_pick
+            R.mipmap.temp_sliced_ingredient_beet,
+            R.mipmap.temp_sliced_ingredient_carrot,
+            R.mipmap.temp_sliced_ingredient_lettuce,
+            R.mipmap.temp_sliced_ingredient_onion,
+            R.mipmap.temp_sliced_ingredient_potato
     };
 
     public FoodTypeEnum FoodType;

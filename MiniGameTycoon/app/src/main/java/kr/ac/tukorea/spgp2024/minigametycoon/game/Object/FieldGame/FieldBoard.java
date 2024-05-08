@@ -16,6 +16,7 @@ import java.util.Vector;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.IGameObject;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FieldGameScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.TownScene;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 
 
 public class FieldBoard implements IGameObject {
@@ -208,7 +209,7 @@ public class FieldBoard implements IGameObject {
         }
 
         for(int i=1; i<FoodTypeEnum.SIZE.ordinal(); ++i){
-            canvas.drawText(String.format("%d",score[i]),boardRect.left+200*(i-1)+85,boardRect.bottom + 100,textPaint);
+            canvas.drawText(String.format("%d",score[i]),boardRect.left+200*(i-1)+85, UserDisplay.getHeight(0.9f),textPaint);
         }
     }
 

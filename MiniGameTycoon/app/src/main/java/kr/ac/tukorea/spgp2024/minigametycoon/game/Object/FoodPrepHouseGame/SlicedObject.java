@@ -25,11 +25,11 @@ public class SlicedObject implements IGameObject {
     static private final int X = 0;
     static private final int Y = 1;
     int[] ResArray = new int[]{
-            R.mipmap.temp_fieldgame_box1_pick,
-            R.mipmap.temp_fieldgame_box2_pick,
-            R.mipmap.temp_fieldgame_box3_pick,
-            R.mipmap.temp_fieldgame_box4_pick,
-            R.mipmap.temp_fieldgame_box5_pick,
+            R.mipmap.temp_sliced_ingredient_beet,
+            R.mipmap.temp_sliced_ingredient_carrot,
+            R.mipmap.temp_sliced_ingredient_lettuce,
+            R.mipmap.temp_sliced_ingredient_onion,
+            R.mipmap.temp_sliced_ingredient_potato,
             R.mipmap.temp_first_ingredients_beef,
             R.mipmap.temp_first_ingredients_pork    ,
             R.mipmap.temp_first_ingredients_chicken,

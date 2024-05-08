@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
 
@@ -21,15 +23,15 @@ import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.FoodPrepHouseGame.Cutti
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.FoodPrepHouseGame.SlicedObject;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.TimerSystem;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.enums.EDataName;
 
 
 public class FoodPrepGameScene extends BaseScene {
     private final String TAG = FoodPrepGameScene.class.getSimpleName();
     static public int[] resArray = new int[]{
-            R.mipmap.temp_fieldgame_box1,R.mipmap.temp_fieldgame_box2,R.mipmap.temp_fieldgame_box3,R.mipmap.temp_fieldgame_box4,R.mipmap.temp_fieldgame_box5,
+            R.mipmap.temp_farmgame_beet,R.mipmap.temp_farmgame_carrot,R.mipmap.temp_farmgame_lettuce,R.mipmap.temp_farmgame_onion,R.mipmap.temp_farmgame_potato,
             R.mipmap.temp_farmgame_cow,R.mipmap.temp_farmgame_pig,R.mipmap.temp_farmgame_chicken
     };
-
     TimerSystem timerSystem;
 
     boolean bFinishGame = true;
@@ -40,7 +42,7 @@ public class FoodPrepGameScene extends BaseScene {
     public CuttingObject[] CuttingObjects = new CuttingObject[MAX_OBJECT_COUNT];
 
     public enum Layer{
-        BACKGROUND, CUT_OBJECT,SLICED_OBJECT,CUTLINE, TIMER_GAUGE,RESULT,TOUCH, COUNT
+        BACKGROUND, CUT_OBJECT,SLICED_OBJECT,CUTLINE, SCORE_UI,SCORE_TEXT,TIMER_GAUGE,RESULT,TOUCH, COUNT
     }
 
 
@@ -63,7 +65,14 @@ public class FoodPrepGameScene extends BaseScene {
             add(Layer.CUT_OBJECT,CuttingObjects[i]);
         }
 
-
+        float UiSize = UserDisplay.getWidth(0.25f);
+        for(int i = 0; i < CuttingObject.IngredientType.SIZE.ordinal(); ++i){
+            add(Layer.SCORE_UI,new Sprite(resArray[i],
+                    UiSize/2 + UiSize*(i%4),
+                    UserDisplay.getHeight(0.95f) - UiSize* (1 - (int)((i)/4)),
+                    UiSize,UiSize
+            ));
+        }
 
 
         add(Layer.CUTLINE,cutLineObject);
@@ -194,6 +203,10 @@ public class FoodPrepGameScene extends BaseScene {
                 UserDisplay.getDesiredWidth(0.75f),
                 UserDisplay.getDesiredWidth(0.75f)
                 ));
+
+
+        Map<EDataName, Integer> ScoreDataMap = new HashMap<>();
+
 
         new Handler().postDelayed(new Runnable(){
             public void run(){
