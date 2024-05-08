@@ -27,7 +27,7 @@ public class FoodPrepGameScene extends BaseScene {
     private final String TAG = FoodPrepGameScene.class.getSimpleName();
     static public int[] resArray = new int[]{
             R.mipmap.temp_fieldgame_box1,R.mipmap.temp_fieldgame_box2,R.mipmap.temp_fieldgame_box3,R.mipmap.temp_fieldgame_box4,R.mipmap.temp_fieldgame_box5,
-            R.mipmap.temp_first_ingredients_beef,R.mipmap.temp_first_ingredients_pork,R.mipmap.temp_first_ingredients_chicken
+            R.mipmap.temp_farmgame_cow,R.mipmap.temp_farmgame_pig,R.mipmap.temp_farmgame_chicken
     };
 
     TimerSystem timerSystem;
@@ -74,27 +74,23 @@ public class FoodPrepGameScene extends BaseScene {
                 3.0f
         );
 
+        add(Layer.RESULT,CountDownObject);
+        new Handler().postDelayed(new Runnable(){
+            public void run(){
+                remove(Layer.RESULT, CountDownObject);
 
+                // 타이머 시스템 생성
+                timerSystem = new TimerSystem(
+                        new RectF(UserDisplay.getWidth(0.1f), UserDisplay.getHeight(0.05f),
+                                UserDisplay.getWidth(0.9f), UserDisplay.getHeight(0.05f)),
+                        10.0f,
+                        75.0f
+                );
+                add(Layer.TIMER_GAUGE,timerSystem);
 
-
-        bFinishGame=false;
-//        add(Layer.RESULT,CountDownObject);
-//        new Handler().postDelayed(new Runnable(){
-//            public void run(){
-//                remove(Layer.RESULT, CountDownObject);
-//
-//                // 타이머 시스템 생성
-//                timerSystem = new TimerSystem(
-//                        new RectF(UserDisplay.getWidth(0.1f), UserDisplay.getHeight(0.05f),
-//                                UserDisplay.getWidth(0.9f), UserDisplay.getHeight(0.05f)),
-//                        10.0f,
-//                        75.0f
-//                );
-//                add(Layer.TIMER_GAUGE,timerSystem);
-//
-//                bFinishGame = false;
-//            }
-//        }, 3500);
+                bFinishGame = false;
+            }
+        }, 3500);
 
 
     }
@@ -103,6 +99,7 @@ public class FoodPrepGameScene extends BaseScene {
 
     @Override
     public void update(long elapsedNanos) {
+        if(bFinishGame) return;
         super.update(elapsedNanos);
     }
 
