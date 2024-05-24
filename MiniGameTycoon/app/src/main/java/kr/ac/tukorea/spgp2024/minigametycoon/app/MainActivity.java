@@ -15,6 +15,7 @@ import kr.ac.tukorea.spgp2024.minigametycoon.game.MyData;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FieldGameScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FoodPrepGameScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.LogoScene;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.RestaurantScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.TitleScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.TownScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
@@ -42,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
         //Metrics.setGameSize(UserDisplay.getWidth(0.0f), UserDisplay.getHeight(0.0f));
         Metrics.setGameSize(UserDisplay.getWidth(1.0f), UserDisplay.getHeight(1.0f));
 
-        new LogoScene(this,null).pushScene();
-        //new LogoScene(this,).pushScene();
+        //new LogoScene(this,null).pushScene();
+        new RestaurantScene().pushScene();
     }
 
     @Override
