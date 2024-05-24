@@ -155,13 +155,14 @@ public class MiniGameResultScene extends BaseScene {
 
     @Override
     protected int getTouchLayerIndex() {
-        return TownScene.Layer.TOUCH.ordinal();
+        return Layer.INFO.ordinal();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if(event.getAction() == MotionEvent.ACTION_DOWN){
-            popScene();
+            new TownScene().changeScene();
+
         }
         return super.onTouchEvent(event);
     }

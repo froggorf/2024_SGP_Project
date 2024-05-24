@@ -16,6 +16,7 @@ public class TownScene extends BaseScene {
     long startTime;
     Sprite fieldSprite;
     Sprite backgroundSprite;
+    static Button FieldButton, FarmButton,FoodPrepButton;
 
     public enum Layer{
         BACKGROUND, TOUCH ,COUNT
@@ -41,59 +42,6 @@ public class TownScene extends BaseScene {
         //UserDisplay.getDesiredWidth(0.5f),
         //UserDisplay.getDesiredHeight(0.5f));
         //add(Layer.HOUSE, fieldSprite);
-
-        // 밭 버튼 Press 버튼 추가
-        add(Layer.TOUCH, new Button(R.mipmap.fieldgame_board_blank,
-                UserDisplay.getWidth(0.15f),
-                UserDisplay.getHeight(0.7f),
-                UserDisplay.getDesiredWidth(0.5f),
-                UserDisplay.getDesiredHeight(0.5f),
-                new Button.Callback() {
-                    @Override
-                    public boolean onTouch(Button.Action action) {
-                        if(System.currentTimeMillis() - startTime < 1000) return false;
-                        if (action == Button.Action.pressed) {
-                            Log.w(TAG, "onTouch: 밭 눌림");
-                            new FieldGameInfoScene().pushScene();
-
-                        }
-                        return true;
-                    }
-                }));
-
-        add(Layer.TOUCH, new Button(R.mipmap.fieldgame_board_blank,
-                UserDisplay.getWidth(0.85f),
-                UserDisplay.getHeight(0.53f),
-                UserDisplay.getDesiredWidth(0.5f),
-                UserDisplay.getDesiredHeight(0.5f),
-                new Button.Callback() {
-                    @Override
-                    public boolean onTouch(Button.Action action) {
-                        if(System.currentTimeMillis() - startTime < 1000) return false;
-                        if (action == Button.Action.pressed) {
-                            new FarmGameInfoScene().pushScene();
-
-                        }
-                        return true;
-                    }
-                }));
-
-        add(Layer.TOUCH, new Button(R.mipmap.fieldgame_board_blank,
-                UserDisplay.getWidth(0.15f),
-                UserDisplay.getHeight(0.33f),
-                UserDisplay.getDesiredWidth(0.5f),
-                UserDisplay.getDesiredHeight(0.5f),
-                new Button.Callback() {
-                    @Override
-                    public boolean onTouch(Button.Action action) {
-                        if(System.currentTimeMillis() - startTime < 1000) return false;
-                        if (action == Button.Action.pressed) {
-                            new FoodPrepGameInfoScene().pushScene();
-
-                        }
-                        return true;
-                    }
-                }));
     }
 
     @Override
@@ -103,6 +51,8 @@ public class TownScene extends BaseScene {
 
     @Override
     protected void onStart() {
+        startTime = System.currentTimeMillis();
+        CreateButtons();
         // 500ms 뒤 노래 틀기
         new Handler().postDelayed(new Runnable(){
             public void run(){
@@ -115,6 +65,7 @@ public class TownScene extends BaseScene {
 
     @Override
     protected void onEnd() {
+
         Sound.stopMusic();
     }
 
@@ -145,5 +96,56 @@ public class TownScene extends BaseScene {
 
         }
         return super.onTouchEvent(event);
+    }
+
+    void CreateButtons(){
+        // 밭 버튼 Press 버튼 추가
+        add(Layer.TOUCH, new Button(R.mipmap.fieldgame_board_blank,
+                UserDisplay.getWidth(0.15f),
+                UserDisplay.getHeight(0.7f),
+                UserDisplay.getDesiredWidth(0.5f),
+                UserDisplay.getDesiredHeight(0.5f),
+                new Button.Callback() {
+                    @Override
+                    public boolean onTouch(Button.Action action) {
+                        if(System.currentTimeMillis() - startTime < 1000) return false;
+                        if (action == Button.Action.pressed) {
+                            new FarmGameInfoScene().changeScene();
+                        }
+                        return true;
+                    }
+                }));
+        add(Layer.TOUCH, new Button(R.mipmap.fieldgame_board_blank,
+                UserDisplay.getWidth(0.85f),
+                UserDisplay.getHeight(0.53f),
+                UserDisplay.getDesiredWidth(0.5f),
+                UserDisplay.getDesiredHeight(0.5f),
+                new Button.Callback() {
+                    @Override
+                    public boolean onTouch(Button.Action action) {
+                        if(System.currentTimeMillis() - startTime < 1000) return false;
+                        if (action == Button.Action.pressed) {
+                            new FieldGameInfoScene().changeScene();
+
+                        }
+                        return true;
+                    }
+                }));
+        add(Layer.TOUCH, new Button(R.mipmap.fieldgame_board_blank,
+                UserDisplay.getWidth(0.15f),
+                UserDisplay.getHeight(0.33f),
+                UserDisplay.getDesiredWidth(0.5f),
+                UserDisplay.getDesiredHeight(0.5f),
+                new Button.Callback() {
+                    @Override
+                    public boolean onTouch(Button.Action action) {
+                        if(System.currentTimeMillis() - startTime < 1000) return false;
+                        if (action == Button.Action.pressed) {
+                            new FoodPrepGameInfoScene().changeScene();
+
+                        }
+                        return true;
+                    }
+                }));
     }
 }

@@ -40,6 +40,11 @@
 
 <br>
 
+# 변경된 목표에 대한 내용
+현재(6주차) 까지 변경된 목표는 없으며,<br>
+기존 계획대로 구현 진행중
+<br>
+
 # - git commit 데이터
 **총 60 커밋**
 |**주간**|커밋 횟수|주간|커밋 횟수|
@@ -48,18 +53,14 @@
 |3주차|<img src = "Markdown2Image/3주차.png" width = "400" height = "200">|4주차|<img src = "Markdown2Image/4주차.png" width = "400" height = "200">|
 |5주차|<img src = "Markdown2Image/5주차.png" width = "400" height = "200">|6주차|<img src = "Markdown2Image/6주차.png" width = "400" height = "200">|!
 
-<br>
-
-# 변경된 목표에 대한 내용
-현재(6주차) 까지 변경된 목표는 없으며,<br>
-기존 계획대로 구현 진행중
 
 <br>
 
 # 게임에 대한 정보
 <details>
     <summary> 모든 Scene에 대한 정보 </summary>
-    <div markdown="1">       
+    <div markdown="1"> 
+          
     1. LogoScene
       - 시작이 되는 씬
       - 한국공학대학교" 타이틀 띄우기
