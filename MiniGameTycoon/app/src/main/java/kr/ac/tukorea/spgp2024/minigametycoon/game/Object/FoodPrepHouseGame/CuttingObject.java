@@ -39,6 +39,7 @@ public class CuttingObject implements IGameObject {
     float ObjectWeight;
     int ObjectIndex;
     public boolean bIsCut;
+    public boolean bTickEnabled = false;
 
     public CuttingObject(){
     }
@@ -93,6 +94,7 @@ public class CuttingObject implements IGameObject {
 
     @Override
     public void update() {
+        if(!bTickEnabled) return;
         //Velocity[Y] -= GravityScale * BaseScene.frameTime*2;
         Velocity[Y] += GravityScale*BaseScene.frameTime * ObjectWeight;
         float[] CurPos = ObjectSprite.GetCenterPosition();

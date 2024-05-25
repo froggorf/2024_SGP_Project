@@ -26,7 +26,7 @@ public class TimerSystem implements IGameObject {
 
     float currentTime = 0.0f;
     float maxPlayTime = 60.0f;
-    private boolean bTickEnabled;
+    public boolean bTickEnabled;
 
     public TimerSystem(RectF rectF, float MaxTime, float LineWidth){
         bTickEnabled = true;
@@ -48,15 +48,16 @@ public class TimerSystem implements IGameObject {
     }
     @Override
     public void update() {
-        //currentTime = Math.min(currentTime + BaseScene.frameTime, maxPlayTime);
-        if(bTickEnabled){
-            currentTime += BaseScene.frameTime;
-            if(currentTime >= maxPlayTime){
-                currentTime = maxPlayTime;
-                bTickEnabled = false;
-                BaseScene.getTopScene().FinishGame();
-            }
+
+        if(!bTickEnabled) return;
+
+        currentTime = Math.min(currentTime + BaseScene.frameTime, maxPlayTime);
+        if(currentTime >= maxPlayTime){
+            currentTime = maxPlayTime;
+            bTickEnabled = false;
+            BaseScene.getTopScene().FinishGame();
         }
+
 
     }
 
@@ -64,6 +65,7 @@ public class TimerSystem implements IGameObject {
     public void draw(Canvas canvas) {
         canvas.drawLine(DrawRect.left,DrawRect.centerY(),DrawRect.right,DrawRect.centerY(),bgPaint);
         float value = 1 - currentTime/maxPlayTime;
+
 
         if(value > 0.005){
             canvas.drawLine(DrawRect.left, DrawRect.centerY(),DrawRect.left + DrawRect.width()*value, DrawRect.centerY(),fgPaint);

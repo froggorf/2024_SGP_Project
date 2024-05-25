@@ -49,7 +49,7 @@ public class FarmGameScene extends BaseScene {
     private final int WRONG_SCORE = -1;
     Paint paint = new Paint();
     TextPaint TextPaint = new TextPaint();
-
+    CountDownClass CountDownObject;
     TimerSystem timerSystem;
 
     boolean bFinishGame = true;
@@ -101,7 +101,7 @@ public class FarmGameScene extends BaseScene {
         // 게임 초기화
         InitializeGame();
 
-        CountDownClass CountDownObject = new CountDownClass(
+        CountDownObject = new CountDownClass(
                 new RectF(UserDisplay.getWidth(0.4f), UserDisplay.getHeight(0.05f),
                         UserDisplay.getWidth(0.6f), UserDisplay.getHeight(0.05f) + UserDisplay.getWidth(0.2f)),
                 3.0f
@@ -112,18 +112,7 @@ public class FarmGameScene extends BaseScene {
         add(Layer.RESULT,CountDownObject);
         new Handler().postDelayed(new Runnable(){
             public void run(){
-                remove(Layer.RESULT, CountDownObject);
 
-                // 타이머 시스템 생성
-                timerSystem = new TimerSystem(
-                        new RectF(UserDisplay.getWidth(0.1f), UserDisplay.getHeight(0.05f),
-                                UserDisplay.getWidth(0.9f), UserDisplay.getHeight(0.05f)),
-                        10.0f,
-                        75.0f
-                );
-                add(Layer.TIMER_GAUGE,timerSystem);
-
-                bFinishGame = false;
             }
         }, 3500);
     }
@@ -252,7 +241,6 @@ public class FarmGameScene extends BaseScene {
 
     @Override
     public void update(long elapsedNanos) {
-        if(bFinishGame) return;
         super.update(elapsedNanos);
     }
 
@@ -302,6 +290,23 @@ public class FarmGameScene extends BaseScene {
                 break;
         }
         return super.onTouchEvent(event);
+    }
+    @Override
+    public void StartGame(){
+        remove(Layer.RESULT, CountDownObject);
+        AddTimerSystem();
+        bFinishGame = false;
+    }
+    @Override
+    public void AddTimerSystem(){
+        // 타이머 시스템 생성
+        timerSystem = new TimerSystem(
+                new RectF(UserDisplay.getWidth(0.1f), UserDisplay.getHeight(0.05f),
+                        UserDisplay.getWidth(0.9f), UserDisplay.getHeight(0.05f)),
+                10.0f,
+                75.0f
+        );
+        add(Layer.TIMER_GAUGE,timerSystem);
     }
 
     @Override

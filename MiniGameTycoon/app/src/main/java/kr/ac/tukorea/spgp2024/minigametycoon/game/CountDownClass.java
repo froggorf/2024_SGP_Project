@@ -18,7 +18,8 @@ public class CountDownClass implements IGameObject {
     float CountdownTime = 0.0f;
     long StartTime;
     RectF DrawRect;
-
+    float RemainTime;
+    int DrawTime;
     Paint FillPaint = new Paint();
     Paint TextPaint = new Paint();
 
@@ -36,16 +37,19 @@ public class CountDownClass implements IGameObject {
     }
 
     @Override
-    public void update() {    }
+    public void update() {
+        long now = System.currentTimeMillis();
+        RemainTime = (now - StartTime) / 1000.0f;
+
+        DrawTime = (int)(CountdownTime - RemainTime);
+        if(DrawTime <= 0)
+            BaseScene.getTopScene().StartGame();
+    }
 
     @Override
     public void draw(Canvas canvas) {
         canvas.drawRect(DrawRect,FillPaint);
 
-        long now = System.currentTimeMillis();
-        float time = (now - StartTime) / 1000.0f;
-
-        int DrawTime = (int)(CountdownTime - time);
         if(DrawTime>=0)
             canvas.drawText (String.valueOf(DrawTime),DrawRect.centerX(),DrawRect.centerY(),TextPaint);
     }
