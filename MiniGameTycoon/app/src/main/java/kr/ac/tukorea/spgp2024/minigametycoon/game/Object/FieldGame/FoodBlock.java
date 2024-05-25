@@ -27,11 +27,11 @@ public class FoodBlock {
 
     int[] FoodBitmap = {
             R.mipmap.fieldgame_board_blank,
-            R.mipmap.temp_farmgame_beet,
-            R.mipmap.temp_farmgame_carrot,
-            R.mipmap.temp_farmgame_lettuce,
-            R.mipmap.temp_farmgame_onion,
-            R.mipmap.temp_farmgame_potato,
+            R.mipmap.farmgame_beet,
+            R.mipmap.farmgame_carrot,
+            R.mipmap.farmgame_lettuce,
+            R.mipmap.farmgame_onion,
+            R.mipmap.farmgame_potato,
     };
     int[] FoodPickBitmap = {
             0,

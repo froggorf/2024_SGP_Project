@@ -29,11 +29,11 @@ public class MiniGameResultScene extends BaseScene {
     Map<Sprite, Integer> resultSpriteValueMap = new HashMap<>();
     int[] spritesResId = new int[]{
             0,
-            R.mipmap.temp_farmgame_beet,
-            R.mipmap.temp_farmgame_carrot,
-            R.mipmap.temp_farmgame_lettuce,
-            R.mipmap.temp_farmgame_onion,
-            R.mipmap.temp_farmgame_potato,
+            R.mipmap.farmgame_beet,
+            R.mipmap.farmgame_carrot,
+            R.mipmap.farmgame_lettuce,
+            R.mipmap.farmgame_onion,
+            R.mipmap.farmgame_potato,
             R.mipmap.temp_farmgame_cow,
             R.mipmap.temp_farmgame_pig,
             R.mipmap.temp_farmgame_chicken,

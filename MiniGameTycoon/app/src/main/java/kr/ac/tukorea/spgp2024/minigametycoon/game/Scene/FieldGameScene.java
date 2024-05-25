@@ -28,11 +28,11 @@ public class FieldGameScene extends BaseScene {
     private final String TAG = FieldGameScene.class.getSimpleName();
     private RectF boardRect;
     int[] resArray = new int[]{
-            R.mipmap.temp_farmgame_beet,
-            R.mipmap.temp_farmgame_carrot,
-            R.mipmap.temp_farmgame_lettuce,
-            R.mipmap.temp_farmgame_onion,
-            R.mipmap.temp_farmgame_potato
+            R.mipmap.farmgame_beet,
+            R.mipmap.farmgame_carrot,
+            R.mipmap.farmgame_lettuce,
+            R.mipmap.farmgame_onion,
+            R.mipmap.farmgame_potato
     };
     Sprite infoSprite;
     Sprite[] boxSprite = new Sprite[5];
