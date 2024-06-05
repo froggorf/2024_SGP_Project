@@ -33,11 +33,12 @@ public class RestaurantScene extends BaseScene {
                 ));
 
         // 레스토랑 객체 추가
+
         RestaurantRect = new RectF(
-                UserDisplay.getWidth(0.5f),
-                UserDisplay.getHeight(0.65f),
-                UserDisplay.getWidth(0.8f),
-                UserDisplay.getHeight(0.6f)
+                UserDisplay.getWidth(0.1f),
+                UserDisplay.getHeight(0.35f),
+                UserDisplay.getWidth(0.9f),
+                UserDisplay.getHeight(0.95f)
         );
         RestaurantObject = new Restaurant(RestaurantRect);
         add(Layer.RESTAURANT, RestaurantObject);
