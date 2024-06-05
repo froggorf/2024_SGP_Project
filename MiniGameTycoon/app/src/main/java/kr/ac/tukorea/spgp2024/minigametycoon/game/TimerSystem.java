@@ -46,19 +46,17 @@ public class TimerSystem implements IGameObject {
         fgPaint.setColor(ResourcesCompat.getColor(GameView.res, fgColorResId, null));
         fgPaint.setStrokeCap(Paint.Cap.ROUND);
     }
+
     @Override
     public void update() {
-
         if(!bTickEnabled) return;
 
-        currentTime = Math.min(currentTime + BaseScene.frameTime, maxPlayTime);
+        currentTime += BaseScene.frameTime;
         if(currentTime >= maxPlayTime){
             currentTime = maxPlayTime;
             bTickEnabled = false;
             BaseScene.getTopScene().FinishGame();
         }
-
-
     }
 
     @Override

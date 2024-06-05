@@ -207,7 +207,6 @@ public class FoodPrepGameScene extends BaseScene {
                 CurrentScore += 10;
                 ScoreMap.replace(Type,CurrentScore);
 
-
                 CuttingObjects[i].bIsCut= true;
                 add(Layer.SLICED_OBJECT, new SlicedObject(CuttingObjects[i]));
             }
