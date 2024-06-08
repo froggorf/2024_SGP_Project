@@ -21,7 +21,7 @@ public class RestaurantData {
     private static String filePath = "Restaurant_Data.txt";
     static private Context CONTEXT = null;
 
-    static EFurnitureType[][] FurnitureTypeData;
+    static public EFurnitureType[][] FurnitureTypeData;
 
     static public void SetContext(Context context){
         CONTEXT = context;

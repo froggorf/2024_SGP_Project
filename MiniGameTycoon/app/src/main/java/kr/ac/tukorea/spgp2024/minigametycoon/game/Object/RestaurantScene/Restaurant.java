@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.IGameObject;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.RestaurantData;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.enums.EFurnitureType;
 
 public class Restaurant implements IGameObject {
@@ -43,6 +44,14 @@ public class Restaurant implements IGameObject {
                 FurnitureRect.set(Center[X],Center[Y],RestaurantSize.width()/RestaurantTileNum[X], RestaurantSize.height()/RestaurantTileNum[Y]);
 
                 FurnitureObjects[x][y].SetFurnitureRect(FurnitureRect);
+            }
+        }
+
+        // 데이터 로드하여 type 변경하기
+        EFurnitureType[][] Data = RestaurantData.FurnitureTypeData;
+        for(int x = 0; x < RestaurantTileNum[X]; ++x) {
+            for (int y = 0; y < RestaurantTileNum[Y]; ++y) {
+                FurnitureObjects[x][y].SetType(Data[x][y]);
             }
         }
     }
