@@ -82,13 +82,23 @@ public class RestaurantData {
             bw.write("6 8");
             bw.newLine();
             // 값 저장
-            for(int y = 0; y < 8; ++y){
-                for(int x = 0; x < 6; ++x){
-                    bw.write(String.format("%d",(int)(Math.random()*EFurnitureType.SIZE.ordinal()-1)) );
-                    bw.write(' ');
-                }
-                bw.newLine();
-            }
+            //for(int y = 0; y < 8; ++y){
+            //    for(int x = 0; x < 6; ++x){
+            //        bw.write(String.format("%d",(int)(Math.random()*EFurnitureType.SIZE.ordinal()-1)) );
+            //        bw.write(' ');
+            //    }
+            //    bw.newLine();
+            //}
+
+            bw.write("0 0 0 0 0 0 "); bw.newLine();
+            bw.write("0 1 1 1 1 0 "); bw.newLine();
+            bw.write("0 0 0 0 0 0 "); bw.newLine();
+            bw.write("0 0 0 0 0 0 "); bw.newLine();
+            bw.write("0 3 0 0 3 0 "); bw.newLine();
+            bw.write("0 0 0 0 0 0 "); bw.newLine();
+            bw.write("0 0 0 0 0 0 "); bw.newLine();
+            bw.write("0 0 0 0 0 0 "); bw.newLine();
+
             bw.close();
 
         }catch (Exception e){
