@@ -12,6 +12,7 @@ import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.GameView;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.Metrics;
 
 import kr.ac.tukorea.spgp2024.minigametycoon.game.MyData;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.RestaurantData;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FieldGameScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FoodPrepGameScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.LogoScene;
@@ -37,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
         MyData.SetContext(this);
         MyData.CreateDummyDataFile();
         MyData.ReadData();
+
+        RestaurantData.SetContext(this);
+        RestaurantData.CreateDummyDataFile();
+        RestaurantData.ReadData();
 
         UserDisplay.createUserDisplay(getWindowManager().getDefaultDisplay());
 
