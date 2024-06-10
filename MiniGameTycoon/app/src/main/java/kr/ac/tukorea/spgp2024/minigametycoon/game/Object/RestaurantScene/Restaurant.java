@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.LongStream;
 
 import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.IGameObject;
@@ -30,6 +31,8 @@ public class Restaurant implements IGameObject {
     Sprite TileSprite;
 
     List<Customer> Customers = new ArrayList<>();
+    List<Chef> Chefs = new ArrayList<>();
+
     boolean[] Table;
 
     public Restaurant(RectF Size) {
@@ -63,9 +66,25 @@ public class Restaurant implements IGameObject {
             }
         }
 
-        for(int i =0; i<10; ++i){
-            Customers.add(new Customer(RestaurantSize.top, RestaurantSize.top - UserDisplay.getHeight(0.1f)*2));
+        // 데이터 로드하여 Chef 생성
+        {
+            // 시간 관계로 인하여 하드 코딩
+            int ChefCount = RestaurantData.CurChefCount;
+            if(ChefCount >= 1){
+                Chefs.add(new Chef(GetTileCenterPos(1,5)));
+            }
+            if(ChefCount>=2){
+                Chefs.add(new Chef(GetTileCenterPos(4,5)));
+            }
         }
+
+        // 초기 손님 생성
+        {
+            for(int i =0; i<10; ++i){
+                Customers.add(new Customer(RestaurantSize.top, RestaurantSize.top - UserDisplay.getHeight(0.1f)*2));
+            }
+        }
+
     }
 
     @Override
@@ -97,9 +116,17 @@ public class Restaurant implements IGameObject {
             }
         }
 
+        // TODO: ************************
+        // TODO: 추후 PersonClass는 가구에 일부 가려질 수 있도록 그리게 할 예정
+        // TODO: ************************
+
         // 손님 그리기
         for(int i = 0; i < Customers.size(); ++i){
             Customers.get(i).draw(canvas);
+        }
+
+        for(int i =0; i<Chefs.size();++i){
+            Chefs.get(i).draw(canvas);
         }
     }
 

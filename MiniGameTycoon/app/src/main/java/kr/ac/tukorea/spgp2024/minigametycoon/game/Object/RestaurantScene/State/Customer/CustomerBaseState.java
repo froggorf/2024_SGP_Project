@@ -15,6 +15,6 @@ public class CustomerBaseState extends BaseState {
 
     @Override
     public void Draw(Canvas canvas){
-        if(PersonSprite != null) PersonSprite.draw(canvas);
+        super.Draw(canvas);
     }
 }

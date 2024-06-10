@@ -30,6 +30,6 @@ public class BaseState {
     }
 
     public void Draw(Canvas canvas){
-
+        if(PersonSprite != null) PersonSprite.draw(canvas);
     }
 }

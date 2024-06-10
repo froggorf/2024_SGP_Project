@@ -61,5 +61,9 @@ public class AnimSprite extends Sprite {
         }
     }
 
+    public Rect getSrcRect(){
+        return srcRect;
+    }
+
 
 }
