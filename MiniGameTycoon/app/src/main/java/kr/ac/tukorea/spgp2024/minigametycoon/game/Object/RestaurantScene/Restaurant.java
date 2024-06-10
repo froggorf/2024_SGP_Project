@@ -32,9 +32,11 @@ public class Restaurant implements IGameObject {
 
     List<Customer> Customers = new ArrayList<>();
     List<Chef> Chefs = new ArrayList<>();
+    List<Server> Servers = new ArrayList<>();
 
     public int OrderIDNumber = 0;
     public List<OrderData> Orders = new ArrayList<>();
+    public List<DishData> Dishes = new ArrayList<>();
 
     boolean[] Table;
 
@@ -81,6 +83,18 @@ public class Restaurant implements IGameObject {
             }
         }
 
+        // 데이터 로드하여 서빙알바생 생성
+        {
+            // 시간 관계로 인하여 하드 코딩
+            int ServerCount = RestaurantData.CurServerCount;
+            if(ServerCount >= 1){
+                Servers.add(new Server(GetTileCenterPos(1,2)));
+            }
+            if(ServerCount>=2){
+                Servers.add(new Server(GetTileCenterPos(4,2)));
+            }
+        }
+
         // 초기 손님 생성
         {
             for(int i =0; i<10; ++i){
@@ -100,6 +114,11 @@ public class Restaurant implements IGameObject {
         // Chef 행동
         for(int i = 0; i < Chefs.size(); ++i){
             Chefs.get(i).update();
+        }
+
+        // Server 행동
+        for(int i = 0; i < Servers.size(); ++i){
+            Servers.get(i).update();
         }
     }
 
@@ -133,8 +152,14 @@ public class Restaurant implements IGameObject {
             Customers.get(i).draw(canvas);
         }
 
+        // 요리사 그리기
         for(int i =0; i<Chefs.size();++i){
             Chefs.get(i).draw(canvas);
+        }
+
+        // 서빙 알바생 그리기
+        for(int i =0; i<Servers.size();++i){
+            Servers.get(i).draw(canvas);
         }
     }
 

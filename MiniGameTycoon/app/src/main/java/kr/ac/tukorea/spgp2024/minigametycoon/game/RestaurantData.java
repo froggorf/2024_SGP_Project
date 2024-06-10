@@ -118,7 +118,7 @@ public class RestaurantData {
             bw.write("0 1 1 1 1 0 \n");
             bw.write("0 0 0 0 0 0 \n");
             bw.write("0 0 0 0 0 0 \n");
-            bw.write("0 3 0 0 3 0 \n");
+            bw.write("0 3 1 1 3 0 \n");
             bw.write("0 0 0 0 0 0 \n");
             bw.write("0 0 0 0 0 0 \n");
             bw.write("0 0 0 0 0 0 \n");

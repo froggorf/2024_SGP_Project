@@ -20,6 +20,7 @@ public class EnterRestaurantState extends CustomerBaseState{
     float LerpAlpha = 0.0f;
     boolean bFaceRight = true;
     int[] TableTileNum;
+    float MoveTime = 2.0f;
     public EnterRestaurantState(Person Owner, float[] CustomerStartLocation, float[] CustomerEndLocation, int[] TableTileNum){
         super(Owner);
 
@@ -52,7 +53,7 @@ public class EnterRestaurantState extends CustomerBaseState{
     public void Update() {
         super.Update();
 
-        LerpAlpha += BaseScene.frameTime / 0.25;
+        LerpAlpha += BaseScene.frameTime / MoveTime;
 
         if(LerpAlpha >= 1.0f){
             LerpAlpha = 1.0f;

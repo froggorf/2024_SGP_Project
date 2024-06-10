@@ -9,13 +9,15 @@ import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.AnimSprite;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.util.Gauge;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.RestaurantScene.DishData;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.RestaurantScene.OrderData;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.RestaurantScene.Person;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.RestaurantScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 
 public class ChefCookState extends ChefBaseState{
     OrderData OrderData;
-    float CookTime = 5.0f;   //5s
+    float CookTime = 3.0f;   //5s
     float CurrentCookTime = 0;
     Gauge CookGauge;
     float[] CurrentLocation;
@@ -49,8 +51,10 @@ public class ChefCookState extends ChefBaseState{
     public void Update() {
         super.Update();
         CurrentCookTime += BaseScene.frameTime;
-        Log.d("TAG", "Update: " + CurrentCookTime);
         if(CurrentCookTime >= CookTime){
+            DishData Dish = new DishData(OrderData);
+            ((RestaurantScene)(BaseScene.getTopScene())).RestaurantObject.Dishes.add(Dish);
+
             Exit();
             StateOwner.State = new ChefRestState(StateOwner,CurrentLocation);
             StateOwner.State.Enter();
