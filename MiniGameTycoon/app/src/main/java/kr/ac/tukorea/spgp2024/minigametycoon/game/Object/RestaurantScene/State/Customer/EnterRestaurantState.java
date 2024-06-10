@@ -18,6 +18,7 @@ public class EnterRestaurantState extends CustomerBaseState{
     float[] StartLocation = new float[2];
     float[] EndLocation = new float[2];
     float LerpAlpha = 0.0f;
+    boolean bFaceRight = true;
     public EnterRestaurantState(Person Owner, float[] CustomerStartLocation, float[] CustomerEndLocation){
         super(Owner);
 
@@ -29,6 +30,7 @@ public class EnterRestaurantState extends CustomerBaseState{
 
 
         if(CustomerStartLocation[X] > CustomerEndLocation[X]){
+            bFaceRight =false;
             PersonSprite.setBitmapResource(R.mipmap.temp_customer_walk_left);
         }
 
@@ -52,7 +54,9 @@ public class EnterRestaurantState extends CustomerBaseState{
 
         if(LerpAlpha >= 1.0f){
             LerpAlpha = 1.0f;
-
+            Exit();
+            StateOwner.State = new WaitFoodState(StateOwner,EndLocation,bFaceRight);
+            return;
         }
 
         PersonSprite.moveTo(
