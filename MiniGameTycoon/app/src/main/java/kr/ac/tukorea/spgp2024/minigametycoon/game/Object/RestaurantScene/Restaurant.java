@@ -16,6 +16,7 @@ import java.util.stream.LongStream;
 import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.IGameObject;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.RestaurantScene.State.Customer.CustomerExitState;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.RestaurantData;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.enums.EFurnitureType;
@@ -188,4 +189,12 @@ public class Restaurant implements IGameObject {
         return ReturnValue;
     }
 
+    public void GiveDishToCustomer(DishData Dish){
+        Table[Dish.CustomerOrderData.OrderTable[0] - 1] = false;
+        Dish.CustomerOrderData.OrderedCustomer.State.Exit();
+        int[] TileNum = Dish.CustomerOrderData.OrderTable;
+        TileNum[Y] -=2;
+        Dish.CustomerOrderData.OrderedCustomer.State = new CustomerExitState(Dish.CustomerOrderData.OrderedCustomer, GetTileCenterPos(TileNum[X],TileNum[Y]),RestaurantSize.top, RestaurantSize.top - UserDisplay.getHeight(0.1f)*2);
+        Dish.CustomerOrderData.OrderedCustomer.State.Enter();
+    }
 }

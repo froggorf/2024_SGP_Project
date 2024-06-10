@@ -34,7 +34,7 @@ public class ServerServeState extends ServerBaseState {
 
         DishTableLocation = ((RestaurantScene)(BaseScene.getTopScene())).RestaurantObject.GetTileCenterPos(3,3);
         DishTableLocation[0] += ((RestaurantScene)(BaseScene.getTopScene())).RestaurantObject.GetTileCenterPos(4,3)[0];
-        DishTableLocation[0] /= 2.0f;
+        DishTableLocation[0] /= 2.5f;
 
         int[] CustomerTileNum = CustomerDishData.CustomerOrderData.OrderTable;
         CustomerTileNum[1] += 2;
@@ -82,6 +82,9 @@ public class ServerServeState extends ServerBaseState {
         {
             if(LerpAlpha >= 1.0f){
                 CurrentLocation = CustomerLocation;
+
+                ((RestaurantScene)(BaseScene.getTopScene())).RestaurantObject.GiveDishToCustomer(CustomerDishData);
+
                 Exit();
                 StateOwner.State = new ServerRestState(StateOwner,CurrentLocation);
                 StateOwner.State.Enter();

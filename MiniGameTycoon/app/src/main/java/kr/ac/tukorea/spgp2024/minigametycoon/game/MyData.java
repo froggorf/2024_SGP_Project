@@ -43,9 +43,6 @@ public class MyData {
             throw new RuntimeException(e);
         }
 
-        for(int i =0; i<EDataName.EDN_SIZE.ordinal(); ++i){
-            Log.d(TAG, "ReadData: " + EDataName.values()[i].name() + " "+ DataMap.get(EDataName.values()[i]));
-        }
     }
 
     // 파일로 데이터를 저장하는 함수

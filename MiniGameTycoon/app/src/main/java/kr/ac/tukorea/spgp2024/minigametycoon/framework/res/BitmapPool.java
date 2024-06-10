@@ -23,7 +23,7 @@ public class BitmapPool {
                 opts.inScaled = false;
             }
             bitmap = BitmapFactory.decodeResource(res, mipmapResId, opts);
-            Log.d(TAG, "Bitmap ID " + mipmapResId + " : " + bitmap.getWidth() + "x" + bitmap.getHeight());
+
             bitmaps.put(mipmapResId, bitmap);
         }
         return bitmap;

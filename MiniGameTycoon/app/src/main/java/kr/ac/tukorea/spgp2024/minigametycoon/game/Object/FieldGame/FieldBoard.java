@@ -136,7 +136,6 @@ public class FieldBoard implements IGameObject {
 
         // 빈 칸에 대한 플래그 처리
         if(bHasEmptyBlock){
-            Log.d(TAG, "update: 공백 처리");
             boolean IsDownAtLeastOne = false;
             Set<Point> emptyFoodBlockSet = new HashSet<>();
             // x축 왼쪽부터

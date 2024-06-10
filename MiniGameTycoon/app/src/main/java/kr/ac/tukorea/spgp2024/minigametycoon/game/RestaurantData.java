@@ -78,7 +78,6 @@ public class RestaurantData {
                 String GoldData = br.readLine();
                 GoldData.replace('\n','\0');
                 CurGold = Integer.parseInt(GoldData);
-                Log.d(TAG, "ReadData: " + CurGold);
             }
 
 
@@ -125,10 +124,10 @@ public class RestaurantData {
 
             bw.write("Chef Data\n");
             bw.write("2\n");
-            bw.write("1\n");
+            bw.write("2\n");
             bw.write("Server Data\n");
             bw.write("2\n");
-            bw.write("1\n");
+            bw.write("2\n");
 
             bw.write("GOLD\n");
             bw.write("10000\n");

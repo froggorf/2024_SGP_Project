@@ -16,7 +16,6 @@ public class PersonAnimSprite extends AnimSprite {
 
     @Override
     public void draw(Canvas canvas) {
-        Log.d("?????????????????", "draw: dlrjs?");
         long now = System.currentTimeMillis();
         float time = (now - createdOn) / 1000.0f;
         int frameIndex = Math.round(time * fps) % frameCount;

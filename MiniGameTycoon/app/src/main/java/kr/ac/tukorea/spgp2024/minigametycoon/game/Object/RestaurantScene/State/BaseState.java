@@ -14,7 +14,6 @@ public class BaseState {
     public BaseState(Person Owner){
         StartTime = System.currentTimeMillis();;
         StateOwner = Owner;
-        Log.d("BaseState", "BaseState: 실행" );
     }
 
     public void Enter(){

@@ -149,7 +149,6 @@ public class FarmGameScene extends BaseScene {
     }
 
     private void FeedAnimal(EFarmAnimalType FeedAnimalType){
-        Log.d(TAG, "FeedAnimal: " + FeedAnimalType.name());
         EFarmAnimalType CurrentAnimalType = Animals[CurFrontAnimalIndex];
         boolean bCorrect = false;
         if(FeedAnimalType == CurrentAnimalType){
