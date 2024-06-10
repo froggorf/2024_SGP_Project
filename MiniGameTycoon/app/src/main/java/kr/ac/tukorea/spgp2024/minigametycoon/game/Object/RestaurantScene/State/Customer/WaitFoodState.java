@@ -1,38 +1,27 @@
 package kr.ac.tukorea.spgp2024.minigametycoon.game.Object.RestaurantScene.State.Customer;
 
 import android.graphics.Canvas;
-import android.graphics.Interpolator;
-import android.util.Log;
-
-import java.util.Random;
 
 import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.AnimSprite;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.RestaurantScene.Person;
-import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.RestaurantScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 
-public class EnterRestaurantState extends CustomerBaseState{
+public class WaitFoodState extends  CustomerBaseState{
     static int X = 0; static int Y = 1;
-    float[] StartLocation = new float[2];
-    float[] EndLocation = new float[2];
     float LerpAlpha = 0.0f;
-    public EnterRestaurantState(Person Owner, float[] CustomerStartLocation, float[] CustomerEndLocation){
+    public WaitFoodState(Person Owner, float[] CustomerStartLocation, boolean bFaceRight){
         super(Owner);
 
         PersonSprite = new AnimSprite(R.mipmap.temp_customer_walk_right,0,0,52*1.6f,62*1.6f,4,8);
         PersonSprite.Resize(UserDisplay.getWidth(0.1f),UserDisplay.getHeight(0.1f));
 
-        StartLocation = CustomerStartLocation;
-        EndLocation = CustomerEndLocation;
-
-
-        if(CustomerStartLocation[X] > CustomerEndLocation[X]){
-            PersonSprite.setBitmapResource(R.mipmap.temp_customer_walk_left);
+        if(!bFaceRight){
+            //PersonSprite.setBitmapResource(R.mipmap.temp_customer_walk_left);
         }
 
-        PersonSprite.moveTo(StartLocation[X], StartLocation[Y]);
+        PersonSprite.moveTo(CustomerStartLocation[X], CustomerStartLocation[Y]);
     }
     @Override
     public void Enter() {
