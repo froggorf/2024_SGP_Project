@@ -4,10 +4,14 @@ import android.graphics.RectF;
 import android.os.Handler;
 import android.view.MotionEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.res.Sound;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.RestaurantScene.Customer;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.RestaurantScene.Restaurant;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 
@@ -20,8 +24,6 @@ public class RestaurantScene extends BaseScene {
 
     RectF RestaurantRect;
     Restaurant RestaurantObject;
-
-
 
     public RestaurantScene() {
         // 레이어 초기화
@@ -53,6 +55,8 @@ public class RestaurantScene extends BaseScene {
                 RestaurantRect.top - RoadSize,
                 UserDisplay.getWidth(1.0f),
                 RoadSize*2));
+
+
     }
 
     @Override
@@ -103,5 +107,9 @@ public class RestaurantScene extends BaseScene {
             //new FarmGameScene().changeScene();
         }
         return super.onTouchEvent(event);
+    }
+
+    public float[] IsRestaurantEmpty(){
+        return RestaurantObject.EnterRestaurant();
     }
 }

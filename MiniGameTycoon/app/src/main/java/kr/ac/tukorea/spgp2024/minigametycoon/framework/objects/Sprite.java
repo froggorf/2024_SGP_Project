@@ -91,4 +91,18 @@ public class Sprite implements IGameObject {
     public RectF GetDstRect(){
         return dstRect;
     }
+
+    public void MoveOffset(float x, float y){
+        this.x += x;
+        this.y += y;
+        fixDstRect();
+    }
+    public float[] GetLocation(){
+        return new float[]{this.x,this.y };
+    }
+    public void Resize(float width, float height){
+        this.width = width;
+        this.height = height;
+        fixDstRect();
+    }
 }

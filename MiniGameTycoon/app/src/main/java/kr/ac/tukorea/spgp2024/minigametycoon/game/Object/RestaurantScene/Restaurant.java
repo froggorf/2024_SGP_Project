@@ -9,10 +9,14 @@ import android.util.Size;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.interfaces.IGameObject;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.RestaurantData;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.enums.EFurnitureType;
 
 public class Restaurant implements IGameObject {
@@ -25,6 +29,8 @@ public class Restaurant implements IGameObject {
 
     Sprite TileSprite;
 
+    List<Customer> Customers = new ArrayList<>();
+    boolean[] Table;
 
     public Restaurant(RectF Size) {
         RestaurantSize.set(Size);
@@ -33,6 +39,8 @@ public class Restaurant implements IGameObject {
     }
 
     private void InitialLoad() {
+        Table = new boolean[]{false,false,false,false};
+
         if(TileSprite == null) TileSprite = new Sprite(R.mipmap.temp_restaurant_tile, -100, -100, RestaurantSize.width()/RestaurantTileNum[X], RestaurantSize.height()/RestaurantTileNum[Y]);
 
         FurnitureObjects = new FurnitureObject[RestaurantTileNum[X]][RestaurantTileNum[Y]];
@@ -55,12 +63,17 @@ public class Restaurant implements IGameObject {
             }
         }
 
-
+        for(int i =0; i<10; ++i){
+            Customers.add(new Customer(RestaurantSize.top, RestaurantSize.top - UserDisplay.getHeight(0.1f)*2));
+        }
     }
 
     @Override
     public void update() {
-
+        // 손님 행동
+        for(int i = 0; i < Customers.size(); ++i){
+            Customers.get(i).update();
+        }
     }
 
     @Override
@@ -84,6 +97,10 @@ public class Restaurant implements IGameObject {
             }
         }
 
+        // 손님 그리기
+        for(int i = 0; i < Customers.size(); ++i){
+            Customers.get(i).draw(canvas);
+        }
     }
 
     private float[] GetTileCenterPos(int x, int y){
@@ -95,4 +112,19 @@ public class Restaurant implements IGameObject {
 
         return CenterPos;
     }
+
+    public float[] EnterRestaurant(){
+        float[] ReturnValue = new float[]{-1,-1};
+        for (int i =0; i<4; ++i)
+        {
+            if(!Table[i])
+            {
+                Table[i] = true;
+                return GetTileCenterPos(1+i,0);
+            }
+        }
+        return ReturnValue;
+    }
+
+
 }
