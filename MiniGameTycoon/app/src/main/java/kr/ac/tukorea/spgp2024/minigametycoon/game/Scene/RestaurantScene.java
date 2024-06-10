@@ -15,11 +15,14 @@ public class RestaurantScene extends BaseScene {
     private final String TAG = RestaurantScene.class.getSimpleName();
 
     public enum Layer{
-        BACKGROUND, RESTAURANT,TOUCH, COUNT
+        BACKGROUND, ROAD , RESTAURANT,TOUCH, COUNT
     }
 
     RectF RestaurantRect;
     Restaurant RestaurantObject;
+
+
+
     public RestaurantScene() {
         // 레이어 초기화
         initLayers(Layer.COUNT);
@@ -33,7 +36,6 @@ public class RestaurantScene extends BaseScene {
                 ));
 
         // 레스토랑 객체 추가
-
         RestaurantRect = new RectF(
                 UserDisplay.getWidth(0.1f),
                 UserDisplay.getHeight(0.35f),
@@ -43,6 +45,14 @@ public class RestaurantScene extends BaseScene {
         RestaurantObject = new Restaurant(RestaurantRect);
         add(Layer.RESTAURANT, RestaurantObject);
 
+
+        // 길 스프라이트 추가
+        float RoadSize = UserDisplay.getHeight(0.1f);
+        add(Layer.ROAD, new Sprite(R.mipmap.temp_restaurant_road,
+                UserDisplay.getWidth(0.5f),
+                RestaurantRect.top - RoadSize,
+                UserDisplay.getWidth(1.0f),
+                RoadSize*2));
     }
 
     @Override

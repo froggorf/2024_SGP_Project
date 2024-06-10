@@ -54,6 +54,8 @@ public class Restaurant implements IGameObject {
                 FurnitureObjects[x][y].SetType(Data[x][y]);
             }
         }
+
+
     }
 
     @Override
