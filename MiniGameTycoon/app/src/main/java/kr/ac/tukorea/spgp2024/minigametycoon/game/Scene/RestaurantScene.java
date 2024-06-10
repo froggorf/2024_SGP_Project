@@ -23,7 +23,7 @@ public class RestaurantScene extends BaseScene {
     }
 
     RectF RestaurantRect;
-    Restaurant RestaurantObject;
+    public Restaurant RestaurantObject;
 
     public RestaurantScene() {
         // 레이어 초기화
@@ -109,7 +109,7 @@ public class RestaurantScene extends BaseScene {
         return super.onTouchEvent(event);
     }
 
-    public float[] IsRestaurantEmpty(){
-        return RestaurantObject.EnterRestaurant();
+    public float[] IsRestaurantEmpty(int[] TableTileNum){
+        return RestaurantObject.EnterRestaurant(TableTileNum);
     }
 }

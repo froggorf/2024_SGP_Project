@@ -33,6 +33,9 @@ public class Restaurant implements IGameObject {
     List<Customer> Customers = new ArrayList<>();
     List<Chef> Chefs = new ArrayList<>();
 
+    public int OrderIDNumber = 0;
+    public List<OrderData> Orders = new ArrayList<>();
+
     boolean[] Table;
 
     public Restaurant(RectF Size) {
@@ -93,6 +96,11 @@ public class Restaurant implements IGameObject {
         for(int i = 0; i < Customers.size(); ++i){
             Customers.get(i).update();
         }
+
+        // Chef 행동
+        for(int i = 0; i < Chefs.size(); ++i){
+            Chefs.get(i).update();
+        }
     }
 
     @Override
@@ -130,7 +138,7 @@ public class Restaurant implements IGameObject {
         }
     }
 
-    private float[] GetTileCenterPos(int x, int y){
+    public float[] GetTileCenterPos(int x, int y){
         float[] CenterPos = new float[2];
         // 좌측 + 각 칸당 길이 * (x + 0.5)
         CenterPos[X] = RestaurantSize.left + TileSprite.getWidth() * (x + 0.5f);
@@ -140,18 +148,19 @@ public class Restaurant implements IGameObject {
         return CenterPos;
     }
 
-    public float[] EnterRestaurant(){
+    public float[] EnterRestaurant(int[] TableTileNum){
         float[] ReturnValue = new float[]{-1,-1};
         for (int i =0; i<4; ++i)
         {
             if(!Table[i])
             {
                 Table[i] = true;
+                TableTileNum[0] = 1+i;
+                TableTileNum[1] = 0;
                 return GetTileCenterPos(1+i,0);
             }
         }
         return ReturnValue;
     }
-
 
 }

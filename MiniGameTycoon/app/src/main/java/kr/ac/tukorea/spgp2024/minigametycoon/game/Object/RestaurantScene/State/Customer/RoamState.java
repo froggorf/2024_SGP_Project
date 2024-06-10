@@ -30,6 +30,7 @@ public class RoamState extends CustomerBaseState {
     boolean bTry = false;
     float RoadStartY, RoadEndY;
     float[] RestaurantLocation;
+    int[] TableTileNum;
     public RoamState(Person Owner, float RoadStartY, float RoadEndY){
         super(Owner);
         this.RoadStartY =RoadStartY;
@@ -80,7 +81,7 @@ public class RoamState extends CustomerBaseState {
                 if(PersonSprite.GetLocation()[X] >= UserDisplay.getWidth(0.4f)){
                     if(CanEnterRestaurant()){
                         Exit();
-                        StateOwner.State = new EnterRestaurantState(StateOwner, PersonSprite.GetLocation(), RestaurantLocation);
+                        StateOwner.State = new EnterRestaurantState(StateOwner, PersonSprite.GetLocation(), RestaurantLocation,TableTileNum);
                     }
                 }
             }
@@ -96,7 +97,7 @@ public class RoamState extends CustomerBaseState {
                 if(PersonSprite.GetLocation()[X] <= UserDisplay.getWidth(0.6f)){
                     if(CanEnterRestaurant()){
                         Exit();
-                        StateOwner.State = new EnterRestaurantState(StateOwner, PersonSprite.GetLocation(), RestaurantLocation);
+                        StateOwner.State = new EnterRestaurantState(StateOwner, PersonSprite.GetLocation(), RestaurantLocation,TableTileNum);
                     }
                 }
             }
@@ -116,7 +117,9 @@ public class RoamState extends CustomerBaseState {
     private boolean CanEnterRestaurant(){
         bTry = true;
         if(new Random().nextBoolean()){
-            RestaurantLocation =((RestaurantScene)(BaseScene.getTopScene())).IsRestaurantEmpty();
+            TableTileNum = new int[]{-1,-1};
+            RestaurantLocation =((RestaurantScene)(BaseScene.getTopScene())).IsRestaurantEmpty(TableTileNum);
+
             if(RestaurantLocation[0] > 0.0f){
                 return true;
             }
