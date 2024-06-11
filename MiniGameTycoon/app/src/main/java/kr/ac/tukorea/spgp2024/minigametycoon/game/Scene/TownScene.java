@@ -99,53 +99,84 @@ public class TownScene extends BaseScene {
     }
 
     void CreateButtons(){
-        // 밭 버튼 Press 버튼 추가
-        add(Layer.TOUCH, new Button(R.mipmap.fieldgame_board_blank,
-                UserDisplay.getWidth(0.15f),
-                UserDisplay.getHeight(0.7f),
-                UserDisplay.getDesiredWidth(0.5f),
-                UserDisplay.getDesiredHeight(0.5f),
-                new Button.Callback() {
-                    @Override
-                    public boolean onTouch(Button.Action action) {
-                        if(System.currentTimeMillis() - startTime < 1000) return false;
-                        if (action == Button.Action.pressed) {
-                            new FarmGameInfoScene().changeScene();
+        // 목장 버튼 Press 버튼 추가
+        {
+            add(Layer.TOUCH, new Button(R.mipmap.fieldgame_board_blank,
+                    UserDisplay.getWidth(0.15f),
+                    UserDisplay.getHeight(0.75f),
+                    UserDisplay.getDesiredWidth(0.5f),
+                    UserDisplay.getDesiredHeight(0.5f),
+                    new Button.Callback() {
+                        @Override
+                        public boolean onTouch(Button.Action action) {
+                            if(System.currentTimeMillis() - startTime < 1000) return false;
+                            if (action == Button.Action.pressed) {
+                                new FarmGameInfoScene().changeScene();
+                            }
+                            return true;
                         }
-                        return true;
-                    }
-                }));
-        add(Layer.TOUCH, new Button(R.mipmap.fieldgame_board_blank,
-                UserDisplay.getWidth(0.85f),
-                UserDisplay.getHeight(0.53f),
-                UserDisplay.getDesiredWidth(0.5f),
-                UserDisplay.getDesiredHeight(0.5f),
-                new Button.Callback() {
-                    @Override
-                    public boolean onTouch(Button.Action action) {
-                        if(System.currentTimeMillis() - startTime < 1000) return false;
-                        if (action == Button.Action.pressed) {
-                            new FieldGameInfoScene().changeScene();
+                    }));
+        }
 
-                        }
-                        return true;
-                    }
-                }));
-        add(Layer.TOUCH, new Button(R.mipmap.fieldgame_board_blank,
-                UserDisplay.getWidth(0.15f),
-                UserDisplay.getHeight(0.33f),
-                UserDisplay.getDesiredWidth(0.5f),
-                UserDisplay.getDesiredHeight(0.5f),
-                new Button.Callback() {
-                    @Override
-                    public boolean onTouch(Button.Action action) {
-                        if(System.currentTimeMillis() - startTime < 1000) return false;
-                        if (action == Button.Action.pressed) {
-                            new FoodPrepGameInfoScene().changeScene();
+        // 밭 미니게임
+        {
+            add(Layer.TOUCH, new Button(R.mipmap.fieldgame_board_blank,
+                    UserDisplay.getWidth(0.85f),
+                    UserDisplay.getHeight(0.53f),
+                    UserDisplay.getDesiredWidth(0.5f),
+                    UserDisplay.getDesiredHeight(0.25f),
+                    new Button.Callback() {
+                        @Override
+                        public boolean onTouch(Button.Action action) {
+                            if(System.currentTimeMillis() - startTime < 1000) return false;
+                            if (action == Button.Action.pressed) {
+                                new FieldGameInfoScene().changeScene();
 
+                            }
+                            return true;
                         }
-                        return true;
-                    }
-                }));
+                    }));
+        }
+
+        //재료 가공소
+        {
+            add(Layer.TOUCH, new Button(R.mipmap.fieldgame_board_blank,
+                    UserDisplay.getWidth(0.15f),
+                    UserDisplay.getHeight(0.33f),
+                    UserDisplay.getDesiredWidth(0.5f),
+                    UserDisplay.getDesiredHeight(0.3f),
+                    new Button.Callback() {
+                        @Override
+                        public boolean onTouch(Button.Action action) {
+                            if(System.currentTimeMillis() - startTime < 1000) return false;
+                            if (action == Button.Action.pressed) {
+                                new FoodPrepGameInfoScene().changeScene();
+
+                            }
+                            return true;
+                        }
+                    }));
+        }
+
+        // 레스토랑
+        {
+            add(Layer.TOUCH, new Button(R.mipmap.fieldgame_board_blank,
+                    UserDisplay.getWidth(0.75f),
+                    UserDisplay.getHeight(0.25f),
+                    UserDisplay.getDesiredWidth(0.4f),
+                    UserDisplay.getDesiredHeight(0.25f),
+                    new Button.Callback() {
+                        @Override
+                        public boolean onTouch(Button.Action action) {
+                            if(System.currentTimeMillis() - startTime < 1000) return false;
+                            if (action == Button.Action.pressed) {
+                                new RestaurantScene().changeScene();
+
+                            }
+                            return true;
+                        }
+                    }));
+        }
+
     }
 }

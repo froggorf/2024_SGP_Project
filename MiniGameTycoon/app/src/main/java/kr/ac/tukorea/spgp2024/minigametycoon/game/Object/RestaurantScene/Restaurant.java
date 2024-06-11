@@ -80,7 +80,7 @@ public class Restaurant implements IGameObject {
                 Chefs.add(new Chef(GetTileCenterPos(1,5)));
             }
             if(ChefCount>=2){
-                Chefs.add(new Chef(GetTileCenterPos(4,5)));
+                AddSecondChef();
             }
         }
 
@@ -92,7 +92,7 @@ public class Restaurant implements IGameObject {
                 Servers.add(new Server(GetTileCenterPos(1,2)));
             }
             if(ServerCount>=2){
-                Servers.add(new Server(GetTileCenterPos(4,2)));
+                AddSecondServer();
             }
         }
 
@@ -134,6 +134,11 @@ public class Restaurant implements IGameObject {
             }
         }
 
+        // 손님 그리기
+        for(int i = 0; i < Customers.size(); ++i){
+            Customers.get(i).draw(canvas);
+        }
+
         // Furniture 가구 그리기
         {
             for(int x = 0; x<RestaurantTileNum[X]; ++x){
@@ -148,10 +153,7 @@ public class Restaurant implements IGameObject {
         // TODO: 추후 PersonClass는 가구에 일부 가려질 수 있도록 그리게 할 예정
         // TODO: ************************
 
-        // 손님 그리기
-        for(int i = 0; i < Customers.size(); ++i){
-            Customers.get(i).draw(canvas);
-        }
+
 
         // 요리사 그리기
         for(int i =0; i<Chefs.size();++i){
@@ -197,5 +199,12 @@ public class Restaurant implements IGameObject {
         Dish.CustomerOrderData.OrderedCustomer.State.Exit();
         Dish.CustomerOrderData.OrderedCustomer.State = new CustomerExitState(Dish.CustomerOrderData.OrderedCustomer, GetTileCenterPos(TileNum[X],TileNum[Y]),RestaurantSize.top, RestaurantSize.top - UserDisplay.getHeight(0.1f)*2);
         Dish.CustomerOrderData.OrderedCustomer.State.Enter();
+    }
+
+    public void AddSecondServer(){
+        Servers.add(new Server(GetTileCenterPos(4,2)));
+    }
+    public void AddSecondChef(){
+        Chefs.add(new Chef(GetTileCenterPos(4,5)));
     }
 }

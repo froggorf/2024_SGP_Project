@@ -23,9 +23,9 @@ public class RestaurantData {
     static private Context CONTEXT = null;
 
     static public EFurnitureType[][] FurnitureTypeData;
-    static private int MaxChefCount;
+    static public int MaxChefCount;
     static public int CurChefCount;
-    static private int MaxServerCount;
+    static public int MaxServerCount;
     static public int CurServerCount;
     static public int CurGold;
     static int SizeX, SizeY;
@@ -154,10 +154,10 @@ public class RestaurantData {
 
             bw.write("Chef Data\n");
             bw.write("2\n");
-            bw.write("2\n");
+            bw.write("1\n");
             bw.write("Server Data\n");
             bw.write("2\n");
-            bw.write("2\n");
+            bw.write("1\n");
 
             bw.write("GOLD\n");
             bw.write("129\n");

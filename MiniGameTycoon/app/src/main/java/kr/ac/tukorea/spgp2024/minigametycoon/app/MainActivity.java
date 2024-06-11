@@ -12,6 +12,7 @@ import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.GameView;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.view.Metrics;
 
 import kr.ac.tukorea.spgp2024.minigametycoon.game.MyData;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.OffLineData;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.RestaurantData;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FieldGameScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.FoodPrepGameScene;
@@ -35,13 +36,22 @@ public class MainActivity extends AppCompatActivity {
         gameView.setFullScreen();
         setContentView(gameView);
 
-        MyData.SetContext(this);
-        MyData.CreateDummyDataFile();
-        MyData.ReadData();
+        //데이터 로드
+        {
+            MyData.SetContext(this);
+            MyData.CreateDummyDataFile();
+            MyData.ReadData();
 
-        RestaurantData.SetContext(this);
-        RestaurantData.CreateDummyDataFile();
-        RestaurantData.ReadData();
+            RestaurantData.SetContext(this);
+            RestaurantData.CreateDummyDataFile();
+            RestaurantData.ReadData();
+
+            OffLineData.SetContext(this);
+            OffLineData.CreateDummyDataFile();
+        }
+
+
+
 
         UserDisplay.createUserDisplay(getWindowManager().getDefaultDisplay());
 
