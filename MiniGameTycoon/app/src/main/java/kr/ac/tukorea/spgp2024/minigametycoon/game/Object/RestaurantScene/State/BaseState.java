@@ -1,9 +1,7 @@
 package kr.ac.tukorea.spgp2024.minigametycoon.game.Object.RestaurantScene.State;
 
 import android.graphics.Canvas;
-import android.util.Log;
 
-import kr.ac.tukorea.spgp2024.minigametycoon.framework.PersonAnimSprite;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.AnimSprite;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.RestaurantScene.Person;
 

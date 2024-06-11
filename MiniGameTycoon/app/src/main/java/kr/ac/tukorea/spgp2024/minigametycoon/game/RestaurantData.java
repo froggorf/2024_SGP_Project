@@ -104,14 +104,7 @@ public class RestaurantData {
             bw.write("Restaurant Size XY\n");
             bw.write("6 8\n");
 
-            // 값 저장
-            //for(int y = 0; y < 8; ++y){
-            //    for(int x = 0; x < 6; ++x){
-            //        bw.write(String.format("%d",(int)(Math.random()*EFurnitureType.SIZE.ordinal()-1)) );
-            //        bw.write(' ');
-            //    }
-            //    bw.newLine();
-            //}
+            // 더미 값 저장
             bw.write("Restaurant Furniture Data\n");
             bw.write("0 0 0 0 0 0 \n");
             bw.write("0 1 1 1 1 0 \n");
