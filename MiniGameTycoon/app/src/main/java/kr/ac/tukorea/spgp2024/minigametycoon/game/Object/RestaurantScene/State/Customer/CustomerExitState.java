@@ -7,8 +7,10 @@ import kr.ac.tukorea.spgp2024.R;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.AnimSprite;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.RestaurantScene.Person;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.RestaurantScene.Restaurant;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.RestaurantScene.State.BaseState;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.RestaurantScene.State.Employee.Server.ServerRestState;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.Scene.RestaurantScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 
 public class CustomerExitState extends BaseState {
@@ -52,6 +54,20 @@ public class CustomerExitState extends BaseState {
     }
 
     @Override
+    public void Enter() {
+        super.Enter();
+
+        // 돈 내기
+        ((RestaurantScene)(BaseScene.getTopScene())).ChangeGoldFromCurrent((int) (Math.random()*50+150));
+
+    }
+
+    @Override
+    public void Exit() {
+        super.Exit();
+    }
+
+    @Override
     public void Draw(Canvas canvas){
         super.Draw(canvas);
     }
@@ -62,7 +78,6 @@ public class CustomerExitState extends BaseState {
         LerpAlpha += BaseScene.frameTime/MoveTime;
 
         if(!bIsArriveRoadCenter){
-            Log.d("ASDASD", "Update: 1111111111111");
             if(LerpAlpha >= 1.0f){
                 LerpAlpha = 1.0f;
                 bIsArriveRoadCenter = true;
@@ -80,7 +95,6 @@ public class CustomerExitState extends BaseState {
         }
         else
         {
-            Log.d("ASDASD", "Update: 2222222222222");
             if(LerpAlpha >= 1.0f){
                 Exit();
                 StateOwner.State = new RoamState(StateOwner,RoadStartY,RoadEndY);

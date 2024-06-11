@@ -8,22 +8,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.ac.tukorea.spgp2024.R;
+import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Score;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.objects.Sprite;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.res.Sound;
 import kr.ac.tukorea.spgp2024.minigametycoon.framework.scene.BaseScene;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.RestaurantScene.Customer;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.Object.RestaurantScene.Restaurant;
+import kr.ac.tukorea.spgp2024.minigametycoon.game.RestaurantData;
 import kr.ac.tukorea.spgp2024.minigametycoon.game.UserDisplay;
 
 public class RestaurantScene extends BaseScene {
     private final String TAG = RestaurantScene.class.getSimpleName();
 
     public enum Layer{
-        BACKGROUND, ROAD , RESTAURANT,TOUCH, COUNT
+        BACKGROUND, ROAD , RESTAURANT, GOLDSCORE , TOUCH, COUNT
     }
 
     RectF RestaurantRect;
     public Restaurant RestaurantObject;
+    Score GoldScoreObject;
 
     public RestaurantScene() {
         // 레이어 초기화
@@ -56,6 +59,13 @@ public class RestaurantScene extends BaseScene {
                 UserDisplay.getWidth(1.0f),
                 RoadSize*2));
 
+        // 골드 출력 UI 추가
+        GoldScoreObject = new Score(R.mipmap.temp_number,
+                UserDisplay.getWidth(0.95f), UserDisplay.getHeight(0.01f),UserDisplay.getWidth(0.1f)
+        );
+        GoldScoreObject.setScore(RestaurantData.CurGold);
+
+        add(Layer.GOLDSCORE,GoldScoreObject);
 
     }
 
@@ -111,5 +121,12 @@ public class RestaurantScene extends BaseScene {
 
     public float[] IsRestaurantEmpty(int[] TableTileNum){
         return RestaurantObject.EnterRestaurant(TableTileNum);
+    }
+
+    public void ChangeGoldFromCurrent(int ChangeValue){
+        int NewValue = Math.max (0,GoldScoreObject.getScore() + ChangeValue);
+        GoldScoreObject.setScore(NewValue);
+
+        RestaurantData.SetCurGoldAndSaveData(GoldScoreObject.getScore());
     }
 }

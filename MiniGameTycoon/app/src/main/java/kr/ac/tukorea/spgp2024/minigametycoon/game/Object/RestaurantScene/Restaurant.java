@@ -194,6 +194,7 @@ public class Restaurant implements IGameObject {
         Dish.CustomerOrderData.OrderedCustomer.State.Exit();
         int[] TileNum = Dish.CustomerOrderData.OrderTable;
         TileNum[Y] -=2;
+        Dish.CustomerOrderData.OrderedCustomer.State.Exit();
         Dish.CustomerOrderData.OrderedCustomer.State = new CustomerExitState(Dish.CustomerOrderData.OrderedCustomer, GetTileCenterPos(TileNum[X],TileNum[Y]),RestaurantSize.top, RestaurantSize.top - UserDisplay.getHeight(0.1f)*2);
         Dish.CustomerOrderData.OrderedCustomer.State.Enter();
     }

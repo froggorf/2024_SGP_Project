@@ -1,5 +1,6 @@
 package kr.ac.tukorea.spgp2024.minigametycoon.game;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
@@ -27,6 +28,7 @@ public class RestaurantData {
     static private int MaxServerCount;
     static public int CurServerCount;
     static public int CurGold;
+    static int SizeX, SizeY;
 
     static public void SetContext(Context context){
         CONTEXT = context;
@@ -41,7 +43,6 @@ public class RestaurantData {
 
             // x, y 크기 받기
             br.readLine();
-            int SizeX, SizeY;
             SizeX = (int)(br.read()) - (int)('0');
             br.read();
             SizeY = br.read() - (int)('0');
@@ -90,8 +91,44 @@ public class RestaurantData {
     }
 
     // 파일로 데이터를 저장하는 함수
+    @SuppressLint("DefaultLocale")
     static public void SaveData(){
+        try{
+            BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, false));
 
+            // x,y 크기 저장
+            bw.write("Restaurant Size XY\n");
+            bw.write(String.format("%d %d\n",SizeX,SizeY));
+
+            // 가구 배치 값 저장
+            // TODO: 현재는 바뀔일 없어 하드코딩
+            bw.write("Restaurant Furniture Data\n");
+            bw.write("0 0 0 0 0 0 \n");
+            bw.write("0 1 1 1 1 0 \n");
+            bw.write("0 0 0 0 0 0 \n");
+            bw.write("0 0 0 0 0 0 \n");
+            bw.write("0 3 1 1 3 0 \n");
+            bw.write("0 0 0 0 0 0 \n");
+            bw.write("0 0 0 0 0 0 \n");
+            bw.write("0 0 0 0 0 0 \n");
+
+            bw.write("Chef Data\n");
+            bw.write("2\n");
+            bw.write(String.format("%d\n",CurChefCount));
+            bw.write("Server Data\n");
+            bw.write("2\n");
+            bw.write(String.format("%d\n",CurServerCount));
+
+            bw.write("GOLD\n");
+            bw.write(String.format("%d\n",CurGold));
+
+
+
+            bw.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -123,7 +160,7 @@ public class RestaurantData {
             bw.write("2\n");
 
             bw.write("GOLD\n");
-            bw.write("10000\n");
+            bw.write("129\n");
 
 
 
@@ -134,7 +171,19 @@ public class RestaurantData {
         }
     }
 
-
-
+    static public void SetCurGoldAndSaveData(int NewGold){
+        CurGold = NewGold;
+        SaveData();
+    }
+    static public void AddOneCurChefCountAndSaveData(){
+        if(CurChefCount >= MaxChefCount) return;
+        CurChefCount += 1;
+        SaveData();
+    }
+    static public void AddOneCurServerCountAndSaveData(){
+        if(CurServerCount >= MaxServerCount) return;
+        CurServerCount += 1;
+        SaveData();
+    }
 }
 
