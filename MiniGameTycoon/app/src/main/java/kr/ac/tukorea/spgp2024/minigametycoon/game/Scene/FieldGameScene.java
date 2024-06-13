@@ -93,18 +93,17 @@ public class FieldGameScene extends BaseScene {
         add(Layer.BOARD,fieldGameBoard);
 
 
-
-        bFinishGame = true;
-
-
-
         CountDownObject = new CountDownClass(
                 new RectF(UserDisplay.getWidth(0.4f), UserDisplay.getHeight(0.05f),
                         UserDisplay.getWidth(0.6f), UserDisplay.getHeight(0.05f) + UserDisplay.getWidth(0.2f)),
                 3.0f
         );
-
         add(Layer.RESULT,CountDownObject);
+
+        bFinishGame = true;
+
+
+
     }
 
 
@@ -168,9 +167,13 @@ public class FieldGameScene extends BaseScene {
     }
     @Override
     public void StartGame(){
-        remove(FarmGameScene.Layer.RESULT, CountDownObject);
-        AddTimerSystem();
-        bFinishGame = false;
+        if(bFinishGame){
+            Log.d(TAG, "StartGame: ?????");
+            remove(FarmGameScene.Layer.RESULT, CountDownObject);
+            AddTimerSystem();
+            bFinishGame = false;
+        }
+
     }
     @Override
     public void AddTimerSystem(){

@@ -106,15 +106,9 @@ public class FarmGameScene extends BaseScene {
                         UserDisplay.getWidth(0.6f), UserDisplay.getHeight(0.05f) + UserDisplay.getWidth(0.2f)),
                 3.0f
         );
+        add(Layer.RESULT,CountDownObject);
 
         bFinishGame = true;
-
-        add(Layer.RESULT,CountDownObject);
-        new Handler().postDelayed(new Runnable(){
-            public void run(){
-
-            }
-        }, 3500);
     }
 
     static public RectF GetBowlRect(int i) {

@@ -48,6 +48,7 @@ public class CountDownClass implements IGameObject {
 
     @Override
     public void draw(Canvas canvas) {
+        if(DrawTime <= 0) return;
         canvas.drawRect(DrawRect,FillPaint);
 
         if(DrawTime>=0)
